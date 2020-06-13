@@ -1,0 +1,201 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3>Menu Title</h3>
+        <hr />
+        <section class="cam-part">
+          <table id="cam-table">
+            <tr>
+              <td class="cam-header">캠페인구분</td>
+              <td>
+                <div class="cam-table-content">
+                  <input type="radio" name="cam-type" value="대행" />대행
+                  <input type="radio" name="cam-type" value="직거래" />직거래
+                  <input type="radio" name="cam-type" value="인터랩" />인터랩
+                </div>
+              </td>
+              <td class="cam-header">담당팀</td>
+              <td>
+                <select name="cam-team" id="cam-team">
+                  <option value="">선택</option>
+                  <option value="team_id">1팀</option>
+                  <option value="team_id">2팀</option>
+                  <option value="team_id">3팀</option>
+                </select>
+              </td>
+              <td class="cam-header">담당자</td>
+              <td>
+                <select name="cam-user" id="cam-user">
+                  <option value="">선택</option>
+                  <option value="user_id">박준성</option>
+                  <option value="user_id">박준성</option>
+                  <option value="user_id">박준성</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="cam-header">광고주</td>
+              <td>
+                <input type="text" name="cam-advertiser" id="cam-advertiser" />
+              </td>
+              <td class="cam-header">업종(대분류)</td>
+              <td>
+                <select name="cam-main-cat" id="cam-sub-cat">
+                  <option value="">선택</option>
+                  <option value="">전기전자</option>
+                  <option value="">화장품/생활용품</option>
+                  <option value="">서비스</option>
+                </select>
+              </td>
+              <td class="cam-header">업종(소분류)</td>
+              <td>
+                <select name="cam-sub-cat" id="cam-sub-cat">
+                  <option value="">선택</option>
+                  <option value="">항공/운송</option>
+                  <option value="">화장품</option>
+                  <option value="">출판</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="cam-header">캠페인명</td>
+              <td>
+                <input type="text" name="cam-title" id="cam-title" />
+              </td>
+              <td class="cam-header">대행사</td>
+              <td>
+                <input type="text" name="cam-agency" id="cam-agency" />
+              </td>
+              <td class="cam-header">캠페인기간</td>
+              <td>
+                <input
+                  class="input-date"
+                  type="date"
+                  name="cam-start-date"
+                  id="cam-start-date"
+                />
+                &nbsp~&nbsp
+                <input
+                  class="input-date"
+                  type="date"
+                  name="cam-start-date"
+                  id="cam-start-date"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td class="cam-header">광고수주액</td>
+              <td>
+                <input
+                  class="input-num"
+                  type="text"
+                  name="cam-ad-total"
+                  value="0"
+                  readonly
+                  id="cam-ad-total"
+                  size="12"
+                />&nbsp&nbsp원
+              </td>
+              <td class="cam-header">대행사 수수료</td>
+              <td>
+                <input
+                  class="input-num"
+                  type="text"
+                  name="cam-agency-fee-rate"
+                  value="0"
+                  readonly
+                  id="cam-agency-fee-rate"
+                  size="3"
+                />&nbsp&nbsp%&nbsp&nbsp&nbsp&nbsp
+                <input
+                  class="input-num"
+                  type="text"
+                  name="cam-agency-fee"
+                  value="0"
+                  readonly
+                  id="cam-agency-fee"
+                  size="12"
+                />&nbsp&nbsp원
+              </td>
+              <td class="cam-header">대행사 세금계산서 발행월</td>
+              <td>
+                <input class="input-date" type="month" name="cam-tax-month" />
+                <select name="media-issue-type" id="media-issue-type">
+                  <option value="전액">전액</option>
+                  <option value="순액">순액</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="cam-header">등록일</td>
+              <td>오늘 날짜 긁기 or 날짜선택</td>
+              <td class="cam-header">등록자</td>
+              <td>로그인 유저</td>
+              <td class="cam-header"></td>
+              <td></td>
+            </tr>
+          </table>
+        </section>
+        <button id="add-media">매체추가</button>
+        <section class="media-part">
+          <table id="media-table">
+            <tr>
+              <th class="media-header" rowspan="2">매체명</th>
+              <th class="media-header" colspan="2">기간</th>
+              <th class="media-header" colspan="2">인터랩</th>
+              <th class="media-header" rowspan="2">매체발행월</th>
+              <th class="media-header" colspan="3">수수료율</th>
+              <th class="media-header" rowspan="2">광고수주액</th>
+              <th class="media-header" colspan="3">수익배분액</th>
+              <th class="media-header" rowspan="2">구글CID</th>
+              <th class="media-header" rowspan="2">비고</th>
+              <th class="media-header" rowspan="2">삭제</th>
+            </tr>
+            <tr>
+              <th class="media-header">시작일</th>
+              <th class="media-header">종료일</th>
+              <th class="media-header">구분</th>
+              <th class="media-header">인터랩</th>
+              <th class="media-header">대행사</th>
+              <th class="media-header">매체</th>
+              <th class="media-header">디플랜</th>
+              <th class="media-header">대행사수수료</th>
+              <th class="media-header">매체수수료</th>
+              <th class="media-header">순매출</th>
+            </tr>
+            <tr>
+              <th class="media-total">Total</th>
+              <th class="media-total"></th>
+              <th class="media-total"></th>
+              <th class="media-total"></th>
+              <th class="media-total"></th>
+              <th class="media-total"></th>
+              <th class="media-total input-num" id="media-agency-fee-rate-sum">
+                0
+              </th>
+              <th class="media-total input-num" id="media-fee-rate-sum">0</th>
+              <th class="media-total input-num" id="media-dplan-fee-rate-sum">
+                0
+              </th>
+              <th class="media-total input-num" id="media-ad-fee-sum">0</th>
+              <th class="media-total input-num" id="media-agency-fee-sum">0</th>
+              <th class="media-total input-num" id="media-fee-sum">0</th>
+              <th class="media-total input-num" id="media-profit-sum">0</th>
+              <th class="media-total"></th>
+              <th class="media-total"></th>
+              <th class="media-total"></th>
+            </tr>
+          </table>
+        </section>
+      </main>
+    </div>
+    <script src="/js//add-campaign.js"></script>
+
+  <%- include('../includes/end-part.ejs') %>
