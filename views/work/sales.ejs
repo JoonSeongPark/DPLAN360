@@ -1,0 +1,96 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <form action="/sales" method="GET">
+          <section class="v-part sort-part">
+            <table class="max-width">
+              <tr>
+                <th class="h-header">팀선택</th>
+                <th class="h-header">시작월</th>
+                <th class="h-header">종료월</th>
+                <th class="h-header">대행사</th>
+                <th class="h-header">광고주</th>
+              </tr>
+              <tr>
+                <td>
+                  <select name="team" id="">
+                    <option value="" <%= sortInfo.team === "" ? "selected" : "" %>>전체보기</option>
+                    <option value="1" <%= sortInfo.team === "1" ? "selected" : "" %>>1 팀</option>
+                    <option value="2" <%= sortInfo.team === "2" ? "selected" : "" %>>2 팀</option>
+                    <option value="3" <%= sortInfo.team === "3" ? "selected" : "" %>>3 팀</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="month" name="start_month" value="<%= sortInfo.start_month %>">
+                </td>
+                <td>
+                  <input type="month" name="end_month" value="<%= sortInfo.end_month %>">
+                </td>
+                <td>
+                  <select name="agency" id="">
+                    <option value="" <%= sortInfo.agency === "" ? "selected" : "" %>>전체보기</option>
+                    <option value="1">1 팀</option>
+                    <option value="2">2 팀</option>
+                    <option value="3">3 팀</option>
+                  </select>
+                </td>
+                <td>
+                  <select name="advertiser" id="">
+                    <option value="" <%= sortInfo.advertiser === "" ? "selected" : "" %>>전체보기</option>
+                    <option value="1">1 팀</option>
+                    <option value="2">2 팀</option>
+                    <option value="3">3 팀</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </section>
+          
+          <br>
+
+          <section class="v-part result-part">
+            <table class="max-width">
+              <tr>
+                <th class="v-header" rowspan="2">담당팀</th>
+                <th class="v-header" rowspan="2">연도</th>
+                <th class="v-header" rowspan="2">월</th>
+                <th class="v-header" rowspan="2">광고주</th>
+                <th class="v-header" rowspan="2">캠페인명</th>
+                <th class="v-header" rowspan="2">대행사</th>
+                <th class="v-header" rowspan="2">광고수주액</th>
+                <th class="v-header" colspan="4">수익배분액</th>
+              </tr>
+              <tr>
+                <th class="v-header">대행사 수수료</th>
+                <th class="v-header">매체 수수료</th>
+                <th class="v-header">순매출</th>
+                <th class="v-header">인터렙 수수료</th>
+              </tr>
+              <tr>
+                <th class="v-total">Total</th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total">SUM</th>
+                <th class="v-total">SUM</th>
+                <th class="v-total">SUM</th>
+                <th class="v-total">SUM</th>
+              </tr>
+            </table>
+          </section>
+        </form>
+        </main>
+    </div>
+
+  <%- include('../includes/end-part.ejs') %>
