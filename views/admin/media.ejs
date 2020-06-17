@@ -1,0 +1,72 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <form action="/sales" method="GET">
+          <div class="v-part result-part">
+            <table class="has-margin">
+              <tr>
+                <th class="v-header" rowspan="2">매체사</th>
+                <th class="v-header s" rowspan="2">디플랜<br>결제조건</th>
+                <th class="v-header xs" rowspan="2">계산서<br>발행</th>
+                <th class="v-header s" rowspan="2">매체 제공<br>수수료율</th>
+                <th class="v-header" rowspan="2">계산서 발행처</th>
+                <th class="v-header" rowspan="2">비고</th>
+                <th class="v-header" colspan="2">인터렙</th>
+                <th class="v-header" colspan="4">수수료율</th>
+                <th class="v-header xs" rowspan="2">수정</th>
+                <th class="v-header xs" rowspan="2">삭제</th>
+              </tr>
+              <tr>
+                <th class="v-header xs">구분</th>
+                <th class="v-header m">인터렙</th>
+                <th class="v-header xs">대행사</th>
+                <th class="v-header xs">매체</th>
+                <th class="v-header xs">디플랜</th>
+                <th class="v-header xs">인터렙</th>
+              </tr>
+              <% media.forEach(medium => { %>
+                <tr>
+                  <td><%= medium.name %></td>
+                  <td><%= medium.pay_condition %></td>
+                  <td><%= medium.bill_type %></td>
+                  <td><%= medium.provide_fee_rate %></td>
+                  <td><%= medium.bill_publisher %></td>
+                  <td><%= medium.memo %></td>
+                  <td><%= medium.inter_type %></td>
+                  <td><%= medium.inter_name %></td>
+                  <td><%= medium.agency_fee_rate %>%</td>
+                  <td><%= medium.media_fee_rate %>%</td>
+                  <td><%= medium.dplan_fee_rate %>%</td>
+                  <td><%= medium.inter_fee_rate %>%</td>
+                  <td>
+                    <a href="/admin/edit-media/<%= medium.id %>?edit=true">
+                      <button class="btn" type="button">
+                        수정
+                      </button>
+                      </a>
+                   </td>
+                  <td>
+                    <form action="/admin/delete-media" method="POST">
+                      <input type="hidden" value="<%= medium.id %>" name="mediumId">
+                      <button class="btn alert-btn" type="submit">삭제</button>
+                    </form>
+                   </td>
+                </tr>
+              <% }) %>
+            </table>
+          </div>
+        </form>
+
+        </form>
+        </main>
+    </div>
+
+  <%- include('../includes/end-part.ejs') %>

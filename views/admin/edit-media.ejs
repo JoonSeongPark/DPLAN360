@@ -1,0 +1,84 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <form action="/admin/<%= editing ? 'edit-media' : 'add-media' %>" method="POST">
+          <section class="h-part">
+            <table id="cam-table">
+              <tr>
+                <td class="h-header">*매체사</td>
+                <td>
+                  <input type="text" name="name" value="<%= editing ? medium.name : '' %>">
+                </td>
+                <td class="h-header">인터렙</td>
+                <td >
+                  <select name="inter_type" id="inter_type">
+                    <option value="" <%= editing && medium.inter_type === "" ? "selected" : "" %>>해당없음</option>
+                    <option value="in" <%= editing && medium.inter_type === "in" ? "selected" : "" %>>in</option>
+                    <option value="out" <%= editing && medium.inter_type === "out" ? "selected" : "" %>>out</option>
+                  </select>
+                  <input type="<%= editing && medium.inter_name ? 'text' : 'hidden' %>" name="inter_name" id="inter_name" value="<%= editing ? medium.inter_name : '' %>"/>
+                </td>
+              </tr>
+            <tr>
+                <td class="h-header">디플랜 결제조건</td>
+                <td>
+                  <input type="text" name="pay_condition" value="<%= editing ? medium.pay_condition : '' %>">
+                </td>
+                <td class="h-header">계산서 발행</td>
+                <td>
+                  구분:
+                  <select name="bill_type">
+                    <option value="" <%= editing && medium.bill_type === "" ? "selected" : "" %>>해당없음</option>
+                    <option value="전액" <%= editing && medium.bill_type === "전액" ? "selected" : "" %>>전액</option>
+                    <option value="순액" <%= editing && medium.bill_type === "순액" ? "selected" : "" %>>순액</option>
+                  </select>
+                  &nbsp&nbsp
+                  발행처:    
+                  <input type="text" name="bill_publisher" value="<%= editing ? medium.bill_publisher : '' %>">
+                </td>
+
+                </td>
+              </tr>
+              <tr>
+                <td class="h-header">매체제공 수수료율</td>
+                <td>
+                  <input class="input-num" type="text" name="provide_fee_rate" size="4" value="<%= editing ? medium.provide_fee_rate : '' %>"/>%
+                </td>
+                <td class="h-header">*수수료율</td>
+                <td >
+                  대행사:<input class="input-num" type="text" name="agency_fee_rate" placeholder="00" size="3" value="<%= editing ? medium.agency_fee_rate : '' %>"/>%&nbsp&nbsp/&nbsp&nbsp
+                  매체:<input class="input-num" type="text" name="media_fee_rate" placeholder="00" size="3" value="<%= editing ? medium.media_fee_rate : '' %>"/>%&nbsp&nbsp/&nbsp&nbsp
+                  디플랜:<input class="input-num" type="text" name="dplan_fee_rate" placeholder="00" size="3" value="<%= editing ? medium.dplan_fee_rate : '' %>"/>%&nbsp&nbsp/&nbsp&nbsp
+                  인터렙:<input class="input-num" type="text" name="inter_fee_rate" placeholder="00" size="3" value="<%= editing ? medium.inter_fee_rate : '' %>"/>%
+                </td>
+                
+              </tr>
+              <tr>
+                <td class="h-header">비고</td>
+                <td colspan="3">
+                  <input style="width: 98%;" type="text" name="memo" value="<%= editing ? medium.memo.trim() : '' %>">
+                </td>
+              </tr>
+            </table>
+            <div class="submit-btns">
+              <% if (editing) { %>
+                <input type='hidden' value="<%= medium.id %>" name="mediumId" >
+              <% } %>
+              <button type="submit">매체<%= editing ? '수정' : '추가' %></button>
+              <a href="/admin/media" ><button>취소</button></a>
+            </div>
+          </section>
+        </form>
+        </main>
+        <script src="/js/admin/edit-media.js"></script>
+    </div>
+
+  <%- include('../includes/end-part.ejs') %>
