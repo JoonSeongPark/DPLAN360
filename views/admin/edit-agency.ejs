@@ -1,0 +1,68 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <form action="/admin/<%= editing ? 'edit-agency' : 'add-agency' %>" method="POST">
+          <section class="h-part">
+            <table id="cam-table">
+              <tr>
+                <td class="h-header">*업체명</td>
+                <td>
+                  <input type="text" name="name" value="<%= editing ? agency.name : '' %>">
+                </td>
+                <td class="h-header">결제조건</td>
+                <td >
+                  <input type="text" name="pay_condition" value="<%= editing ? agency.pay_condition : '' %>" size="8">
+                </td>
+                <td class="h-header">입금형태</td>
+                <td>
+                  <select name="deposit_type">
+                    <option value="" <%= editing && agency.deposit_type === "" ? "selected" : "" %>>해당없음</option>
+                    <option value="현금" <%= editing && agency.deposit_type === "현금" ? "selected" : "" %>>현금</option>
+                    <option value="어음" <%= editing && agency.deposit_type === "어음" ? "selected" : "" %>>어음</option>
+                    <option value="상계처리" <%= editing && agency.deposit_type === "상계처리" ? "selected" : "" %>>상계처리</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="h-header">계산서 발행</td>
+                <td colspan="5">
+                  구분:
+                  <select name="bill_type">
+                    <option value="" <%= editing && agency.bill_type === "" ? "selected" : "" %>>해당없음</option>
+                    <option value="전액" <%= editing && agency.bill_type === "전액" ? "selected" : "" %>>전액</option>
+                    <option value="순액" <%= editing && agency.bill_type === "순액" ? "selected" : "" %>>순액</option>
+                  </select>
+                  &nbsp&nbsp
+                  발행처:    
+                  <input type="text" name="bill_publisher" value="<%= editing ? agency.bill_publisher : '' %>">
+                </td>
+              </tr>
+              <tr>
+                <td class="h-header">비고</td>
+                <td colspan="5">
+                  <input style="width: 98%;" type="text" name="memo" value="<%= editing ? agency.memo : '' %>">
+                </td>
+              </tr>
+            </table>
+            <div class="submit-btns">
+              <% if (editing) { %>
+                <input type='hidden' value="<%= agency.id %>" name="agencyId" >
+              <% } %>
+              <button type="submit">대행사<%= editing ? '수정' : '추가' %></button>
+              <a href="/admin/agency" ><button>취소</button></a>
+            </div>
+          </section>
+        </form>
+        </main>
+
+    </div>
+
+  <%- include('../includes/end-part.ejs') %>
