@@ -15,7 +15,7 @@
               <tr>
                 <td class="h-header">*업체명</td>
                 <td>
-                  <input type="text" name="name" value="<%= editing ? agency.name : '' %>">
+                  <input type="text" name="name" value="<%= editing ? agency.name : '' %>" autofocus>
                 </td>
                 <td class="h-header">결제조건</td>
                 <td >
@@ -27,6 +27,7 @@
                     <option value="" <%= editing && agency.deposit_type === "" ? "selected" : "" %>>해당없음</option>
                     <option value="현금" <%= editing && agency.deposit_type === "현금" ? "selected" : "" %>>현금</option>
                     <option value="어음" <%= editing && agency.deposit_type === "어음" ? "selected" : "" %>>어음</option>
+                    <option value="달러" <%= editing && agency.deposit_type === "달러" ? "selected" : "" %>>달러</option>
                     <option value="상계처리" <%= editing && agency.deposit_type === "상계처리" ? "selected" : "" %>>상계처리</option>
                   </select>
                 </td>
