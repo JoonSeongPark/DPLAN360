@@ -27,7 +27,7 @@ exports.getAddAgency = (req, res, next) => {
 exports.postAddAgency = (req, res, next) => {
   const name = req.body.name;
   const pay_condition = req.body.pay_condition;
-  const doposit_type = req.body.doposit_type;
+  const deposit_type = req.body.deposit_type;
   const bill_type = req.body.bill_type;
   const bill_publisher = req.body.bill_publisher;
   const memo = req.body.memo;
@@ -35,7 +35,7 @@ exports.postAddAgency = (req, res, next) => {
   Agency.create({
     name: name,
     pay_condition: pay_condition,
-    doposit_type: doposit_type,
+    deposit_type: deposit_type,
     bill_type: bill_type,
     bill_publisher: bill_publisher,
     memo: memo,
@@ -69,18 +69,18 @@ exports.getEditAgency = (req, res, next) => {
 
 exports.postEditAgency = (req, res, next) => {
   const agencyId = req.body.agencyId;
-  const updated_name = name;
-  const updated_pay_condition = pay_condition;
-  const updated_doposit_type = doposit_type;
-  const updated_bill_type = bill_type;
-  const updated_bill_publisher = bill_publisher;
-  const updated_memo = memo;
+  const updated_name = req.body.name;
+  const updated_pay_condition = req.body.pay_condition;
+  const updated_deposit_type = req.body.deposit_type;
+  const updated_bill_type = req.body.bill_type;
+  const updated_bill_publisher = req.body.bill_publisher;
+  const updated_memo = req.body.memo;
 
   Agency.findByPk(agencyId)
     .then((agency) => {
       agency.name = updated_name;
       agency.pay_condition = updated_pay_condition;
-      agency.doposit_type = updated_doposit_type;
+      agency.deposit_type = updated_deposit_type;
       agency.bill_type = updated_bill_type;
       agency.bill_publisher = updated_bill_publisher;
       agency.memo = updated_memo;
