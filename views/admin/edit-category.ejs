@@ -1,0 +1,73 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <div style="display: flex; justify-content: space-evenly;">
+
+          <% if (!editing || editTarget === "main") { %>
+            <form action="/admin/<%= editing ? 'edit-main-category' : 'add-main-category' %>" method="POST">
+              <section class="h-part" >
+                <h4>업종(대분류) 추가</h4>
+                <table>
+                  <tr>
+                    <td class="h-header">대분류</td>
+                    <td>
+                      <input type="text" name="name" value="<%= editing ? main.name : '' %>">
+                    </td>
+                  </tr>
+                </table>
+                <div class="submit-btns">
+                  <% if (editing) { %>
+                    <input type='hidden' value="<%= main.id %>" name="mainId" >
+                  <% } %>
+                  <button type="submit">업종(대분류)<%= editing ? '수정' : '추가' %></button>
+                  <a href="/admin/categories" ><button>취소</button></a>
+                </div>
+              </section>
+            </form>
+          <% } %>
+
+          <% if (!editing || editTarget === "sub") { %>
+            <form action="/admin/<%= editing ? 'edit-sub-category' : 'add-sub-category' %>" method="POST">
+            <section class="h-part">
+              <h4>업종(소분류) 추가</h4>
+              <table>
+                <tr>
+                  <td class="h-header">대분류</td>
+                  <td>
+                    <select name="mainId">
+                      <% mains.forEach(main => { %>
+                        <option value="<%= main.id %>" <%= editing && main.id === sub.adMainCategoryId ? "selected" : "" %>><%= main.name %></option>
+                      <% }) %>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="h-header">소분류</td>
+                  <td>
+                    <input type="text" name="name" value="<%= editing ? sub.name : '' %>">
+                  </td>
+                </tr>
+              </table>
+              <div class="submit-btns">
+                <% if (editing) { %>
+                  <input type='hidden' value="<%= sub.id %>" name="subId" >
+                <% } %>
+                <button type="submit">업종(소분류)<%= editing ? '수정' : '추가' %></button>
+                <a href="/admin/categories" ><button>취소</button></a>
+              </div>
+            </section>
+          </form>
+        <% } %>
+        </div>
+        </main>
+    </div>
+
+  <%- include('../includes/end-part.ejs') %>
