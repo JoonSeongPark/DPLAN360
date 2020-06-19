@@ -7,7 +7,7 @@ exports.getMedia = (req, res, next) => {
         pageTitle: "Media",
         menuTitle: "매체 조회",
         path: "/admin/media",
-        media: media,
+        media: media.reverse(),
       });
     })
     .catch((err) => {

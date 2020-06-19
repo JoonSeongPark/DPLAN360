@@ -7,7 +7,7 @@ exports.getAgencies = (req, res, next) => {
         pageTitle: "Agencies",
         menuTitle: "대행사 조회",
         path: "/admin/agencies",
-        agencies: agencies,
+        agencies: agencies.reverse(),
       });
     })
     .catch((err) => {
@@ -104,6 +104,7 @@ exports.postDeleteAgency = (req, res, next) => {
       return agency.destroy();
     })
     .then(() => {
+      console.log("Agency Destroyed!")
       res.redirect("/admin/agencies");
     })
     .catch((err) => {
