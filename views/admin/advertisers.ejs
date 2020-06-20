@@ -1,0 +1,48 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+    <link rel="stylesheet" href="/css/modal.css">
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+          <div class="v-part result-part">
+            <table class="has-margin">
+              <tr>
+                <th class="v-header xl">광고주</th>
+                <th class="v-header xl">업종(대분류)</th>
+                <th class="v-header xl">업종(소분류)</th>
+                <th class="v-header xs">수정</th>
+                <th class="v-header xs">삭제</th>
+              </tr>
+
+              <% advertisers.forEach(advertiser => { %>
+                <tr>
+                  <td><%= advertiser.name %></td>
+                  <td><%= advertiser.mainName %></td>
+                  <td><%= advertiser.subName %></td>
+                  <td>
+                    <a href="/admin/edit-advertiser/<%= advertiser.id %>?edit=true">
+                      <button class="btn" type="button">
+                        수정
+                      </button>
+                      </a>
+                   </td>
+                  <td>
+                    <form action="/admin/delete-advertiser" method="POST">
+                      <input type="hidden" value="<%= advertiser.id %>" name="advertiserId">
+                      <button class="btn alert-btn" type="button">삭제</button>
+                    </form>
+                   </td>
+                </tr>
+              <% }) %>
+            </table>
+          </div>
+        </main>
+    </div>
+    <script src="/js/admin/alert-modal.js"></script>
+  <%- include('../includes/end-part.ejs') %>

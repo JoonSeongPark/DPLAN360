@@ -1,0 +1,53 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <form action="/admin/<%= editing ? 'edit-advertiser' : 'add-advertiser' %>" method="POST">
+          <div class="h-part">
+            <table>
+              <tr>
+                <td class="h-header">*광고주</td>
+                <td>
+                  <input type="text" name="name" value="<%= editing ? advertiser.name : '' %>" autofocus>
+                </td>
+                <td class="h-header">업종대분류</td>
+                <td >
+                  <select name="main_category" id="main_category">
+                    <option value="">업종선택</option>
+                    <% mains.forEach(main => { %>
+                      <option value="<%= main.id %>" <%= editing && main.id === advertiser.main_category ? "selected" : "" %>><%= main.name %></option>
+                    <% }) %>
+                  </select>
+                </td>
+                <td class="h-header">업종소분류</td>
+                <td >
+                  <select name="sub_category" id="sub_category">
+                    <option value="">업종선택</option>
+                    <% subs.forEach(sub => { %>
+                        <option class=<%= editing && sub.id === advertiser.main_category ? '':'deactive' %> value="<%= sub.id %>" main="<%= sub.adMainCategoryId %>" <%= editing && sub.id === advertiser.sub_category ? "selected" : "" %>><%= sub.name %></option>
+                    <% }) %>
+                  </select>
+                </td>
+              </tr>
+            </table>
+            <div class="submit-btns">
+              <% if (editing) { %>
+                <input type='hidden' value="<%= advertiser.id %>" name="advertiserId" >
+              <% } %>
+              <button type="submit">광고주<%= editing ? '수정' : '추가' %></button>
+              <a href="/admin/advertisers" ><button type="button">취소</button></a>
+            </div>
+          </div>
+        </form>
+        </main>
+        <script src="/js/admin/edit-advertiser.js"></script>
+    </div>
+
+  <%- include('../includes/end-part.ejs') %>
