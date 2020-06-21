@@ -10,7 +10,7 @@
         <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
         <hr />
         <form action="/admin/<%= editing ? 'edit-media' : 'add-media' %>" method="POST">
-          <section class="h-part">
+          <div class="h-part">
             <table id="cam-table">
               <tr>
                 <td class="h-header">*매체사</td>
@@ -71,9 +71,9 @@
                 <input type='hidden' value="<%= medium.id %>" name="mediumId" >
               <% } %>
               <button type="submit">매체<%= editing ? '수정' : '추가' %></button>
-              <a href="/admin/media" ><button>취소</button></a>
+              <a href="/admin/media" ><button type="button">취소</button></a>
             </div>
-          </section>
+          </div>
         </form>
         </main>
         <script src="/js/admin/edit-media.js"></script>
