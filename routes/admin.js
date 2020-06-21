@@ -25,8 +25,8 @@ router.post("/delete-agency", adminAgencyController.postDeleteAgency);
 router.get("/advertisers", adminAdvertiserController.getAdvertisers);
 router.get("/add-advertiser", adminAdvertiserController.getAddAdvertiser);
 router.post("/add-advertiser", adminAdvertiserController.postAddAdvertiser);
-// router.get("/edit-advertiser/:advertiserId", adminAdvertiserController.getEditAdvertiser);
-// router.post("/edit-advertiser", adminAdvertiserController.postEditAdvertiser);
+router.get("/edit-advertiser/:advertiserId", adminAdvertiserController.getEditAdvertiser);
+router.post("/edit-advertiser", adminAdvertiserController.postEditAdvertiser);
 router.post(
   "/delete-advertiser",
   adminAdvertiserController.postDeleteAdvertiser
