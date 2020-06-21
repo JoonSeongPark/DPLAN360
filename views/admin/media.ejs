@@ -1,5 +1,6 @@
 <%- include('../includes/first-part.ejs') %>
     <link rel="stylesheet" href="/css/table.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
   </head>
   <body>
     <%- include('../includes/header.ejs') %>
@@ -12,12 +13,12 @@
           <div class="v-part result-part">
             <table class="has-margin">
               <tr>
-                <th class="v-header" rowspan="2">매체사</th>
+                <th class="v-header xl" rowspan="2">매체사</th>
                 <th class="v-header s" rowspan="2">디플랜<br>결제조건</th>
                 <th class="v-header xs" rowspan="2">계산서<br>발행</th>
                 <th class="v-header s" rowspan="2">매체 제공<br>수수료율</th>
-                <th class="v-header" rowspan="2">계산서 발행처</th>
-                <th class="v-header" rowspan="2">비고</th>
+                <th class="v-header xl" rowspan="2">계산서 발행처</th>
+                <th class="v-header xxl" rowspan="2">비고</th>
                 <th class="v-header" colspan="2">인터렙</th>
                 <th class="v-header" colspan="4">수수료율</th>
                 <th class="v-header xs" rowspan="2">수정</th>
@@ -55,7 +56,7 @@
                   <td>
                     <form action="/admin/delete-media" method="POST">
                       <input type="hidden" value="<%= medium.id %>" name="mediumId">
-                      <button class="btn alert-btn" type="submit">삭제</button>
+                      <button class="btn alert-btn" type="button">삭제</button>
                     </form>
                    </td>
                 </tr>
@@ -64,5 +65,5 @@
           </div>
         </main>
     </div>
-
+    <script src="/js/admin/alert-modal.js"></script>
   <%- include('../includes/end-part.ejs') %>
