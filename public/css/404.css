@@ -1,0 +1,16 @@
+.error-container {
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-container h1 {
+  font-size: 110px;
+  color: var(--dark-blue);
+}
+
+.error-container h2 {
+  font-size: 35px;
+}

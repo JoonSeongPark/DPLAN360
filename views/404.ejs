@@ -1,0 +1,20 @@
+<%- include('./includes/first-part.ejs') %>
+  <link rel="stylesheet" href="/css/404.css">
+  </head>
+  <body>
+    <%- include('./includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('./includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <div class="error-container">
+          <h1>404</h1>
+          <h2>Page Not Found</h2>
+          <br>
+          <h3>페이지를 찾을 수 없습니다.</h3>
+        </div>
+      </main>
+    </div>
+  <%- include('./includes/end-part.ejs') %>
