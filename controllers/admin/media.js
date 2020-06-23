@@ -1,22 +1,5 @@
 const Medium = require("../../models/medium");
 
-exports.getMedia = (req, res, next) => {
-  Medium.findAll()
-    .then((media) => {
-      res.render("admin/media", {
-        pageTitle: "Media",
-        menuTitle: "매체 조회",
-        path: "/admin/media",
-        media: media.reverse(),
-        isLoggedIn: req.session.isLoggedIn,
-        isAdmin: req.session.isAdmin,
-      });
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
-};
-
 exports.getAddMedia = (req, res, next) => {
   res.render("admin/edit-media", {
     pageTitle: "Add Media",

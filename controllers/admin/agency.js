@@ -1,22 +1,5 @@
 const Agency = require("../../models/agency");
 
-exports.getAgencies = (req, res, next) => {
-  Agency.findAll()
-    .then((agencies) => {
-      res.render("admin/agencies", {
-        pageTitle: "Agencies",
-        menuTitle: "대행사 조회",
-        path: "/admin/agencies",
-        agencies: agencies.reverse(),
-        isLoggedIn: req.session.isLoggedIn,
-        isAdmin: req.session.isAdmin,
-      });
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
-};
-
 exports.getAddAgency = (req, res, next) => {
   res.render("admin/edit-agency", {
     pageTitle: "Add Agency",

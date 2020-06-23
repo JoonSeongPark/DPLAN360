@@ -1,28 +1,6 @@
 const AdMainCategory = require("../../models/ad-main-category");
 const AdSubCategory = require("../../models/ad-sub-category");
 
-exports.getCategories = (req, res, next) => {
-  AdMainCategory.findAll().then((mains) => {
-    AdSubCategory.findAll().then((subs) => {
-      subs.map((sub) => {
-        sub.mainName = mains.find(
-          (main) => main.id === sub.adMainCategoryId
-        ).name;
-      });
-
-      res.render("admin/categories", {
-        pageTitle: "Categories",
-        menuTitle: "업종 조회",
-        path: "/admin/categories",
-        mains: mains,
-        subs: subs,
-        isLoggedIn: req.session.isLoggedIn,
-        isAdmin: req.session.isAdmin,
-      });
-    });
-  });
-};
-
 exports.getAddCategory = (req, res, next) => {
   AdMainCategory.findAll().then((mainCategories) => {
     res.render("admin/edit-category", {

@@ -2,41 +2,6 @@ const Advertiser = require("../../models/advertiser");
 const AdMainCategory = require("../../models/ad-main-category");
 const AdSubCategory = require("../../models/ad-sub-category");
 
-exports.getAdvertisers = (req, res, next) => {
-  AdMainCategory.findAll()
-    .then((mains) => {
-      AdSubCategory.findAll()
-        .then((subs) => {
-          Advertiser.findAll().then((advertisers) => {
-            advertisers.map((ad) => {
-              ad.mainName = mains.find(
-                (main) => main.id === ad.main_category
-              ).name;
-              ad.subName = subs.find((sub) => sub.id === ad.sub_category).name;
-            });
-
-            res.render("admin/advertisers", {
-              pageTitle: "Advertisers",
-              menuTitle: "광고주 조회",
-              path: "/admin/advertisers",
-              advertisers: advertisers,
-              isLoggedIn: req.session.isLoggedIn,
-              isAdmin: req.session.isAdmin,
-            });
-          });
-        })
-        .catch((err) => {
-          return console.log(err);
-        })
-        .catch((err) => {
-          return console.log(err);
-        });
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
-};
-
 exports.getAddAdvertiser = (req, res, next) => {
   AdMainCategory.findAll()
     .then((mains) => {
