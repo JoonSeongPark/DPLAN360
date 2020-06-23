@@ -1,0 +1,48 @@
+<%- include('../includes/first-part.ejs') %>
+<link rel="stylesheet" href="/css/auth.css">
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <% if (errorMessage) { %>
+          <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
+        <form class="auth-form" action="/admin/user-signup" method="POST">
+          <div class="form-control auth-logo-container">
+            <img src="/img/logo_black.png" alt="logo" width="100%">
+          </div>
+          <div class="form-control">
+              <label for="name">이름</label>
+              <input type="name" name="name" id="name">
+          </div>
+          <div class="form-control">
+              <label for="email">이메일</label>
+              <input type="email" name="email" id="email">
+          </div>
+          <div class="form-control">
+              <label for="password">비밀번호</label>
+              <input type="password" name="password" id="password">
+          </div>
+          <div class="form-control">
+              <label for="password-confirm">비밀번호 확인</label>
+              <input type="password" name="password-confirm" id="password-confirm">
+          </div>
+          <div class="form-control">
+              <label for="team">담당팀</label>
+              <select name="team" id="team">
+                <% teams.forEach(team => { %>
+                  <option value="<%= team.id %>"><%= team.name %></option>
+                <% }) %>
+              </select>
+          </div>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button class="auth-btn" type="submit">사용자 등록</button>
+        </main>
+    </div>
+
+  <%- include('../includes/end-part.ejs') %>
