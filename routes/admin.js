@@ -9,7 +9,7 @@ const authMiddleware = require("../middleware/is-auth");
 
 const categoryController = require("../controllers/admin/category");
 
-router.get("/media", authMiddleware.isAuth, adminMediaController.getMedia);
+// admin media
 router.get(
   "/add-media",
   authMiddleware.isAdmin,
@@ -36,11 +36,7 @@ router.post(
   adminMediaController.postDeleteMedia
 );
 
-router.get(
-  "/agencies",
-  authMiddleware.isAuth,
-  adminAgencyController.getAgencies
-);
+// admin agency
 router.get(
   "/add-agency",
   authMiddleware.isAdmin,
@@ -67,11 +63,7 @@ router.post(
   adminAgencyController.postDeleteAgency
 );
 
-router.get(
-  "/advertisers",
-  authMiddleware.isAuth,
-  adminAdvertiserController.getAdvertisers
-);
+// admin advertiser
 router.get(
   "/add-advertiser",
   authMiddleware.isAdmin,
@@ -98,11 +90,7 @@ router.post(
   adminAdvertiserController.postDeleteAdvertiser
 );
 
-router.get(
-  "/categories",
-  authMiddleware.isAuth,
-  categoryController.getCategories
-);
+// admin category
 router.get(
   "/add-category",
   authMiddleware.isAdmin,
