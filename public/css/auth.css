@@ -1,0 +1,48 @@
+.auth-form {
+  width: 20rem;
+  max-width: 90%;
+  margin: auto;
+  padding: 7rem 0 14rem;
+  display: block;
+}
+
+.form-control {
+  margin: 1rem 0;
+}
+
+.auth-logo-container {
+  margin: 2rem;
+  text-align: center;
+  padding-left: 30px;
+}
+
+.form-control label,
+.form-control input,
+.form-control select {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.form-control input,
+.form-control select {
+  border: 1px solid #a1a1a1;
+  padding: 5px;
+  font-size: 11px;
+  border-radius: 2px;
+}
+
+.form-control input:focus {
+  outline-color: var(--dark-blue);
+}
+
+.auth-btn {
+  width: 100%;
+  font-size: 14px;
+  margin-top: 15px;
+  padding: 5px;
+  color: #fff;
+  background-color: var(--dark-blue);
+  border: none;
+  border-radius: 2px;
+}
