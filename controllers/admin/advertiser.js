@@ -20,6 +20,8 @@ exports.getAdvertisers = (req, res, next) => {
               menuTitle: "광고주 조회",
               path: "/admin/advertisers",
               advertisers: advertisers,
+              isLoggedIn: req.session.isLoggedIn,
+              isAdmin: req.session.isAdmin,
             });
           });
         })
@@ -47,6 +49,8 @@ exports.getAddAdvertiser = (req, res, next) => {
             mains: mains,
             subs: subs,
             editing: false,
+            isLoggedIn: req.session.isLoggedIn,
+            isAdmin: req.session.isAdmin,
           });
         })
         .catch((err) => {
@@ -106,6 +110,8 @@ exports.getEditAdvertiser = (req, res, next) => {
                 mains: mains,
                 subs: subs,
                 editing: req.query.edit,
+                isLoggedIn: req.session.isLoggedIn,
+                isAdmin: req.session.isAdmin,
               });
             })
             .catch((err) => {

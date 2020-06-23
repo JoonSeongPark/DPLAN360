@@ -8,6 +8,8 @@ exports.getMedia = (req, res, next) => {
         menuTitle: "매체 조회",
         path: "/admin/media",
         media: media.reverse(),
+        isLoggedIn: req.session.isLoggedIn,
+        isAdmin: req.session.isAdmin,
       });
     })
     .catch((err) => {
@@ -21,6 +23,8 @@ exports.getAddMedia = (req, res, next) => {
     menuTitle: "매체 추가",
     path: "/admin/add-media",
     editing: false,
+    isLoggedIn: req.session.isLoggedIn,
+    isAdmin: req.session.isAdmin,
   });
 };
 
@@ -72,6 +76,8 @@ exports.getEditMedia = (req, res, next) => {
         path: "/admin/media",
         editing: req.query.edit,
         medium: medium,
+        isLoggedIn: req.session.isLoggedIn,
+        isAdmin: req.session.isAdmin,
       });
     })
     .catch((err) => {

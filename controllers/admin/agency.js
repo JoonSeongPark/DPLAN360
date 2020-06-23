@@ -8,6 +8,8 @@ exports.getAgencies = (req, res, next) => {
         menuTitle: "대행사 조회",
         path: "/admin/agencies",
         agencies: agencies.reverse(),
+        isLoggedIn: req.session.isLoggedIn,
+        isAdmin: req.session.isAdmin,
       });
     })
     .catch((err) => {
@@ -21,6 +23,8 @@ exports.getAddAgency = (req, res, next) => {
     menuTitle: "대행사 추가",
     path: "/admin/add-agency",
     editing: false,
+    isLoggedIn: req.session.isLoggedIn,
+    isAdmin: req.session.isAdmin,
   });
 };
 
@@ -60,6 +64,8 @@ exports.getEditAgency = (req, res, next) => {
         path: "/admin/agencies",
         editing: req.query.edit,
         agency: agency,
+        isLoggedIn: req.session.isLoggedIn,
+        isAdmin: req.session.isAdmin,
       });
     })
     .catch((err) => {
@@ -104,7 +110,7 @@ exports.postDeleteAgency = (req, res, next) => {
       return agency.destroy();
     })
     .then(() => {
-      console.log("Agency Destroyed!")
+      console.log("Agency Destroyed!");
       res.redirect("/admin/agencies");
     })
     .catch((err) => {
