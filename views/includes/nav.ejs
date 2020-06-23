@@ -1,23 +1,124 @@
+<% if (isLoggedIn) { %>
 <nav>
   <div class="nav-header">매출조회</div>
   <ul>
-    <li><a href="#">전체 조회</a></li>
-    <li><a href="#">매체별 조회</a></li>
+    <li class="<%= path === '/sales' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/sales' ? 'active' : '' %>"
+        href="/sales?team=&start_month=&end_month=&advertiser=&advertiser="
+        >전체 조회</a
+      >
+    </li>
+    <li class="<%= path === '/media-sales' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/media-sales' ? 'active' : '' %>"
+        href="/media-sales?media=&start_month=&end_month="
+        >매체별 조회</a
+      >
+    </li>
   </ul>
   <div class="nav-header">캠페인등록</div>
   <ul>
-    <li><a href="#">신규 등록</a></li>
+    <li class="<%= path === '/add-campaign' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/add-campaign' ? 'active' : '' %>"
+        href="/add-campaign"
+        >신규 등록</a
+      >
+    </li>
   </ul>
   <div class="nav-header">세금계산서</div>
   <ul>
-    <li><a href="#">계산서 발행</a></li>
+    <li class="<%= path === '/bill' ? 'active' : '' %>">
+      <a class="<%= path === '/bill' ? 'active' : '' %>" href="#"
+        >계산서 발행</a
+      >
+    </li>
   </ul>
+  <div class="nav-header">정보조회</div>
+  <ul>
+    <li class="<%= path === '/media' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/media' ? 'active' : '' %>"
+        href="/media"
+        >매체 조회</a
+      >
+    </li>
+    <li class="<%= path === '/agencies' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/agencies' ? 'active' : '' %>"
+        href="/agencies"
+        >대행사 조회</a
+      >
+    </li>
+    <li class="<%= path === '/advertisers' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/advertisers' ? 'active' : '' %>"
+        href="/advertisers"
+        >광고주 조회</a
+      >
+    </li>
+    <li class="<%= path === '/categories' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/categories' ? 'active' : '' %>"
+        href="/categories"
+        >업종 조회</a
+      >
+    </li>
+  </ul>
+  <% if (isAdmin) { %>
   <div class="nav-header">관리자</div>
   <ul>
-    <li><a href="#">매체 관리</a></li>
-    <li><a href="#">대행사 관리</a></li>
-    <li><a href="#">광고주 관리</a></li>
-    <li><a href="#">직원 관리</a></li>
-    <li><a href="#">시스템 블록/해제</a></li>
+    <li class="<%= path === '/admin/add-media' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/admin/add-media' ? 'active' : '' %>"
+        href="/admin/add-media"
+        >매체 추가</a
+      >
+    </li>
+    <li class="<%= path === '/admin/add-agency' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/admin/add-agency' ? 'active' : '' %>"
+        href="/admin/add-agency"
+        >대행사 추가</a
+      >
+    </li>
+    <li class="<%= path === '/admin/add-advertiser' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/admin/add-advertiser' ? 'active' : '' %>"
+        href="/admin/add-advertiser"
+        >광고주 추가</a
+      >
+    </li>
+    <li class="<%= path === '/admin/add-category' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/admin/add-category' ? 'active' : '' %>"
+        href="/admin/add-category"
+        >업종 추가</a
+      >
+    </li>
+    <li class="<%= path === '/admin/users' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/admin/users' ? 'active' : '' %>"
+        href="/admin/users"
+        >직원 조회</a
+      >
+    </li>
+    <li class="<%= path === '/admin/user-signup' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/admin/user-signup' ? 'active' : '' %>"
+        href="/admin/user-signup"
+        >직원 추가</a
+      >
+    </li>
+    <li class="<%= path === '/admin/system-block' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/admin/system-block' ? 'active' : '' %>"
+        href="/admin/system-block"
+        >시스템 블록/해제</a
+      >
+    </li>
   </ul>
+  <% } %>
 </nav>
+<% } %>
