@@ -5,9 +5,9 @@ const authMiddleware = require('../middleware/is-auth')
 
 const router = express.Router();
 
-router.get('/login', authController.getLogin);
+router.get('/login', authMiddleware.isLogin, authController.getLogin);
 
-router.post('/login', authController.postLogin);
+router.post('/login', authMiddleware.isLogin, authController.postLogin);
 
 router.get('/admin/user-signup', authMiddleware.isAdmin, authController.getUserSignup);
 
