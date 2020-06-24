@@ -10,4 +10,11 @@ exports.isAdmin = (req, res, next) => {
     return res.redirect("/");
   }
   next();
-}
+};
+
+exports.isLogin = (req, res, next) => {
+  if (req.session.isLoggedIn) {
+    return res.redirect("/");
+  }
+  next();
+};
