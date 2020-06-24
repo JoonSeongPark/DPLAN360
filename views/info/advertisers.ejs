@@ -16,8 +16,10 @@
                 <th class="v-header xl">광고주</th>
                 <th class="v-header xl">업종(대분류)</th>
                 <th class="v-header xl">업종(소분류)</th>
+                <% if (isAdmin) { %>
                 <th class="v-header xs">수정</th>
                 <th class="v-header xs">삭제</th>
+                <% } %>
               </tr>
 
               <% advertisers.forEach(advertiser => { %>
@@ -25,6 +27,7 @@
                   <td><%= advertiser.name %></td>
                   <td><%= advertiser.mainName %></td>
                   <td><%= advertiser.subName %></td>
+                  <% if (isAdmin) { %>
                   <td>
                     <a href="/admin/edit-advertiser/<%= advertiser.id %>?edit=true">
                       <button class="btn" type="button">
@@ -38,6 +41,7 @@
                       <button class="btn alert-btn" type="button">삭제</button>
                     </form>
                    </td>
+                   <% } %>
                 </tr>
               <% }) %>
             </table>
