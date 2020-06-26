@@ -40,6 +40,7 @@ app.set("views", "views");
 const adminRoutes = require("./routes/admin");
 const workRoutes = require("./routes/work");
 const authRoutes = require("./routes/auth");
+const infoRoutes = require("./routes/info");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -56,9 +57,9 @@ app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
-  if (req.session.user) return next();
-
-  User.findByPk(req.session.user._id)
+  if (!req.session.user) return next();
+  
+  User.findByPk(req.session.user.id)
     .then((user) => {
       req.user = user;
       next();
@@ -78,6 +79,7 @@ app.use((req, res, next) => {
 app.use("/admin", adminRoutes);
 app.use(workRoutes);
 app.use(authRoutes);
+app.use(infoRoutes);
 
 app.use(errorController.get404);
 
@@ -100,30 +102,30 @@ AdMainCategory.hasMany(AdSubCategory);
 sequelize
   // .sync({ force: true })
   .sync()
-  .then(() => {
-    return Team.findByPk(1);
-  })
-  .then((team) => {
-    if (!team) {
-      Team.create({ name: "김나영" });
-      Team.create({ name: "조선영" });
-      Team.create({ name: "이미선" });
-    }
-    return User.findOne({ name: "관리자" });
-  })
-  .then((user) => {
-    if (!user) {
-      return bcrypt.hash("123", 12).then((hashedPassword) => {
-        const admin = new User({
-          name: "관리자",
-          email: "admin@d-plan360.com",
-          password: hashedPassword,
-        });
-        return admin.save();
-      });
-    }
-    return user;
-  })
+  // .then(() => {
+  //   return Team.findByPk(1);
+  // })
+  // .then((team) => {
+  //   if (!team) {
+  //     Team.create({ name: "김나영" });
+  //     Team.create({ name: "조선영" });
+  //     Team.create({ name: "이미선" });
+  //   }
+  //   return User.findOne({ name: "관리자" });
+  // })
+  // .then((user) => {
+  //   if (!user) {
+  //     return bcrypt.hash("123", 12).then((hashedPassword) => {
+  //       const admin = new User({
+  //         name: "관리자",
+  //         email: "admin@d-plan360.com",
+  //         password: hashedPassword,
+  //       });
+  //       return admin.save();
+  //     });
+  //   }
+  //   return user;
+  // })
   .then((user) => {
     app.listen(3000);
   })
