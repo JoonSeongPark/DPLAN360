@@ -1,4 +1,58 @@
-// today date input
+// DB List
+
+// main category list
+const mainUl = document.getElementById("main-ul");
+const mainList = Array.from(mainUl.children).map((x) => {
+  return { id: x.children[0].innerHTML, name: x.children[1].innerHTML };
+});
+
+// sub category list
+const subUl = document.getElementById("sub-ul");
+const subList = Array.from(subUl.children).map((x) => {
+  return { id: x.children[0].innerHTML, name: x.children[1].innerHTML };
+});
+
+// advertiser List
+const advertiserUl = document.getElementById("advertiser-ul");
+const adList = Array.from(advertiserUl.children).map((x) => {
+  return {
+    name: x.children[0].innerHTML,
+    main_id: x.children[1].innerHTML,
+    sub_id: x.children[2].innerHTML,
+  };
+});
+
+// agency List
+const agencyUl = document.getElementById("agency-ul");
+const agencyList = Array.from(agencyUl.children).map((x) => {
+  return {
+    name: x.children[0].innerHTML,
+    pay_condition: x.children[1].innerHTML,
+    deposit_type: x.children[2].innerHTML,
+    bill_type: x.children[3].innerHTML,
+  };
+});
+
+// media List
+const mediaUl = document.getElementById("media-ul");
+const mediaList = Array.from(mediaUl.children).map((x) => {
+  return {
+    name: x.children[0].innerHTML,
+    pay_condition: x.children[1].innerHTML,
+    bill_type: x.children[2].innerHTML,
+    provide_fee_rate: x.children[3].innerHTML,
+    inter_type: x.children[4].innerHTML,
+    inter_name: x.children[5].innerHTML,
+    agency_fee_rate: x.children[6].innerHTML,
+    media_fee_rate: x.children[7].innerHTML,
+    dplan_fee_rate: x.children[8].innerHTML,
+    inter_fee_rate: x.children[9].innerHTML,
+  };
+});
+
+/////////////////////////////////////////////////////////////////
+
+// today date auto input
 inputToday();
 function inputToday() {
   const camDate = document.getElementById("cam-date");
@@ -151,58 +205,29 @@ addMediaBtn.addEventListener("click", () => {
   const row = mediaTable.insertRow(len - 1);
   row.innerHTML = newRowContent;
 
-  const mediaNameInput = row.cells[0].children[0];
-  mediaNameInput
+  // media auto complete
+  const mediaInput = row.cells[0].children[0];
+  
+  new autoComplete({
+    selector: mediaInput,
+    minChars: 1,
+    source: function (term, suggest) {
+      term = term.toLowerCase();
+      const choices = mediaList.map((x) => {
+        return x.name;
+      });
+      const matches = [];
+      for (i = 0; i < choices.length; i++)
+        if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
+      suggest(matches);
+    },
+  });
+
+  // media delete button
   const deleteBtn = row.cells[row.cells.length - 1].children[0];
   deleteBtn.addEventListener("click", (e) => {
     e.target.closest("tr").remove();
   });
-});
-
-/////////////////////////////////////////////////////////////////
-
-// main category list
-const mainUl = document.getElementById("main-ul");
-const mainList = Array.from(mainUl.children).map((x) => {
-  return { id: x.children[0].innerHTML, name: x.children[1].innerHTML };
-});
-
-// sub category list
-const subUl = document.getElementById("sub-ul");
-const subList = Array.from(subUl.children).map((x) => {
-  return { id: x.children[0].innerHTML, name: x.children[1].innerHTML };
-});
-
-// advertiser List
-const advertiserUl = document.getElementById("advertiser-ul");
-const adList = Array.from(advertiserUl.children).map((x) => {
-  return {
-    name: x.children[0].innerHTML,
-    main_id: x.children[1].innerHTML,
-    sub_id: x.children[2].innerHTML,
-  };
-});
-
-// agency List
-const agencyUl = document.getElementById("agency-ul");
-const agencyList = Array.from(agencyUl.children).map((x) => {
-  return {
-    name: x.children[0].innerHTML,
-    pay_condition: x.children[1].innerHTML,
-    deposit_type: x.children[2].innerHTML,
-    bill_type: x.children[3].innerHTML,
-  };
-});
-
-// media List
-const mediaUl = document.getElementById("media-ul");
-const mediaList = Array.from(mediaUl.children).map((x) => {
-  return {
-    name: x.children[0].innerHTML,
-    pay_condition: x.children[1].innerHTML,
-    deposit_type: x.children[2].innerHTML,
-    bill_type: x.children[3].innerHTML,
-  };
 });
 
 /////////////////////////////////////////////////////////////////
@@ -215,10 +240,10 @@ new autoComplete({
   minChars: 1,
   source: function (term, suggest) {
     term = term.toLowerCase();
-    var choices = adList.map((x) => {
+    const choices = adList.map((x) => {
       return x.name;
     });
-    var matches = [];
+    const matches = [];
     for (i = 0; i < choices.length; i++)
       if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
     suggest(matches);
@@ -245,10 +270,10 @@ new autoComplete({
   minChars: 1,
   source: function (term, suggest) {
     term = term.toLowerCase();
-    var choices = agencyList.map((x) => {
+    const choices = agencyList.map((x) => {
       return x.name;
     });
-    var matches = [];
+    const matches = [];
     for (i = 0; i < choices.length; i++)
       if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
     suggest(matches);
