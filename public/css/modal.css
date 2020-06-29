@@ -14,9 +14,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 25vh;
-  height: 20vh;
-  padding: 40px 20px;
   border-radius: 10px;
   background-color: #fff;
   display: flex;
@@ -24,10 +21,23 @@
   justify-content: space-between;
 }
 
+.alert-modal {
+  width: 400px;
+  height: 350px;
+  padding: 90px 20px;
+}
+
+.media-modal {
+  width: 400px;
+  height: 350px;
+  padding: 40px 50px;
+}
+
 .modal .btns {
    display: flex;
    align-items: flex-end;
    justify-content: space-evenly;
+   padding: 0 10%;
 }
 
 .modal .btns button {
