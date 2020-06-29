@@ -13,6 +13,7 @@ function alertModal(e) {
     <h3>➣ 매체명 검색</h3>
     <br>
     <input type='text' style='width:100%' id='add-media' placeholder='매체명' autofocus/>
+    <p class="error-p" id="error-p"></p>
   </div>
   `;
 
@@ -30,7 +31,7 @@ function alertModal(e) {
 
   // media auto complete
   const mediaInput = document.getElementById("add-media");
-  console.log(mediaInput);
+
   new autoComplete({
     selector: mediaInput,
     minChars: 1,
@@ -51,7 +52,11 @@ function alertModal(e) {
 
   addMediaBtn.addEventListener("click", () => {
     const media_info = mediaList.find((x) => x.name === mediaInput.value);
-    if (!media_info) return;
+    if (!media_info) {
+      const errorP = document.getElementById('error-p')
+      errorP.innerHTML = '매체를 새로 추가하거나 매체명을 확인하세요.'
+      return
+    };
 
     const media_name = media_info.name;
     const media_inter_type = media_info.inter_type;
@@ -73,9 +78,13 @@ function alertModal(e) {
     </td>
     <td>
       <select name="lower_inter_type" id="lower-inter-type">
-        <option value=""></option>
-        <option value="in">in</option>
-        <option value="out">out</option>
+        <option value="" ${media_inter_type === "" ? "selected" : ""}></option>
+        <option value="in" ${
+          media_inter_type === "in" ? "selected" : ""
+        }>in</option>
+        <option value="out" ${
+          media_inter_type === "out" ? "selected" : ""
+        }>out</option>
       </select>
     </td>
     <td>
@@ -88,16 +97,18 @@ function alertModal(e) {
       />
     </td>
     <td>
+    <div style="display:flex;align-items:center;justify-content:center;">
       <input class="input-date" type="month"/>
       <select name="lower_issue_type">
         <option value="전액">전액</option>
         <option value="순액">순액</option>
       </select>
+      </div>
     </td>
     <td>
       <input
         class="input-num"
-        style="width:24px"
+        style="width:34px"
         type="text"
         name="lower_agency_fee_rate"
         value="${media_agency_fee_rate}"
@@ -107,7 +118,7 @@ function alertModal(e) {
     <td>
       <input
         class="input-num"
-        style="width:24px"
+        style="width:34px"
         type="text"
         name="lower_media_fee_rate"
         value="${media_fee_rate}"
@@ -117,7 +128,7 @@ function alertModal(e) {
     <td>
       <input
         class="input-num"
-        style="width:24px"
+        style="width:34px"
         type="text"
         name="lower_dplan_fee_rate"
         value="${media_dplan_fee_rate}"
@@ -127,7 +138,7 @@ function alertModal(e) {
     <td>
       <input
         class="input-num"
-        style="width:24px"
+        style="width:34px"
         type="text"
         name="lower_inter_fee_rate"
         value="${media_inter_fee_rate}"
