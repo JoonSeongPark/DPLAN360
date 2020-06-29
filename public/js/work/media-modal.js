@@ -12,7 +12,7 @@ function alertModal(e) {
   <div>
     <h3>➣ 매체명 검색</h3>
     <br>
-    <input type='text' style='width:100%' id='add-media' placeholder='매체명' />
+    <input type='text' style='width:100%' id='add-media' placeholder='매체명' autofocus/>
   </div>
   `;
 
