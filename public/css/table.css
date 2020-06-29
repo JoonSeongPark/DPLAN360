@@ -1,0 +1,131 @@
+table {
+  border-top: 2px solid #555;
+  border-collapse: collapse;
+  font-size: 10px;
+  margin: auto;
+}
+
+table.max-width {
+  width: 100%;
+}
+
+table.has-margin {
+  margin: auto;
+}
+
+section {
+  display: inline;
+}
+
+th,
+td {
+  padding: 0 3px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+table input,
+table select {
+  height: 16px;
+  font-size: 10px;
+}
+
+table textarea {
+  margin: 0 5px;
+}
+
+.h-header {
+  font-weight: bold;
+  text-align: center;
+  width: 130px;
+  height: 31px;
+  background-color: var(--light-blue);
+}
+
+.h-content {
+  min-width: 200px;
+  height: 31px;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+}
+
+input.max-width {
+  width: 100%;
+}
+
+input.max-ninety-width {
+  width: 90%;
+}
+
+.h-content input[type="month"],
+.h-content input[type="date"] {
+  width: auto;
+}
+
+.h-part {
+  margin-top: 20px;
+}
+
+.h-part input[type="radio"] {
+  width: 10px;
+  height: 10px;
+}
+
+table .input-num {
+  text-align: right;
+}
+
+.v-part {
+  margin-top: 20px;
+}
+
+.v-part th {
+  padding: 3px 1px;
+  border: 1px solid #999;
+}
+
+.v-part td {
+  text-align: center;
+  border: 1px solid #999;
+}
+
+.v-header {
+  font-weight: bold;
+  background-color: var(--light-green);
+}
+
+.v-total {
+  background-color: #ddd;
+  padding: 4px 12px;
+}
+
+.submit-btns button {
+  margin-right: 5px;
+}
+
+th.xs {
+  width: 50px;
+}
+
+th.s {
+  width: 75px;
+}
+
+th.m {
+  width: 100px;
+}
+
+th.xl {
+  width: 130px;
+}
+
+th.xxl {
+  width: 180px;
+}
+
+.result-part {
+  height: 70vh;
+  overflow: auto;
+  margin: 20px 30px;
+}

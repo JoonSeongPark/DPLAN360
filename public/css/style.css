@@ -1,0 +1,216 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
+:root {
+  --dplan-yellow: #ffde02;
+  --dark-blue: #0f4c81;
+  --dark-green: #006b6d;
+  --light-blue: #dedefe;
+  --light-green: #c8d5db;
+  --red: #e74c3c;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+body {
+  border: 1px solid black;
+}
+
+ul,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--dark-blue);
+}
+
+button {
+  outline: none;
+}
+
+header {
+  height: 80px;
+  padding: 10px 20px;
+}
+
+header img {
+  height: 100%;
+}
+
+.header-container {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-width: 1px 0;
+  border-color: #ddd;
+  border-style: solid;
+}
+
+.logo-container {
+  height: 100%;
+  padding: 10px;
+}
+
+.auth-container {
+  display: flex;
+  align-items: flex-end;
+  padding: 5px 20px;
+  font-size: 14px;
+  color: var(--dark-blue);
+}
+
+.auth-container .logout-btn {
+  cursor: pointer;
+  background-color: #fff;
+  color: var(--dark-blue);
+  border: none;
+}
+
+.auth-container a:hover {
+  color: var(--dplan-yellow);
+}
+
+.container {
+  display: flex;
+  border: 1px solid #ddd;
+  height: 100%;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 150px;
+  padding: 10px;
+  background-color: var(--dark-blue);
+}
+
+.nav-header {
+  font-size: 13px;
+  font-weight: bold;
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  text-align: center;
+  background-color: var(--dplan-yellow);
+  letter-spacing: 1px;
+}
+
+nav ul {
+  list-style-type: square;
+  color: #fff;
+  padding-left: 30px;
+  font-size: 12px;
+  margin: 7px 0 14px;
+}
+
+nav li:hover {
+  color: var(--dplan-yellow);
+}
+
+nav a {
+  color: #fff;
+}
+
+nav a:hover {
+  color: var(--dplan-yellow);
+}
+
+nav .active {
+  color: var(--dplan-yellow);
+}
+
+main {
+  flex: 15;
+  padding: 10px;
+  min-height: 750px;
+  height: 100%;
+}
+
+main h3 {
+  padding-left: 10px;
+}
+
+.input-date {
+  width: 110px;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  width: 35px;
+  height: 25px;
+  margin: 1px;
+  padding: 2px 4px;
+  font-size: 13px;
+  border: 1px solid #999;
+  border-radius: 5px;
+  color: #fff;
+  background-color: var(--dark-blue);
+}
+
+.btn:hover {
+  font-weight: bold;
+  color: var(--dark-blue);
+  background-color: #fff;
+  box-shadow: 0px 0px 7px #999;
+}
+
+.btn:active {
+  color: #fff;
+  background-color: var(--dark-blue);
+}
+
+.alert-btn {
+  color: #fff;
+  background-color: var(--red);
+}
+
+.alert-btn:hover {
+  color: var(--red);
+  background-color: #fff;
+}
+
+.alert-btn:active {
+  color: #fff;
+  background-color: var(--red);
+}
+
+.cancel-btn {
+  background-color: #efefef;
+  color: var(--dark-blue);
+}
+
+.submit-btns {
+  padding: 20px;
+  text-align: center;
+}
+
+.deactive {
+  display: none;
+}
+
+.user-message {
+  margin: auto;
+  width: 90%;
+  border: 1px solid #4771fa;
+  padding: 0.5rem;
+  border-radius: 3px;
+  background-color: #b9c9ff;
+  text-align: center;
+}
+
+.user-message--error {
+  border-color: red;
+  background-color: rgb(255, 176, 176);
+  color: red;
+}
