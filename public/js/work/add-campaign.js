@@ -66,6 +66,8 @@ function inputToday() {
 }
 
 /////////////////////////////////////////////////////////////////
+const mediaCount = document.getElementById("media-count");
+/////////////////////////////////////////////////////////////////
 
 // advertiser auto complete
 const advertiserInput = document.getElementById("cam-advertiser");
@@ -191,6 +193,8 @@ function autoCalculate(e) {
 }
 
 /////////////////////////////////////////////////////////////////////
+
+// total cell 불러오기
 const mediaTable = document.getElementById("media-table");
 const lowerAdFeeSum = document.getElementById("lower-ad-fee-sum");
 const lowerAgencyFeeSum = document.getElementById("lower-agency-fee-sum");
@@ -258,3 +262,16 @@ mediaTable.addEventListener("change", autoCalculate);
 
 const startDate = document.getElementById("cam-start-date");
 const endDate = document.getElementById("cam-end-date");
+
+const setDate = document.getElementById("set-date");
+
+function autoSetDate() {
+  const len = mediaTable.rows.length;
+
+  for (let i = 2; i < len - 1; i++) {
+    mediaTable.rows[i].cells[1].children[0].value = startDate.value;
+    mediaTable.rows[i].cells[2].children[0].value = endDate.value;
+  }
+}
+
+setDate.addEventListener("click", autoSetDate);

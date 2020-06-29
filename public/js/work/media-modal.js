@@ -12,7 +12,7 @@ function alertModal(e) {
   <div>
     <h3>➣ 매체명 검색</h3>
     <br>
-    <input type='text' style='width:100%' id='add-media' placeholder='매체명' autofocus/>
+    <input type='text' style='width:100%' id='add-media' placeholder='매체명'/>
     <p class="error-p" id="error-p"></p>
   </div>
   `;
@@ -31,6 +31,7 @@ function alertModal(e) {
 
   // media auto complete
   const mediaInput = document.getElementById("add-media");
+  mediaInput.focus();
 
   new autoComplete({
     selector: mediaInput,
@@ -53,10 +54,10 @@ function alertModal(e) {
   addMediaBtn.addEventListener("click", () => {
     const media_info = mediaList.find((x) => x.name === mediaInput.value);
     if (!media_info) {
-      const errorP = document.getElementById('error-p')
-      errorP.innerHTML = '매체를 새로 추가하거나 매체명을 확인하세요.'
-      return
-    };
+      const errorP = document.getElementById("error-p");
+      errorP.innerHTML = "매체를 새로 추가하거나 매체명을 확인하세요.";
+      return;
+    }
 
     const media_name = media_info.name;
     const media_inter_type = media_info.inter_type;
@@ -66,6 +67,7 @@ function alertModal(e) {
     const media_dplan_fee_rate = media_info.dplan_fee_rate;
     const media_inter_fee_rate = media_info.inter_fee_rate;
 
+    // table row for adding media
     const newRowContent = `
     <td>
       <input type="text" name="media_name" style="width:88px" value="${media_name}"readonly/>
@@ -195,7 +197,7 @@ function alertModal(e) {
         class="input-num"
         style="width:68px"
         type="text"
-        name="google-cid"
+        name="google_cid"
       />
     </td>
     <td>
@@ -215,8 +217,10 @@ function alertModal(e) {
     // media delete button
     const deleteBtn = row.cells[row.cells.length - 1].children[0];
     deleteBtn.addEventListener("click", (e) => {
+      mediaCount.value = +mediaCount.value - 1;
       e.target.closest("tr").remove();
     });
+    mediaCount.value = +mediaCount.value + 1;
     modalContainer.remove();
   });
 
