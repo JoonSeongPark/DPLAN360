@@ -1,5 +1,6 @@
 <%- include('../includes/first-part.ejs') %>
     <link rel="stylesheet" href="/css/table.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
     <link rel="stylesheet" href="/auto-complete/autocomplete.css">
   </head>
   <body>
@@ -10,26 +11,25 @@
       <main>
         <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
         <hr />
-        <form action="/add-campaign" method="POST">
+        <form action="/add-campaign" method="POST" onkeydown="return event.key != 'Enter';" autocomplete="off">
           <div class="h-part">
             <table id="cam-table">
-              <tr>
                 <td class="h-header">캠페인구분</td>
                 <td class="h-content">
-                  <input type="radio" name="cam_type" value="대행" checked/>대행
-                  <input type="radio" name="cam_type" value="직거래" />직거래
-                  <input type="radio" name="cam_type" value="계산서경유" />계산서경유
-                  <input type="radio" name="cam_type" value="인터랩" />인터랩
+                  <div>
+                    <input type="radio" name="cam_type" value="대행" checked/>대행
+                    <input type="radio" name="cam_type" value="직거래" />직거래
+                    <input type="radio" name="cam_type" value="계산서경유" />계산서경유
+                    <input type="radio" name="cam_type" value="인터랩" />인터랩
+                  </div>
                 </td>
                 <td class="h-header">담당팀</td>
                 <td class="h-content">
-                  <input type="hidden" name="team_name" value="<%= teamName %>">
-                  <%= teamName %> 팀
+                  <input type="text" name="team_name" value="<%= teamName %>" readonly/>
                 </td>
                 <td class="h-header">담당자</td>
                 <td class="h-content">
-                  <input type="hidden" name="user_name" value="<%= userName %>">
-                  <%= userName %>
+                  <input type="text" name="user_name" value="<%= userName %>" readonly/>
                 </td>
               </tr>
               <tr>
@@ -39,21 +39,11 @@
                 </td>
                 <td class="h-header">업종(대분류)</td>
                 <td class="h-content">
-                  <select name="cam_main_cat" id="cam-sub-cat">
-                    <option value="">선택</option>
-                    <option value="전기전자">전기전자</option>
-                    <option value="화장품/생활용품">화장품/생활용품</option>
-                    <option value="서비스">서비스</option>
-                  </select>
+                  <input type="text" name="cam_main_cat" id="cam-main-cat" value="" readonly/>
                 </td>
                 <td class="h-header">업종(소분류)</td>
                 <td class="h-content">
-                  <select name="cam_sub_cat" id="cam-sub-cat">
-                    <option value="">선택</option>
-                    <option value="항공/운송">항공/운송</option>
-                    <option value="화장품">화장품</option>
-                    <option value="출판">출판</option>
-                  </select>
+                  <input type="text" name="cam_sub_cat" id="cam-sub-cat" value="" readonly/>
                 </td>
               </tr>
               <tr>
@@ -80,6 +70,8 @@
                     name="cam_end_date"
                     id="cam-end-date"
                   />
+                  &nbsp&nbsp
+                  <button style="font-size: 10px; padding: 1px 2px;" type="button" id="set-date">맞춤</button>
                 </td>
               </tr>
               <tr>
@@ -103,7 +95,7 @@
                     value="0"
                     readonly
                     id="cam-agency-fee-rate"
-                    size="3"
+                    size="4"
                   />&nbsp&nbsp%&nbsp&nbsp&nbsp&nbsp
                   <input
                     class="input-num max-ninety-width"
@@ -118,6 +110,7 @@
                 <td class="h-header">대행사 세금계산서 발행월</td>
                 <td class="h-content">
                   <input class="input-date" type="month" name="cam_tax_month" />
+                  &nbsp&nbsp
                   <select name="media_issue_type" id="media-issue-type">
                     <option value="전액">전액</option>
                     <option value="순액">순액</option>
@@ -137,7 +130,7 @@
             </table>
           </div>
           <div style="margin: 10px 7%">
-            <button type="button" id="add-media">매체추가</button>
+            <button type="button" id="media-modal-btn">매체추가</button>
           </div>
           <div class="v-part">
             <table id="media-table">
@@ -158,10 +151,10 @@
                 <th class="v-header" style="width:120px">종료일</th>
                 <th class="v-header" style="width:45px">구분</th>
                 <th class="v-header" style="width:94px">인터랩</th>
-                <th class="v-header" style="width:38px">대행사</th>
-                <th class="v-header" style="width:38px">매체</th>
-                <th class="v-header" style="width:38px">디플랜</th>
-                <th class="v-header" style="width:38px">인터렙</th>
+                <th class="v-header" style="width:41px">대행사</th>
+                <th class="v-header" style="width:41px">매체</th>
+                <th class="v-header" style="width:41px">디플랜</th>
+                <th class="v-header" style="width:41px">인터렙</th>
                 <th class="v-header" style="width:94px">대행사수수료</th>
                 <th class="v-header" style="width:94px">매체수수료</th>
                 <th class="v-header" style="width:94px">순매출</th>
@@ -187,8 +180,8 @@
                 <th class="v-total input-num" id="lower-ad-fee-sum">0</th>
                 <th class="v-total input-num" id="lower-agency-fee-sum">0</th>
                 <th class="v-total input-num" id="lower-media-fee-sum">0</th>
-                <th class="v-total input-num" id="lower-dpaln-sum">0</th>
-                <th class="v-total input-num" id="lower-inter-sum">0</th>
+                <th class="v-total input-num" id="lower-dplan-fee-sum">0</th>
+                <th class="v-total input-num" id="lower-inter-fee-sum">0</th>
                 <th class="v-total"></th>
                 <th class="v-total"></th>
                 <th class="v-total"></th>
@@ -196,15 +189,68 @@
             </table>
           </div>
           <div class="submit-btns">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <button type="submit">저장</button>
             <a href="/" ><button>취소</button></a>
           </div>
+          <input type='hidden' name="media_count" id="media-count" value='0'/>
         </form>
         </main>
-    </div>
+      </div>
+      <div id="advertiser-ul" hidden>
+        <% advertisers.forEach(advertiser => { %>
+          <ul>
+            <li><%= advertiser.name %></li>
+            <li><%= advertiser.main_category %></li>
+            <li><%= advertiser.sub_category %></li>
+          </ul>
+        <% }) %> 
+      </div>
+      <div id="agency-ul" hidden>
+        <% agencies.forEach(agency => { %>
+          <ul>
+            <li><%= agency.name %></li>
+            <li><%= agency.pay_condition %></li>
+            <li><%= agency.deposit_type %></li>
+            <li><%= agency.bill_type %></li>
+          </ul>
+        <% }) %> 
+      </div>
+      <div id="main-ul" hidden>
+        <% mains.forEach(main =>{ %>
+          <ul>
+            <li><%= main.id %></li>
+            <li><%= main.name %></li>
+          </ul>
+        <% }) %>
+      </div>
+      <div id="sub-ul" hidden>
+        <% subs.forEach(sub =>{ %>
+          <ul>
+            <li><%= sub.id %></li>
+            <li><%= sub.name %></li>
+          </ul>
+        <% }) %>
+      </div>
+      <div id="media-ul" hidden>
+        <% media.forEach(medium =>{ %>
+          <ul>
+            <li><%= medium.name %></li>
+            <li><%= medium.pay_condition %></li>
+            <li><%= medium.bill_type %></li>
+            <li><%= medium.provide_fee_rate %></li>
+            <li><%= medium.inter_type %></li>
+            <li><%= medium.inter_name %></li>
+            <li><%= medium.agency_fee_rate %></li>
+            <li><%= medium.media_fee_rate %></li>
+            <li><%= medium.dplan_fee_rate %></li>
+            <li><%= medium.inter_fee_rate %></li>
+          </ul>
+          <% }) %>
+      </div>
     <script src="/auto-complete/autocomplete.js"></script>
     <script src="/js/work/add-campaign.js"></script>
+    <script src="/js/work/media-modal.js"></script>
     
 
   <%- include('../includes/end-part.ejs') %>
