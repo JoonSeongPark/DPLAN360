@@ -67,171 +67,6 @@ function inputToday() {
 
 /////////////////////////////////////////////////////////////////
 
-// 매체추가 버튼 기능
-const newRowContent = `
-  <td>
-    <input type="text" name="media_name" style="width:88px"/>
-  </td>
-  <td>
-    <input class="input-date" type="date" name="media_start" />
-  </td>
-  <td>
-    <input class="input-date" type="date" name="media_end" />
-  </td>
-  <td>
-    <select name="lower_inter_type" id="lower-inter-type">
-      <option value="">x</option>
-      <option value="in">in</option>
-      <option value="out">out</option>
-    </select>
-  </td>
-  <td>
-    <input
-      name="lower_inter_name"
-      id="lower-inter-name"
-      type="text"
-      style="width:88px"
-    />
-  </td>
-  <td>
-    <input class="input-date" type="month"/>
-    <select name="lower_issue_type">
-      <option value="전액">전액</option>
-      <option value="순액">순액</option>
-    </select>
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:24px"
-      type="text"
-      name="lower_agency_fee_rate"
-      value="0"
-    />
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:24px"
-      type="text"
-      name="lower_media_fee_rate"
-      value="0"
-    />
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:24px"
-      type="text"
-      name="lower_dplan_fee_rate"
-      value="0"
-    />
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:24px"
-      type="text"
-      name="lower_inter_fee_rate"
-      value="0"
-    />
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:88px"
-      type="text"
-      name="lower_ad_fee"
-      value="0"
-    />
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:88px"
-      type="text"
-      name="lower_agency_fee"
-      value="0"
-    />
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:88px"
-      type="text"
-      name="lower_media_fee"
-      value="0"
-    />
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:88px"
-      type="text"
-      name="lower_dplan_fee"
-      value="0"
-    />
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:88px"
-      type="text"
-      name="lower_inter_fee"
-      value="0"
-    />
-  </td>
-  <td>
-    <input
-      class="input-num"
-      style="width:68px"
-      type="text"
-      name="google-cid"
-    />
-  </td>
-  <td>
-    <input
-    name="lower_memo"
-    style="width:68px"
-    type="text"
-  </td>
-  <td>
-    <button class="btn alert-btn">삭제</button>
-  </td>`;
-const addMediaBtn = document.getElementById("add-media");
-
-addMediaBtn.addEventListener("click", () => {
-  const len = mediaTable.rows.length;
-  const row = mediaTable.insertRow(len - 1);
-  row.innerHTML = newRowContent;
-
-  // media auto complete
-  const mediaInput = row.cells[0].children[0];
-  
-  new autoComplete({
-    selector: mediaInput,
-    minChars: 1,
-    source: function (term, suggest) {
-      term = term.toLowerCase();
-      const choices = mediaList.map((x) => {
-        return x.name;
-      });
-      const matches = [];
-      for (i = 0; i < choices.length; i++)
-        if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
-      suggest(matches);
-    },
-  });
-
-  // media delete button
-  const deleteBtn = row.cells[row.cells.length - 1].children[0];
-  deleteBtn.addEventListener("click", (e) => {
-    e.target.closest("tr").remove();
-  });
-});
-
-/////////////////////////////////////////////////////////////////
-
 // advertiser auto complete
 const advertiserInput = document.getElementById("cam-advertiser");
 
@@ -243,9 +78,11 @@ new autoComplete({
     const choices = adList.map((x) => {
       return x.name;
     });
-    const matches = [];
-    for (i = 0; i < choices.length; i++)
-      if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
+
+    const matches = choices.filter((choice) => {
+      return choice.toLowerCase().includes(term);
+    });
+
     suggest(matches);
   },
 });
@@ -273,43 +110,151 @@ new autoComplete({
     const choices = agencyList.map((x) => {
       return x.name;
     });
-    const matches = [];
-    for (i = 0; i < choices.length; i++)
-      if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
+
+    const matches = choices.filter((choice) => {
+      return choice.toLowerCase().includes(term);
+    });
     suggest(matches);
   },
 });
 
 ////////////////////////////////////////////////////////////////////
 
-// 광고수주액 및 대행사 수수료 from lower part sum
-// 상단부
-const camAdTotal = document.getElementById("cam-ad-total");
-const camAgencyFeeRate = document.getElementById("cam-agency-fee-rate");
-const camAgencyFee = document.getElementById("cam-agency-fee");
-// 하단부
-const lowerAdFeeSum = document.getElementById("lower-ad-fee-sum");
+// 각 매체 자동 계산 함수
+function autoCalculate(e) {
+  // 숫자 부분만 함수적용
+  if (!e.target.classList.contains("input-num")) return;
 
-lowerAdFeeSum.addEventListener("change", (e) => {
-  camAdTotal.value = e.target.innerHTML;
-});
+  const targetRow = e.target.closest("tr");
+  const agencyFeeRateInput = targetRow.cells[6].children[0];
+  const mediaFeeRateInput = targetRow.cells[7].children[0];
+  const dplanFeeRateInput = targetRow.cells[8].children[0];
+  const interFeeRateInput = targetRow.cells[9].children[0];
+  const totalFeeInput = targetRow.cells[10].children[0];
+  const agencyFeeInput = targetRow.cells[11].children[0];
+  const mediaFeeInput = targetRow.cells[12].children[0];
+  const dplanFeeInput = targetRow.cells[13].children[0];
+  const interFeeInput = targetRow.cells[14].children[0];
 
-////////////////////////////////////////////////////////////////////
+  // input cases
+  if (
+    // 수수료율 & 광고수주액 부분 수정 경우
+    [
+      agencyFeeRateInput,
+      mediaFeeRateInput,
+      dplanFeeRateInput,
+      interFeeRateInput,
+      totalFeeInput,
+    ].includes(e.target)
+  ) {
+    agencyFeeInput.value =
+      +totalFeeInput.value * (+agencyFeeRateInput.value / 100);
+    mediaFeeInput.value =
+      +totalFeeInput.value * (+mediaFeeRateInput.value / 100);
+    dplanFeeInput.value =
+      +totalFeeInput.value * (+dplanFeeRateInput.value / 100);
+    interFeeInput.value =
+      +totalFeeInput.value * (+interFeeRateInput.value / 100);
+  } else {
+    // 수익배분액 부분 수정 경우
+    agencyFeeRateInput.value = (
+      (+agencyFeeInput.value / +totalFeeInput.value) *
+      100
+    ).toFixed(2);
+    mediaFeeRateInput.value = (
+      (+mediaFeeInput.value / +totalFeeInput.value) *
+      100
+    ).toFixed(2);
+    dplanFeeRateInput.value = (
+      (+dplanFeeInput.value / +totalFeeInput.value) *
+      100
+    ).toFixed(2);
+    interFeeRateInput.value = (
+      (+interFeeInput.value / +totalFeeInput.value) *
+      100
+    ).toFixed(2);
 
+    if (
+      +totalFeeInput.value !==
+      +agencyFeeInput.value +
+        +mediaFeeInput.value +
+        +dplanFeeInput.value +
+        +interFeeInput.value
+    ) {
+      totalFeeInput.classList.add("error-border");
+    } else {
+      totalFeeInput.classList.remove("error-border");
+    }
+  }
+
+  autoTotalCaculate();
+}
+
+/////////////////////////////////////////////////////////////////////
 const mediaTable = document.getElementById("media-table");
+const lowerAdFeeSum = document.getElementById("lower-ad-fee-sum");
+const lowerAgencyFeeSum = document.getElementById("lower-agency-fee-sum");
+const lowerMediaFeeSum = document.getElementById("lower-media-fee-sum");
+const lowerDplanFeeSum = document.getElementById("lower-dplan-fee-sum");
+const lowerInterFeeSum = document.getElementById("lower-inter-fee-sum");
+
+const lowerAgencyFeeRateSum = document.getElementById(
+  "lower-agency-fee-rate-sum"
+);
+const lowerMediaFeeRateSum = document.getElementById(
+  "lower-media-fee-rate-sum"
+);
+const lowerDplanFeeRateSum = document.getElementById(
+  "lower-dplan-fee-rate-sum"
+);
+const lowerInterFeeRateSum = document.getElementById(
+  "lower-inter-fee-rate-sum"
+);
+
+// 각 매체의 합 계산 함수 (autoCalculate에서 호출)
+function autoTotalCaculate() {
+  let adFeeSum = 0,
+    agencyFeeSum = 0,
+    mediaFeeSum = 0,
+    dplanFeeSum = 0,
+    interFeeSum = 0,
+    targetRow;
+  const len = mediaTable.rows.length;
+
+  for (let i = 2; i < len - 1; i++) {
+    targetRow = mediaTable.rows[i];
+    adFeeSum += +targetRow.cells[10].children[0].value;
+    agencyFeeSum += +targetRow.cells[11].children[0].value;
+    mediaFeeSum += +targetRow.cells[12].children[0].value;
+    dplanFeeSum += +targetRow.cells[13].children[0].value;
+    interFeeSum += +targetRow.cells[14].children[0].value;
+  }
+  lowerAdFeeSum.innerHTML = adFeeSum;
+  lowerAgencyFeeSum.innerHTML = agencyFeeSum;
+  lowerMediaFeeSum.innerHTML = mediaFeeSum;
+  lowerDplanFeeSum.innerHTML = dplanFeeSum;
+  lowerInterFeeSum.innerHTML = interFeeSum;
+
+  // media total
+  lowerAgencyFeeRateSum.innerHTML = ((agencyFeeSum / adFeeSum) * 100).toFixed(
+    2
+  );
+  lowerMediaFeeRateSum.innerHTML = ((mediaFeeSum / adFeeSum) * 100).toFixed(2);
+  lowerDplanFeeRateSum.innerHTML = ((dplanFeeSum / adFeeSum) * 100).toFixed(2);
+  lowerInterFeeRateSum.innerHTML = ((interFeeSum / adFeeSum) * 100).toFixed(2);
+
+  const camAdTotal = document.getElementById("cam-ad-total");
+  const camAgencyFeeRate = document.getElementById("cam-agency-fee-rate");
+  const camAgencyFee = document.getElementById("cam-agency-fee");
+
+  camAdTotal.value = adFeeSum;
+  camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
+  camAgencyFee.value = agencyFeeSum;
+}
+////////////////////////////////////////////////////////////////////////
+
+// event delegation
+mediaTable.addEventListener("change", autoCalculate);
 
 const startDate = document.getElementById("cam-start-date");
 const endDate = document.getElementById("cam-end-date");
-
-startDate.addEventListener("change", (e) => {
-  console.log(e.target.value);
-});
-
-// console.log(mediaTable.rows);
-// console.log(mediaTable.rows[2]);
-// console.log(mediaTable.rows[2].cells);
-// console.log(mediaTable.rows[2].cells[3].value);
-
-mediaTable.rows[2].cells[3].addEventListener("change", (event) => {
-  console.log(event.target.value);
-});
