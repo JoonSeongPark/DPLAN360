@@ -134,6 +134,60 @@ exports.getAddCampaign = (req, res, next) => {
 };
 
 exports.postAddCampaign = (req, res, next) => {
-  console.log(req.body);
+  const {
+    // 캠페인 정보
+    cam_type,
+    user_name,
+    cam_advertiser_id,
+    cam_title,
+    cam_agency,
+    cam_start_date,
+    cam_end_date,
+    cam_ad_total,
+    cam_agency_fee_rate,
+    cam_agency_fee,
+    cam_tax_month,
+    media_issue_type,
+    // 매체 정보
+    media_name,
+    media_start,
+    media_end,
+    lower_inter_type,
+    lower_inter_name,
+    lower_issue_type,
+    lower_agency_fee_rate,
+    lower_media_fee_rate,
+    lower_dplan_fee_rate,
+    lower_inter_fee_rate,
+    lower_ad_fee,
+    lower_agency_fee,
+    lower_media_fee,
+    lower_dplan_fee,
+    lower_inter_fee,
+    google_cid,
+    lower_memo,
+    _csrf,
+    media_count,
+  } = req.body;
+  Team.findByPk(req.user.teamId)
+    .then((team) => {
+      team.createCampaign({
+        type: cam_type,
+        pic: user_name,
+        title: cam_title,
+        agency: cam_agency,
+        period_begin: cam_start_date,
+        period_end: cam_end_date,
+        ad_fee: cam_ad_total,
+        agency_fee_rate: cam_agency_fee_rate,
+        agency_fee: cam_agency_fee,
+        tax_date: cam_tax_month,
+        issue_type: media_issue_type,
+        advertiserId: cam_advertiser_id,
+      });
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
   res.redirect("/");
 };
