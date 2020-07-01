@@ -13,7 +13,7 @@ const Campaign = sequelize.define("campaign", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  writer: {
+  pic: {
     type: Sequelize.STRING,
     allowNull: false,
   },
@@ -49,7 +49,7 @@ const Campaign = sequelize.define("campaign", {
     type: Sequelize.DATE,
     allowNull: false,
   },
-  tax_type: {
+  issue_type: {
     type: Sequelize.STRING,
     allowNull: false,
   },
