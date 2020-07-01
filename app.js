@@ -58,7 +58,7 @@ app.use(flash());
 
 app.use((req, res, next) => {
   if (!req.session.user) return next();
-  
+
   User.findByPk(req.session.user.id)
     .then((user) => {
       req.user = user;
@@ -93,8 +93,14 @@ Team.hasMany(Campaign);
 Campaign.belongsTo(Advertiser);
 Advertiser.hasMany(Campaign);
 
-Campaign.belongsToMany(Medium, { through: MediaItem });
-Medium.belongsToMany(Campaign, { through: MediaItem });
+MediaItem.belongsTo(Campaign);
+Campaign.hasMany(MediaItem);
+
+MediaItem.belongsTo(Medium);
+Medium.hasMany(MediaItem);
+
+// Campaign.belongsToMany(Medium, { through: MediaItem });
+// Medium.belongsToMany(Campaign, { through: MediaItem });
 
 AdSubCategory.belongsTo(AdMainCategory);
 AdMainCategory.hasMany(AdSubCategory);
