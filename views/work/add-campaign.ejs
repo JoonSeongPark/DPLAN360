@@ -35,15 +35,16 @@
               <tr>
                 <td class="h-header">광고주</td>
                 <td class="h-content">
-                  <input class="max-width" type="text" name="cam_advertiser" id="cam-advertiser" />
+                  <input type="hidden" name="cam_advertiser_id" id="cam-advertiser-id" />
+                  <input class="max-width" type="text" id="cam-advertiser" />
                 </td>
                 <td class="h-header">업종(대분류)</td>
                 <td class="h-content">
-                  <input type="text" name="cam_main_cat" id="cam-main-cat" value="" readonly/>
+                  <input type="text" id="cam-main-cat" value="" readonly/>
                 </td>
                 <td class="h-header">업종(소분류)</td>
                 <td class="h-content">
-                  <input type="text" name="cam_sub_cat" id="cam-sub-cat" value="" readonly/>
+                  <input type="text" id="cam-sub-cat" value="" readonly/>
                 </td>
               </tr>
               <tr>
@@ -120,7 +121,7 @@
               <tr>
                 <td class="h-header">등록일</td>
                 <td class="h-content">
-                  <input class="input-date" type="date" name="cam_date" id="cam-date" readonly>
+                  <input class="input-date" type="date" id="cam-date" readonly>
                 </td>
                 <td class="h-header"></td>
                 <td></td>
@@ -203,6 +204,7 @@
             <li><%= advertiser.name %></li>
             <li><%= advertiser.main_category %></li>
             <li><%= advertiser.sub_category %></li>
+            <li><%= advertiser.id %></li>
           </ul>
         <% }) %> 
       </div>
@@ -235,6 +237,7 @@
       <div id="media-ul" hidden>
         <% media.forEach(medium =>{ %>
           <ul>
+            <li><%= medium.id %></li>
             <li><%= medium.name %></li>
             <li><%= medium.pay_condition %></li>
             <li><%= medium.bill_type %></li>
@@ -246,7 +249,7 @@
             <li><%= medium.dplan_fee_rate %></li>
             <li><%= medium.inter_fee_rate %></li>
           </ul>
-          <% }) %>
+        <% }) %>
       </div>
     <script src="/auto-complete/autocomplete.js"></script>
     <script src="/js/work/add-campaign.js"></script>
