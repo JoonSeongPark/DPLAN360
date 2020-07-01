@@ -19,6 +19,7 @@ const adList = Array.from(advertiserUl.children).map((x) => {
     name: x.children[0].innerHTML,
     main_id: x.children[1].innerHTML,
     sub_id: x.children[2].innerHTML,
+    id: x.children[3].innerHTML,
   };
 });
 
@@ -37,16 +38,17 @@ const agencyList = Array.from(agencyUl.children).map((x) => {
 const mediaUl = document.getElementById("media-ul");
 const mediaList = Array.from(mediaUl.children).map((x) => {
   return {
-    name: x.children[0].innerHTML,
-    pay_condition: x.children[1].innerHTML,
-    bill_type: x.children[2].innerHTML,
-    provide_fee_rate: x.children[3].innerHTML,
-    inter_type: x.children[4].innerHTML,
-    inter_name: x.children[5].innerHTML,
-    agency_fee_rate: x.children[6].innerHTML,
-    media_fee_rate: x.children[7].innerHTML,
-    dplan_fee_rate: x.children[8].innerHTML,
-    inter_fee_rate: x.children[9].innerHTML,
+    id: x.children[0].innerHTML,
+    name: x.children[1].innerHTML,
+    pay_condition: x.children[2].innerHTML,
+    bill_type: x.children[3].innerHTML,
+    provide_fee_rate: x.children[4].innerHTML,
+    inter_type: x.children[5].innerHTML,
+    inter_name: x.children[6].innerHTML,
+    agency_fee_rate: x.children[7].innerHTML,
+    media_fee_rate: x.children[8].innerHTML,
+    dplan_fee_rate: x.children[9].innerHTML,
+    inter_fee_rate: x.children[10].innerHTML,
   };
 });
 
@@ -58,9 +60,9 @@ function inputToday() {
   const camDate = document.getElementById("cam-date");
   const today = new Date();
   const year = today.getFullYear();
-  let month = today.getMonth();
+  let month = today.getMonth() + 1;
   month = month < 10 ? `0${month}` : month;
-  const day = today.getDate();
+  const day = today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
 
   camDate.value = `${year}-${month}-${day}`;
 }
@@ -71,6 +73,7 @@ const mediaCount = document.getElementById("media-count");
 
 // advertiser auto complete
 const advertiserInput = document.getElementById("cam-advertiser");
+const advertiserInputId = document.getElementById("cam-advertiser-id");
 
 new autoComplete({
   selector: advertiserInput,
@@ -95,6 +98,7 @@ const subInput = document.getElementById("cam-sub-cat");
 advertiserInput.addEventListener("focusout", (e) => {
   const advertiser_info = adList.find((x) => x.name === e.target.value);
   if (!advertiser_info) return;
+  advertiserInputId.value = advertiser_info.id;
   mainInput.value = mainList.find((x) => x.id == advertiser_info.main_id).name;
   subInput.value = subList.find((x) => x.id == advertiser_info.sub_id).name;
 });
@@ -126,7 +130,8 @@ new autoComplete({
 function autoCalculate(e) {
   // 숫자 부분만 함수적용
   if (!e.target.classList.contains("input-num")) return;
-
+  if (e.target.getAttribute("name") === "google_cid") return;
+  
   const targetRow = e.target.closest("tr");
   const agencyFeeRateInput = targetRow.cells[6].children[0];
   const mediaFeeRateInput = targetRow.cells[7].children[0];
