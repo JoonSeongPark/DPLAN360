@@ -59,6 +59,7 @@ function alertModal(e) {
       return;
     }
 
+    const media_id = media_info.id;
     const media_name = media_info.name;
     const media_inter_type = media_info.inter_type;
     const media_inter_name = media_info.inter_name;
@@ -70,7 +71,8 @@ function alertModal(e) {
     // table row for adding media
     const newRowContent = `
     <td>
-      <input type="text" name="media_name" style="width:88px" value="${media_name}"readonly/>
+      <input type="hidden" name="media_id" value="${media_id}" />
+      <input type="text" value="${media_name}" style="width:88px" readonly/>
     </td>
     <td>
       <input class="input-date" type="date" name="media_start" />
@@ -100,7 +102,7 @@ function alertModal(e) {
     </td>
     <td>
     <div style="display:flex;align-items:center;justify-content:center;">
-      <input class="input-date" type="month"/>
+      <input class="input-date" type="month" name="lower_issue_date"/>
       <select name="lower_issue_type">
         <option value="전액">전액</option>
         <option value="순액">순액</option>
