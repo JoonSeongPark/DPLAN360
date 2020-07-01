@@ -31,10 +31,6 @@ const MediaItem = sequelize.define("mediaItem", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  ad_fee_rate: {
-    type: Sequelize.FLOAT,
-    allowNull: false,
-  },
   agency_fee_rate: {
     type: Sequelize.FLOAT,
     allowNull: false,
@@ -44,6 +40,10 @@ const MediaItem = sequelize.define("mediaItem", {
     allowNull: false,
   },
   dplan_fee_rate: {
+    type: Sequelize.FLOAT,
+    allowNull: false,
+  },
+  inter_fee_rate: {
     type: Sequelize.FLOAT,
     allowNull: false,
   },
@@ -72,7 +72,7 @@ const MediaItem = sequelize.define("mediaItem", {
   },
   memo: {
     type: Sequelize.STRING,
-  }
+  },
 });
 
 module.exports = MediaItem;
