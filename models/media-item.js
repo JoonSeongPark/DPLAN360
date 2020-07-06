@@ -31,22 +31,6 @@ const MediaItem = sequelize.define("mediaItem", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  agency_fee_rate: {
-    type: Sequelize.FLOAT,
-    allowNull: false,
-  },
-  media_fee_rate: {
-    type: Sequelize.FLOAT,
-    allowNull: false,
-  },
-  dplan_fee_rate: {
-    type: Sequelize.FLOAT,
-    allowNull: false,
-  },
-  inter_fee_rate: {
-    type: Sequelize.FLOAT,
-    allowNull: false,
-  },
   ad_fee: {
     type: Sequelize.INTEGER,
     allowNull: false,

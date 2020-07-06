@@ -62,7 +62,6 @@ exports.getAddCampaign = (req, res, next) => {
 };
 
 exports.postAddCampaign = (req, res, next) => {
-  console.log(req.body)
   const {
     // 캠페인 정보
     cam_type,
@@ -91,10 +90,6 @@ exports.postAddCampaign = (req, res, next) => {
     lower_inter_name,
     lower_issue_date,
     lower_issue_type,
-    lower_agency_fee_rate,
-    lower_media_fee_rate,
-    lower_dplan_fee_rate,
-    lower_inter_fee_rate,
     lower_ad_fee,
     lower_agency_fee,
     lower_media_fee,
@@ -113,10 +108,6 @@ exports.postAddCampaign = (req, res, next) => {
     lower_inter_name = [lower_inter_name];
     lower_issue_date = [lower_issue_date];
     lower_issue_type = [lower_issue_type];
-    lower_agency_fee_rate = [lower_agency_fee_rate];
-    lower_media_fee_rate = [lower_media_fee_rate];
-    lower_dplan_fee_rate = [lower_dplan_fee_rate];
-    lower_inter_fee_rate = [lower_inter_fee_rate];
     lower_ad_fee = [lower_ad_fee];
     lower_agency_fee = [lower_agency_fee];
     lower_media_fee = [lower_media_fee];
@@ -156,16 +147,12 @@ exports.postAddCampaign = (req, res, next) => {
                 inter_name: lower_inter_name[i],
                 issue_date: lower_issue_date[i],
                 issue_type: lower_issue_type[i],
-                agency_fee_rate: lower_agency_fee_rate[i],
-                media_fee_rate: lower_media_fee_rate[i],
-                dplan_fee_rate: lower_dplan_fee_rate[i],
-                inter_fee_rate: lower_inter_fee_rate[i],
                 ad_fee: lower_ad_fee[i],
                 agency_fee: lower_agency_fee[i],
                 media_fee: lower_media_fee[i],
                 dplan_fee: lower_dplan_fee[i],
                 inter_fee: lower_inter_fee[i],
-                google_cid: google_cid[i] === '' ? null : google_cid[i],
+                google_cid: google_cid[i] === "" ? null : google_cid[i],
                 memo: lower_memo[i],
               })
               .catch((err) => {
