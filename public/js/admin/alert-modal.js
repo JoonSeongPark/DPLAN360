@@ -8,8 +8,8 @@ function alertModal(e) {
   const modalContainer = document.createElement("div");
   modalContainer.classList.add("modal-container");
   const modal = document.createElement("div");
-  modal.classList.add("modal");
-  modal.innerHTML = "<h2>삭제하겠습니까?</h2>";
+  modal.classList.add("modal", "alert-modal");
+  modal.innerHTML = "<h1>삭제하겠습니까?</h1>";
 
   const btns = document.createElement("div");
   btns.classList.add("btns");
