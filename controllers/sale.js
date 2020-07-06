@@ -3,6 +3,8 @@ const Agency = require("../models/agency");
 const Advertiser = require("../models/advertiser");
 const MediaItem = require("../models/media-item");
 const Campaign = require("../models/campaign");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 exports.getIndex = (req, res, next) => {
   res.render("work/index", {
@@ -29,13 +31,26 @@ exports.getSales = (req, res, next) => {
   if (end_month === "") {
     end_month = `${thisYear}-${thisMonth}`;
   }
+  
+  const whereCondition = {
+    where: {
+      tax_date: {
+        [Op.between]: [Date.parse(start_month), Date.parse(end_month)],
+      },
+    },
+  };
+
+  if (team !== "") whereCondition.where.teamId = team;
+  if (agency !== "") whereCondition.where.agencyId = agency;
+  if (advertiser !== "") whereCondition.where.advertiserId = advertiser;
+
   Team.findAll()
     .then((teams) => {
       Agency.findAll({ order: [["name", "ASC"]] })
         .then((agencies) => {
           Advertiser.findAll({ order: [["name", "ASC"]] })
             .then((advertisers) => {
-              Campaign.findAll()
+              Campaign.findAll(whereCondition)
                 .then((campaigns) => {
                   res.render("work/sales", {
                     pageTitle: "Sales",
