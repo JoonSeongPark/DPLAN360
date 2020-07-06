@@ -10,22 +10,24 @@
         <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
         <hr />
         <form action="/sales" method="GET">
-          <section class="v-part sort-part">
-            <table class="max-width">
+          <div class="v-part sort-part">
+            <table id="condition-table">
               <tr>
                 <th class="h-header">팀선택</th>
                 <th class="h-header">시작월</th>
                 <th class="h-header">종료월</th>
                 <th class="h-header">대행사</th>
                 <th class="h-header">광고주</th>
+                <input type="submit" id="submit-button" hidden>
+                <th class="h-header" rowspan="2"><button >엑셀다운로드</button></th>
               </tr>
               <tr>
                 <td>
                   <select name="team" id="">
                     <option value="" <%= sortInfo.team === "" ? "selected" : "" %>>전체보기</option>
-                    <option value="1" <%= sortInfo.team === "1" ? "selected" : "" %>>1 팀</option>
-                    <option value="2" <%= sortInfo.team === "2" ? "selected" : "" %>>2 팀</option>
-                    <option value="3" <%= sortInfo.team === "3" ? "selected" : "" %>>3 팀</option>
+                    <% teams.forEach(team => { %>
+                      <option value="<%= team.id %>" <%= sortInfo.team == team.id ? "selected" : "" %>><%= team.name %> 팀</option>  
+                    <% }) %>
                   </select>
                 </td>
                 <td>
@@ -37,42 +39,40 @@
                 <td>
                   <select name="agency" id="">
                     <option value="" <%= sortInfo.agency === "" ? "selected" : "" %>>전체보기</option>
-                    <option value="1">1 팀</option>
-                    <option value="2">2 팀</option>
-                    <option value="3">3 팀</option>
+                    <% agencies.forEach(agency => { %>
+                      <option value="<%= agency.id %>" <%= sortInfo.agency == agency.id ? "selected" : "" %>><%= agency.name %></option>  
+                    <% }) %>
                   </select>
                 </td>
                 <td>
                   <select name="advertiser" id="">
                     <option value="" <%= sortInfo.advertiser === "" ? "selected" : "" %>>전체보기</option>
-                    <option value="1">1 팀</option>
-                    <option value="2">2 팀</option>
-                    <option value="3">3 팀</option>
+                    <% advertisers.forEach(advertiser => { %>
+                      <option value="<%= advertiser.id %>" <%= sortInfo.advertiser == advertiser.id ? "selected" : "" %>><%= advertiser.name %></option>  
+                    <% }) %>
                   </select>
                 </td>
               </tr>
             </table>
-          </section>
-          
-          <br>
+          </div>
 
-          <section class="v-part result-part">
-            <table class="max-width">
+          <div class="v-part result-part">
+            <table id="result-table">
               <tr>
-                <th class="v-header" rowspan="2">담당팀</th>
-                <th class="v-header" rowspan="2">연도</th>
-                <th class="v-header" rowspan="2">월</th>
-                <th class="v-header" rowspan="2">광고주</th>
-                <th class="v-header" rowspan="2">캠페인명</th>
-                <th class="v-header" rowspan="2">대행사</th>
-                <th class="v-header" rowspan="2">광고수주액</th>
+                <th class="v-header" rowspan="2" style="width: 50px;">담당팀</th>
+                <th class="v-header" rowspan="2" style="width: 60px;">연도</th>
+                <th class="v-header" rowspan="2" style="width: 50px;">월</th>
+                <th class="v-header" rowspan="2" style="width: 180px;">광고주</th>
+                <th class="v-header" rowspan="2" style="width: 250px;">캠페인명</th>
+                <th class="v-header" rowspan="2" style="width: 180px;">대행사</th>
+                <th class="v-header" rowspan="2" style="width: 110px;">광고수주액</th>
                 <th class="v-header" colspan="4">수익배분액</th>
               </tr>
               <tr>
-                <th class="v-header">대행사 수수료</th>
-                <th class="v-header">매체 수수료</th>
-                <th class="v-header">순매출</th>
-                <th class="v-header">인터렙 수수료</th>
+                <th class="v-header" style="width: 110px;">대행사 수수료</th>
+                <th class="v-header" style="width: 110px;">매체 수수료</th>
+                <th class="v-header" style="width: 110px;">순매출</th>
+                <th class="v-header" style="width: 110px;">인터렙 수수료</th>
               </tr>
               <tr>
                 <th class="v-total">Total</th>
@@ -82,15 +82,31 @@
                 <th class="v-total"></th>
                 <th class="v-total"></th>
                 <th class="v-total"></th>
-                <th class="v-total">SUM</th>
-                <th class="v-total">SUM</th>
-                <th class="v-total">SUM</th>
-                <th class="v-total">SUM</th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
               </tr>
+              <% campaigns.forEach(campaign => { %>
+                <tr>
+                  <th><%= teams.find(team => team.id === campaign.teamId).name %> 팀</th>
+                  <th><%= campaign.tax_date.getFullYear() %> 년</th>
+                  <th><%= campaign.tax_date.getMonth()+1 %> 월</th>
+                  <th><%= advertisers.find(advertiser => advertiser.id === campaign.advertiserId).name %></th>
+                  <th><%= campaign.title %></th>
+                  <th><%= agencies.find(agency => agency.id === campaign.agencyId).name %></th>
+                  <th><%= campaign.ad_fee %></th>
+                  <th><%= campaign.agency_fee %></th>
+                  <th><%= campaign.media_fee %></th>
+                  <th><%= campaign.dplan_fee %></th>
+                  <th><%= campaign.inter_fee %></th>
+                </tr>
+              <% }) %>
             </table>
-          </section>
+          </div>
         </form>
-        </main>
+      </main>
     </div>
 
+    <script src="/js/work/sale.js"></script>
   <%- include('../includes/end-part.ejs') %>
