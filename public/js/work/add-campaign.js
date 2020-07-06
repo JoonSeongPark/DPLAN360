@@ -27,10 +27,11 @@ const adList = Array.from(advertiserUl.children).map((x) => {
 const agencyUl = document.getElementById("agency-ul");
 const agencyList = Array.from(agencyUl.children).map((x) => {
   return {
-    name: x.children[0].innerHTML,
-    pay_condition: x.children[1].innerHTML,
-    deposit_type: x.children[2].innerHTML,
-    bill_type: x.children[3].innerHTML,
+    id: x.children[0].innerHTML,
+    name: x.children[1].innerHTML,
+    pay_condition: x.children[2].innerHTML,
+    deposit_type: x.children[3].innerHTML,
+    bill_type: x.children[4].innerHTML,
   };
 });
 
@@ -123,7 +124,12 @@ new autoComplete({
     suggest(matches);
   },
 });
-
+const agencyIdInput = document.getElementById("cam-agency-id");
+agencyInput.addEventListener("change", (e) => {
+  agencyIdInput.value = agencyList.find(
+    (agency) => agency.name === e.target.value
+  ).id;
+});
 ////////////////////////////////////////////////////////////////////
 
 // 각 매체 자동 계산 함수
@@ -270,9 +276,9 @@ function autoTotalCaculate() {
   camAdTotal.value = adFeeSum;
   camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
   camAgencyFee.value = agencyFeeSum;
-  camMediaFee = mediaFeeSum;
-  camDpalnFee = dplanFeeSum;
-  camInterFee = interFeeSum;
+  camMediaFee.value = mediaFeeSum;
+  camDpalnFee.value = dplanFeeSum;
+  camInterFee.value = interFeeSum;
 }
 ////////////////////////////////////////////////////////////////////////
 
