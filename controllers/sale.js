@@ -1,3 +1,9 @@
+const Team = require("../models/team");
+const Agency = require("../models/agency");
+const Advertiser = require("../models/advertiser");
+const MediaItem = require("../models/media-item");
+const Campaign = require("../models/campaign");
+
 exports.getIndex = (req, res, next) => {
   res.render("work/index", {
     pageTitle: "Home",
@@ -13,9 +19,9 @@ exports.getSales = (req, res, next) => {
   let { start_month, end_month } = req.query;
   const thisYear = new Date().getFullYear();
   const thisMonth =
-    new Date().getMonth() < 10
-      ? `0${new Date().getMonth()}`
-      : new Date().getMonth();
+    new Date().getMonth() + 1 < 10
+      ? `0${new Date().getMonth() + 1}`
+      : new Date().getMonth() + 1;
 
   if (start_month === "") {
     start_month = `${thisYear}-01`;
@@ -23,21 +29,48 @@ exports.getSales = (req, res, next) => {
   if (end_month === "") {
     end_month = `${thisYear}-${thisMonth}`;
   }
-
-  res.render("work/sales", {
-    pageTitle: "Sales",
-    menuTitle: "전체 매출조회",
-    path: "/sales",
-    sortInfo: {
-      team,
-      start_month,
-      end_month,
-      agency,
-      advertiser,
-    },
-    isLoggedIn: req.session.isLoggedIn,
-    isAdmin: req.session.isAdmin,
-  });
+  Team.findAll()
+    .then((teams) => {
+      Agency.findAll({ order: [["name", "ASC"]] })
+        .then((agencies) => {
+          Advertiser.findAll({ order: [["name", "ASC"]] })
+            .then((advertisers) => {
+              Campaign.findAll()
+                .then((campaigns) => {
+                  res.render("work/sales", {
+                    pageTitle: "Sales",
+                    menuTitle: "전체 매출조회",
+                    path: "/sales",
+                    sortInfo: {
+                      team,
+                      start_month,
+                      end_month,
+                      agency,
+                      advertiser,
+                    },
+                    teams,
+                    agencies,
+                    advertisers,
+                    campaigns,
+                    isLoggedIn: req.session.isLoggedIn,
+                    isAdmin: req.session.isAdmin,
+                  });
+                })
+                .catch((err) => {
+                  return console.log(err);
+                });
+            })
+            .catch((err) => {
+              return console.log(err);
+            });
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
 };
 
 exports.getMediaSales = (req, res, next) => {
