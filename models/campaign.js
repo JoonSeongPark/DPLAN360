@@ -37,11 +37,19 @@ const Campaign = sequelize.define("campaign", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  agency_fee_rate: {
+  agency_fee: {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  agency_fee: {
+  media_fee: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  dplan_fee: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  inter_fee: {
     type: Sequelize.INTEGER,
     allowNull: false,
   },

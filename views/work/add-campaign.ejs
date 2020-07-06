@@ -25,7 +25,7 @@
                 </td>
                 <td class="h-header">담당팀</td>
                 <td class="h-content">
-                  <input type="text" name="team_name" value="<%= teamName %>" readonly/>
+                  <input type="text" name="team_name" value="<%= teamName %> 팀" readonly/>
                 </td>
                 <td class="h-header">담당자</td>
                 <td class="h-content">
@@ -92,7 +92,6 @@
                   <input
                     class="input-num"
                     type="text"
-                    name="cam_agency_fee_rate"
                     value="0"
                     readonly
                     id="cam-agency-fee-rate"
@@ -107,6 +106,9 @@
                     id="cam-agency-fee"
                     size="12"
                   />&nbsp&nbsp원
+                  <input type="hidden" name="cam_media_fee" id="cam-media-fee">
+                  <input type="hidden" name="cam_dplan_fee" id="cam-dplan-fee">
+                  <input type="hidden" name="cam_inter_fee" id="cam-inter-fee">
                 </td>
                 <td class="h-header">대행사 세금계산서 발행월</td>
                 <td class="h-content">

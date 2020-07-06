@@ -131,7 +131,7 @@ function autoCalculate(e) {
   // 숫자 부분만 함수적용
   if (!e.target.classList.contains("input-num")) return;
   if (e.target.getAttribute("name") === "google_cid") return;
-  
+
   const targetRow = e.target.closest("tr");
   const agencyFeeRateInput = targetRow.cells[6].children[0];
   const mediaFeeRateInput = targetRow.cells[7].children[0];
@@ -154,14 +154,22 @@ function autoCalculate(e) {
       totalFeeInput,
     ].includes(e.target)
   ) {
-    agencyFeeInput.value =
-      +totalFeeInput.value * (+agencyFeeRateInput.value / 100);
-    mediaFeeInput.value =
-      +totalFeeInput.value * (+mediaFeeRateInput.value / 100);
-    dplanFeeInput.value =
-      +totalFeeInput.value * (+dplanFeeRateInput.value / 100);
-    interFeeInput.value =
-      +totalFeeInput.value * (+interFeeRateInput.value / 100);
+    agencyFeeInput.value = (
+      +totalFeeInput.value *
+      (+agencyFeeRateInput.value / 100)
+    ).toFixed();
+    mediaFeeInput.value = (
+      +totalFeeInput.value *
+      (+mediaFeeRateInput.value / 100)
+    ).toFixed();
+    dplanFeeInput.value = (
+      +totalFeeInput.value *
+      (+dplanFeeRateInput.value / 100)
+    ).toFixed();
+    interFeeInput.value = (
+      +totalFeeInput.value *
+      (+interFeeRateInput.value / 100)
+    ).toFixed();
   } else {
     // 수익배분액 부분 수정 경우
     agencyFeeRateInput.value = (
@@ -255,10 +263,16 @@ function autoTotalCaculate() {
   const camAdTotal = document.getElementById("cam-ad-total");
   const camAgencyFeeRate = document.getElementById("cam-agency-fee-rate");
   const camAgencyFee = document.getElementById("cam-agency-fee");
+  const camMediaFee = document.getElementById("cam-media-fee");
+  const camDpalnFee = document.getElementById("cam-dplan-fee");
+  const camInterFee = document.getElementById("cam-inter-fee");
 
   camAdTotal.value = adFeeSum;
   camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
   camAgencyFee.value = agencyFeeSum;
+  camMediaFee = mediaFeeSum;
+  camDpalnFee = dplanFeeSum;
+  camInterFee = interFeeSum;
 }
 ////////////////////////////////////////////////////////////////////////
 
