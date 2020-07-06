@@ -38,8 +38,8 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 const adminRoutes = require("./routes/admin");
+const saleRoutes = require("./routes/sale");
 const campaignRoutes = require("./routes/campaign");
-const workRoutes = require("./routes/work");
 const authRoutes = require("./routes/auth");
 const infoRoutes = require("./routes/info");
 
@@ -79,7 +79,7 @@ app.use((req, res, next) => {
 // routes
 app.use("/admin", adminRoutes);
 app.use(campaignRoutes);
-app.use(workRoutes);
+app.use(saleRoutes);
 app.use(authRoutes);
 app.use(infoRoutes);
 
@@ -91,6 +91,9 @@ Team.hasMany(User);
 
 Campaign.belongsTo(Team);
 Team.hasMany(Campaign);
+
+Campaign.belongsTo(Agency);
+Agency.hasMany(Campaign);
 
 Campaign.belongsTo(Advertiser);
 Advertiser.hasMany(Campaign);
