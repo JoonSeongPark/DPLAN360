@@ -21,10 +21,6 @@ const Campaign = sequelize.define("campaign", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  agency: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
   period_begin: {
     type: Sequelize.DATE,
     allowNull: false,

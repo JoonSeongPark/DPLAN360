@@ -69,7 +69,7 @@ exports.postAddCampaign = (req, res, next) => {
     user_name,
     cam_advertiser_id,
     cam_title,
-    cam_agency,
+    cam_agency_id,
     cam_start_date,
     cam_end_date,
     cam_ad_total,
@@ -133,7 +133,6 @@ exports.postAddCampaign = (req, res, next) => {
           type: cam_type,
           pic: user_name,
           title: cam_title,
-          agency: cam_agency,
           period_begin: cam_start_date,
           period_end: cam_end_date,
           ad_fee: cam_ad_total,
@@ -144,6 +143,7 @@ exports.postAddCampaign = (req, res, next) => {
           tax_date: cam_tax_month,
           issue_type: media_issue_type,
           advertiserId: cam_advertiser_id,
+          agencyId: cam_agency_id,
         })
         .then((cam) => {
           for (let i = 0; i < media_count; i++) {
