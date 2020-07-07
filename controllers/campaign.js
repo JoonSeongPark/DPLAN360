@@ -5,6 +5,69 @@ const AdMainCategory = require("../models/ad-main-category");
 const AdSubCategory = require("../models/ad-sub-category");
 const Agency = require("../models/agency");
 const Medium = require("../models/medium");
+const MediaItem = require("../models/media-item");
+
+exports.getCampaign = (req, res, next) => {
+  const campaignId = req.params.campaignId;
+  Campaign.findByPk(campaignId)
+    .then((campaign) => {
+      Team.findByPk(campaign.teamId)
+        .then((team) => {
+          Advertiser.findByPk(campaign.advertiserId)
+            .then((advertiser) => {
+              AdMainCategory.findByPk(advertiser.main_category)
+                .then((main) => {
+                  AdSubCategory.findByPk(advertiser.sub_category)
+                    .then((sub) => {
+                      Medium.findAll()
+                        .then((media) => {
+                          MediaItem.findAll({
+                            where: { campaignId: campaign.id },
+                          })
+                            .then((mediaItems) => {
+                              res.render("work/campaign", {
+                                pageTitle: "Campaign",
+                                menuTitle: "캠페인 상세보기",
+                                path: "/campaign",
+                                campaign,
+                                team,
+                                advertiser,
+                                main,
+                                sub,
+                                media,
+                                mediaItems,
+                                isLoggedIn: req.session.isLoggedIn,
+                                isAdmin: req.session.isAdmin,
+                              });
+                            })
+                            .catch((err) => {
+                              return console.log(err);
+                            });
+                        })
+                        .catch((err) => {
+                          return console.log(err);
+                        });
+                    })
+                    .catch((err) => {
+                      return console.log(err);
+                    });
+                })
+                .catch((err) => {
+                  return console.log(err);
+                });
+            })
+            .catch((err) => {
+              return console.log(err);
+            });
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
+};
 
 exports.getAddCampaign = (req, res, next) => {
   const user = req.user;
