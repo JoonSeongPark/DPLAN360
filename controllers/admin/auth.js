@@ -79,10 +79,8 @@ exports.postUserSignup = (req, res, next) => {
   const password = req.body.password;
   const confirmed_password = req.body.confirmed_password;
 
-  console.log(email);
   User.findOne({ where: { email: email } })
     .then((user) => {
-      console.log(user);
       if (user) {
         req.flash("error", "사용자가 이미 존재합니다.");
         return res.redirect("/admin/user-signup");

@@ -33,7 +33,6 @@ exports.postAddAdvertiser = (req, res, next) => {
 
   AdSubCategory.findByPk(subId)
     .then((sub) => {
-      console.log(sub);
       AdMainCategory.findByPk(sub.adMainCategoryId)
         .then((main) => {
           Advertiser.create({
@@ -60,7 +59,6 @@ exports.postAddAdvertiser = (req, res, next) => {
 
 exports.getEditAdvertiser = (req, res, next) => {
   const advertiserId = req.params.advertiserId;
-  console.log(req.body);
   AdMainCategory.findAll()
     .then((mains) => {
       AdSubCategory.findAll()
