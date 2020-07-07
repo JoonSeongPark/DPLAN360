@@ -54,7 +54,8 @@
                 </td>
                 <td class="h-header">대행사</td>
                 <td class="h-content">
-                  <input class="max-width" type="text" name="cam_agency" id="cam-agency" />
+                  <input type="hidden" name="cam_agency_id" id="cam-agency-id" />
+                  <input class="max-width" type="text" id="cam-agency" />
                 </td>
                 <td class="h-header">캠페인기간</td>
                 <td class="h-content">
@@ -142,7 +143,7 @@
                 <th class="v-header" colspan="2">기간</th>
                 <th class="v-header" colspan="2">인터랩</th>
                 <th class="v-header" rowspan="2" style="width: 174px;">매체발행월</th>
-                <th class="v-header" colspan="4">수수료율</th>
+                <th class="v-header" colspan="4">수수료율 (%)</th>
                 <th class="v-header" rowspan="2" style="width: 94px">광고수주액</th>
                 <th class="v-header" colspan="4">수익배분액</th>
                 <th class="v-header" rowspan="2" style="width: 84px">구글CID</th>
@@ -213,6 +214,7 @@
       <div id="agency-ul" hidden>
         <% agencies.forEach(agency => { %>
           <ul>
+            <li><%= agency.id %></li>
             <li><%= agency.name %></li>
             <li><%= agency.pay_condition %></li>
             <li><%= agency.deposit_type %></li>
