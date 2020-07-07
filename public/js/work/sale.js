@@ -2,7 +2,6 @@
 sumTotal();
 function sumTotal() {
   const resultTable = document.getElementById("result-table");
-
   const totalRow = resultTable.rows[2];
 
   const agencyTotalCell = totalRow.cells[7];
@@ -33,3 +32,25 @@ const formEl = document.querySelector("form");
 const submitInput = document.getElementById("submit-button");
 
 conditionTable.addEventListener("change", () => submitInput.click());
+
+/////////////////////////////////////////////////////////////////////////
+
+// excel download
+
+const excelDownloadEl = document.getElementById("excel-download");
+const file_name = "sample";
+
+function excelDownload() {
+  const resultTable = document.getElementById("result-table");
+  // resultTable.style.border = "thin solid gray"
+  const data_type = "data:application/vnd.ms-excel;charset=utf-8";
+  const table_html = encodeURIComponent(resultTable.outerHTML);
+
+  const aTag = document.createElement("a");
+  aTag.href = `${data_type},%EF%BB%BF${table_html}`;
+  aTag.download = `${file_name}.xls`;
+  aTag.click();
+}
+
+excelDownloadEl.addEventListener("click", excelDownload);
+
