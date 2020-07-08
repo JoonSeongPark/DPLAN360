@@ -54,21 +54,6 @@ const mediaList = Array.from(mediaUl.children).map((x) => {
 });
 
 /////////////////////////////////////////////////////////////////
-
-// today date auto input
-inputToday();
-function inputToday() {
-  const camDate = document.getElementById("cam-date");
-  const today = new Date();
-  const year = today.getFullYear();
-  let month = today.getMonth() + 1;
-  month = month < 10 ? `0${month}` : month;
-  const day = today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
-
-  camDate.value = `${year}-${month}-${day}`;
-}
-
-/////////////////////////////////////////////////////////////////
 const mediaCount = document.getElementById("media-count");
 /////////////////////////////////////////////////////////////////
 
