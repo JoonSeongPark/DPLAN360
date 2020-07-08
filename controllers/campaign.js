@@ -21,24 +21,31 @@ exports.getCampaign = (req, res, next) => {
                     .then((sub) => {
                       Medium.findAll()
                         .then((media) => {
-                          MediaItem.findAll({
-                            where: { campaignId: campaign.id },
-                          })
-                            .then((mediaItems) => {
-                              res.render("work/campaign", {
-                                pageTitle: "Campaign",
-                                menuTitle: "캠페인 상세보기",
-                                path: "/campaign",
-                                campaign,
-                                team,
-                                advertiser,
-                                main,
-                                sub,
-                                media,
-                                mediaItems,
-                                isLoggedIn: req.session.isLoggedIn,
-                                isAdmin: req.session.isAdmin,
-                              });
+                          Agency.findByPk(campaign.agencyId)
+                            .then((agency) => {
+                              MediaItem.findAll({
+                                where: { campaignId: campaign.id },
+                              })
+                                .then((mediaItems) => {
+                                  res.render("work/campaign", {
+                                    pageTitle: "Campaign",
+                                    menuTitle: "캠페인 상세보기",
+                                    path: "/campaign",
+                                    campaign,
+                                    team,
+                                    advertiser,
+                                    main,
+                                    sub,
+                                    media,
+                                    agency,
+                                    mediaItems,
+                                    isLoggedIn: req.session.isLoggedIn,
+                                    isAdmin: req.session.isAdmin,
+                                  });
+                                })
+                                .catch((err) => {
+                                  return console.log(err);
+                                });
                             })
                             .catch((err) => {
                               return console.log(err);
@@ -84,7 +91,7 @@ exports.getAddCampaign = (req, res, next) => {
                       Team.findByPk(user.teamId)
                         .then((team) => {
                           const t_name = team ? team.name : null;
-                          res.render("work/add-campaign", {
+                          res.render("work/edit-campaign", {
                             pageTitle: "Add Campaign",
                             menuTitle: "캠페인 등록",
                             path: "/add-campaign",
@@ -95,6 +102,7 @@ exports.getAddCampaign = (req, res, next) => {
                             media: media,
                             mains: mains,
                             subs: subs,
+                            editing: false,
                             isLoggedIn: req.session.isLoggedIn,
                             isAdmin: req.session.isAdmin,
                           });
@@ -234,3 +242,4 @@ exports.postAddCampaign = (req, res, next) => {
       return console.log(err);
     });
 };
+
