@@ -17,45 +17,50 @@
                 <td class="h-header">캠페인구분</td>
                 <td class="h-content">
                   <div>
-                    <input type="radio" name="cam_type" value="대행" checked/>대행
-                    <input type="radio" name="cam_type" value="직거래" />직거래
-                    <input type="radio" name="cam_type" value="계산서경유" />계산서경유
-                    <input type="radio" name="cam_type" value="인터랩" />인터랩
+                    <input type="radio" name="cam_type" value="대행" <%= editing && campaign.type !== "대행" ? "" : "checked" %>/>대행
+                    <input type="radio" name="cam_type" value="직거래" <%= editing && campaign.type === "직거래" ? "checked" : "" %>/>직거래
+                    <input type="radio" name="cam_type" value="계산서경유" <%= editing && campaign.type === "계산서경유" ? "checked" : "" %>/>계산서경유
+                    <input type="radio" name="cam_type" value="인터랩" <%= editing && campaign.type === "인터랩" ? "checked" : "" %>/>인터랩
                   </div>
                 </td>
                 <td class="h-header">담당팀</td>
                 <td class="h-content">
-                  <input type="text" name="team_name" value="<%= teamName %> 팀" readonly/>
+                  <input type="hidden" name="team_name" value="<%= team.name %>"/>
+                  <input type="text" value="<%= team.name %> 팀" readonly/>
                 </td>
                 <td class="h-header">담당자</td>
                 <td class="h-content">
-                  <input type="text" name="user_name" value="<%= userName %>" readonly/>
+                  <input type="text" name="user_name" value="<%= editing ? campaign.pic : user.name %>" readonly/>
                 </td>
               </tr>
               <tr>
                 <td class="h-header">광고주</td>
                 <td class="h-content">
-                  <input type="hidden" name="cam_advertiser_id" id="cam-advertiser-id" />
-                  <input class="max-width" type="text" id="cam-advertiser" />
+                  <% if (!editing) { %> 
+                  <input type="hidden" name="cam_advertiser_id" id="cam-advertiser-id"/>
+                  <% } %>
+                  <input class="max-width" type="text" id="cam-advertiser" value="<%= editing ? advertiser.name : '' %>" <%= editing ? "readonly" : "" %>/>
                 </td>
                 <td class="h-header">업종(대분류)</td>
                 <td class="h-content">
-                  <input type="text" id="cam-main-cat" value="" readonly/>
+                  <input type="text" id="cam-main-cat" value="<%= editing ? main.name:'' %>" readonly/>
                 </td>
                 <td class="h-header">업종(소분류)</td>
                 <td class="h-content">
-                  <input type="text" id="cam-sub-cat" value="" readonly/>
+                  <input type="text" id="cam-sub-cat" value="<%= editing ? sub.name:'' %>" readonly/>
                 </td>
               </tr>
               <tr>
                 <td class="h-header">캠페인명</td>
                 <td class="h-content">
-                  <input class="max-width" type="text" name="cam_title" id="cam-title" />
+                  <input class="max-width" type="text" name="cam_title" id="cam-title" value="<%= editing ? campaign.title : '' %>"/>
                 </td>
                 <td class="h-header">대행사</td>
                 <td class="h-content">
+                  <% if (!editing) { %> 
                   <input type="hidden" name="cam_agency_id" id="cam-agency-id" />
-                  <input class="max-width" type="text" id="cam-agency" />
+                  <% } %>
+                  <input class="max-width" type="text" id="cam-agency" value="<%= editing ? agency.name : '' %>" <%= editing ? "readonly" : "" %>/>
                 </td>
                 <td class="h-header">캠페인기간</td>
                 <td class="h-content">
@@ -64,6 +69,7 @@
                     type="date"
                     name="cam_start_date"
                     id="cam-start-date"
+                    value="<%= editing ? `${campaign.period_begin.getFullYear()}-${campaign.period_begin.getMonth()+1 < 10 ? '0'+(campaign.period_begin.getMonth()+1) : campaign.period_begin.getMonth()+1}-${campaign.period_begin.getDate()}` : ''%>"
                   />
                   &nbsp~&nbsp
                   <input
@@ -71,6 +77,7 @@
                     type="date"
                     name="cam_end_date"
                     id="cam-end-date"
+                    value="<%= editing ? `${campaign.period_end.getFullYear()}-${campaign.period_end.getMonth()+1 < 10 ? '0'+(campaign.period_end.getMonth()+1) : campaign.period_end.getMonth()+1}-${campaign.period_end.getDate()}` : ''%>"
                   />
                   &nbsp&nbsp
                   <button style="font-size: 10px; padding: 1px 2px;" type="button" id="set-date">맞춤</button>
@@ -83,7 +90,7 @@
                     class="input-num max-ninety-width"
                     type="text"
                     name="cam_ad_total"
-                    value="0"
+                    value="<%= editing ? campaign.ad_fee : 0 %> "
                     readonly
                     id="cam-ad-total"
                   />&nbsp&nbsp원
@@ -93,7 +100,7 @@
                   <input
                     class="input-num"
                     type="text"
-                    value="0"
+                    value="<%= editing ? (campaign.agency_fee / campaign.ad_fee * 100).toFixed(2) : 0 %> "
                     readonly
                     id="cam-agency-fee-rate"
                     size="4"
@@ -102,7 +109,7 @@
                     class="input-num max-ninety-width"
                     type="text"
                     name="cam_agency_fee"
-                    value="0"
+                    value="<%= editing ? campaign.agency_fee : 0 %> "
                     readonly
                     id="cam-agency-fee"
                     size="12"
@@ -113,24 +120,29 @@
                 </td>
                 <td class="h-header">대행사 세금계산서 발행월</td>
                 <td class="h-content">
-                  <input class="input-date" type="month" name="cam_tax_month" />
+                  <input class="input-date" type="month" name="cam_tax_month"
+                  value="<%= editing ? `${campaign.tax_date.getFullYear()}-${campaign.tax_date.getMonth()+1 < 10 ? '0'+(campaign.tax_date.getMonth()+1) : campaign.tax_date.getMonth()+1}` : '' %>"/>
                   &nbsp&nbsp
                   <select name="media_issue_type" id="media-issue-type">
-                    <option value="전액">전액</option>
-                    <option value="순액">순액</option>
+                    <option value="전액" <%= editing && campaign.issue_type === '전액' ? 'selected' : '' %>>전액</option>
+                    <option value="순액" <%= editing && campaign.issue_type === '순액' ? 'selected' : '' %>>순액</option>
                   </select>
                 </td>
               </tr>
-              <tr>
-                <td class="h-header">등록일</td>
-                <td class="h-content">
-                  <input class="input-date" type="date" id="cam-date" readonly>
-                </td>
-                <td class="h-header"></td>
-                <td></td>
-                <td class="h-header"></td>
-                <td></td>
-              </tr>
+              <% if (editing) { %>
+                <tr>
+                  <td class="h-header">등록일</td>
+                  <td class="h-content">
+                    <%= campaign.createdAt.getFullYear() %> 년 <%= campaign.createdAt.getMonth()+1 %> 월 <%= campaign.createdAt.getDate() %> 일
+                  </td>
+                  <td class="h-header">수정일</td>
+                  <td class="h-content">
+                    <%= campaign.updatedAt.getFullYear() %> 년 <%= campaign.updatedAt.getMonth()+1 %> 월 <%= campaign.updatedAt.getDate() %> 일
+                  </td>
+                  <td class="h-header"></td>
+                  <td></td>
+                </tr>
+              <% } %>
             </table>
           </div>
           <div style="margin: 10px 7%">
@@ -164,6 +176,154 @@
                 <th class="v-header" style="width:94px">순매출</th>
                 <th class="v-header" style="width:94px">인터렙수수료</th>
               </tr>
+
+              <% if (editing) { %>
+                <% mediaItems.forEach(mediaItem => { %>
+                  <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>" />
+                <tr>
+                  <td>
+                    <% mediaTarget = media.find(medium => medium.id === mediaItem.mediumId) %>
+                    <input type="hidden" name="media_id" value="<%= mediaTarget.id %>" />
+                    <input type="text" value="<%= mediaTarget.name %>" style="width:88px" readonly/>
+                  </td>
+                  <td>
+                    <input class="input-date" type="date" name="media_start"
+                    value="<%=`${mediaItem.media_start.getFullYear()}-${mediaItem.media_start.getMonth()+1 < 10 ? '0'+(mediaItem.media_start.getMonth()+1) : mediaItem.media_start.getMonth()+1}-${mediaItem.media_start.getDate()}`%>" />
+                  </td>
+                  <td>
+                    <input class="input-date" type="date" name="media_end"
+                    value="<%=`${mediaItem.media_end.getFullYear()}-${mediaItem.media_end.getMonth()+1 < 10 ? '0'+(mediaItem.media_end.getMonth()+1) : mediaItem.media_end.getMonth()+1}-${mediaItem.media_end.getDate()}`%>" />
+                  </td>
+                  <td>
+                    <select name="lower_inter_type" id="lower-inter-type">
+                      <option value="" <%= mediaItem.inter_type === "" ? "selected" : "" %>></option>
+                      <option value="in" <%= mediaItem.inter_type === "in" ? "selected" : "" %>>in</option>
+                      <option value="out" <%= mediaItem.inter_type === "out" ? "selected" : "" %>>out</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      name="lower_inter_name"
+                      value="<%= mediaItem.inter_name %>"
+                      id="lower-inter-name"
+                      type="text"
+                      style="width:88px"
+                    />
+                  </td>
+                  <td>
+                  <div style="display:flex;align-items:center;justify-content:center;">
+                    <input class="input-date" type="month" name="lower_issue_date"
+                    value="<%= `${mediaItem.issue_date.getFullYear()}-${mediaItem.issue_date.getMonth()+1 < 10 ? '0'+(mediaItem.issue_date.getMonth()+1) : mediaItem.issue_date.getMonth()+1}`%>"/>
+                    <select name="lower_issue_type">
+                      <option value="전액" <%= mediaItem.issue_type === '전액' ? "selected" : "" %>>전액</option>
+                      <option value="순액" <%= mediaItem.issue_type === '순액' ? "selected" : "" %>>순액</option>
+                    </select>
+                    </div>
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:34px"
+                      type="text"
+                      name="lower_agency_fee_rate"
+                      value="<%= (mediaItem.agency_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:34px"
+                      type="text"
+                      name="lower_media_fee_rate"
+                      value="<%= (mediaItem.media_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:34px"
+                      type="text"
+                      name="lower_dplan_fee_rate"
+                      value="<%= (mediaItem.dplan_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:34px"
+                      type="text"
+                      name="lower_inter_fee_rate"
+                      value="<%= (mediaItem.inter_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:88px"
+                      type="text"
+                      name="lower_ad_fee"
+                      value="<%= mediaItem.ad_fee %>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:88px"
+                      type="text"
+                      name="lower_agency_fee"
+                      value="<%= mediaItem.agency_fee %>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:88px"
+                      type="text"
+                      name="lower_media_fee"
+                      value="<%= mediaItem.media_fee %>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:88px"
+                      type="text"
+                      name="lower_dplan_fee"
+                      value="<%= mediaItem.dplan_fee %>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:88px"
+                      type="text"
+                      name="lower_inter_fee"
+                      value="<%= mediaItem.inter_fee %>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      class="input-num"
+                      style="width:68px"
+                      type="text"
+                      name="google_cid"
+                      value="<%= mediaItem.google_cid  %>"
+                    />
+                  </td>
+                  <td>
+                    <input
+                    name="lower_memo"
+                    style="width:68px"
+                    type="text"
+                    value="<%= mediaItem.memo %>"
+                  </td>
+                  <td>
+                    <button type="button" class="btn alert-btn">삭제</button>
+                  </td>
+                </tr>
+                <% }) %>
+              <% } %>
+
               <tr>
                 <th class="v-total">Total</th>
                 <th class="v-total"></th>
@@ -194,7 +354,7 @@
           </div>
           <div class="submit-btns">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-            <button type="submit">저장</button>
+            <button type="submit"><%= editing ? '수정' : '저장' %></button>
             <a href="/" ><button>취소</button></a>
           </div>
           <input type='hidden' name="media_count" id="media-count" value='0'/>
@@ -202,6 +362,7 @@
         </main>
       </div>
       <div id="advertiser-ul" hidden>
+        <% if (!editing) { %> 
         <% advertisers.forEach(advertiser => { %>
           <ul>
             <li><%= advertiser.name %></li>
@@ -209,9 +370,11 @@
             <li><%= advertiser.sub_category %></li>
             <li><%= advertiser.id %></li>
           </ul>
-        <% }) %> 
+        <% }) %>
+        <% } %>
       </div>
       <div id="agency-ul" hidden>
+        <% if (!editing) { %> 
         <% agencies.forEach(agency => { %>
           <ul>
             <li><%= agency.id %></li>
@@ -221,22 +384,27 @@
             <li><%= agency.bill_type %></li>
           </ul>
         <% }) %> 
+        <% } %>
       </div>
       <div id="main-ul" hidden>
+        <% if (!editing) { %> 
         <% mains.forEach(main =>{ %>
           <ul>
             <li><%= main.id %></li>
             <li><%= main.name %></li>
           </ul>
         <% }) %>
+        <% } %>
       </div>
       <div id="sub-ul" hidden>
+        <% if (!editing) { %> 
         <% subs.forEach(sub =>{ %>
           <ul>
             <li><%= sub.id %></li>
             <li><%= sub.name %></li>
           </ul>
         <% }) %>
+        <% } %>
       </div>
       <div id="media-ul" hidden>
         <% media.forEach(medium =>{ %>

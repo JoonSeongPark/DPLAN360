@@ -90,18 +90,17 @@ exports.getAddCampaign = (req, res, next) => {
                     .then((advertisers) => {
                       Team.findByPk(user.teamId)
                         .then((team) => {
-                          const t_name = team ? team.name : null;
                           res.render("work/edit-campaign", {
                             pageTitle: "Add Campaign",
                             menuTitle: "캠페인 등록",
                             path: "/add-campaign",
-                            teamName: t_name,
-                            userName: user.name,
-                            advertisers: advertisers,
-                            agencies: agencies,
-                            media: media,
-                            mains: mains,
-                            subs: subs,
+                            team,
+                            user,
+                            advertisers,
+                            agencies,
+                            media,
+                            mains,
+                            subs,
                             editing: false,
                             isLoggedIn: req.session.isLoggedIn,
                             isAdmin: req.session.isAdmin,
@@ -243,3 +242,80 @@ exports.postAddCampaign = (req, res, next) => {
     });
 };
 
+exports.getEditCampaign = (req, res, next) => {
+  const user = req.user;
+  const campaignId = req.params.campaignId;
+  const edit = req.query.edit;
+
+  Campaign.findByPk(campaignId)
+    .then((campaign) => {
+      console.log(campaign);
+      Team.findByPk(campaign.teamId)
+        .then((team) => {
+          Advertiser.findByPk(campaign.advertiserId)
+            .then((advertiser) => {
+              AdMainCategory.findByPk(advertiser.main_category)
+                .then((main) => {
+                  AdSubCategory.findByPk(advertiser.sub_category)
+                    .then((sub) => {
+                      Agency.findByPk(campaign.agencyId)
+                        .then((agency) => {
+                          Medium.findAll()
+                            .then((media) => {
+                              MediaItem.findAll({
+                                where: { campaignId: campaign.id },
+                              })
+                                .then((mediaItems) => {
+                                  console.log(mediaItems);
+                                  res.render("work/edit-campaign", {
+                                    pageTitle: "Edit Campaign",
+                                    menuTitle: "캠페인 수정",
+                                    path: "/edit-campaign",
+                                    user,
+                                    campaign,
+                                    team,
+                                    advertiser,
+                                    agency,
+                                    media,
+                                    main,
+                                    sub,
+                                    mediaItems,
+                                    editing: edit,
+                                    isLoggedIn: req.session.isLoggedIn,
+                                    isAdmin: req.session.isAdmin,
+                                  });
+                                })
+                                .catch((err) => {
+                                  return console.log(err);
+                                });
+                            })
+                            .catch((err) => {
+                              console.log(err);
+                            });
+                        })
+                        .catch((err) => {
+                          return console.log(err);
+                        });
+                    })
+                    .catch((err) => {
+                      return console.log(err);
+                    });
+                })
+                .catch((err) => {
+                  return console.log(err);
+                });
+            })
+            .catch((err) => {
+              return console.log(err);
+            });
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
+};
+
+exports.postEditCampaign = (req, res, next) => {};

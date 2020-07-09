@@ -22,4 +22,16 @@ router.post(
   campaignController.postAddCampaign
 );
 
+router.get(
+  "/edit-campaign/:campaignId",
+  authMiddleware.isAuth,
+  campaignController.getEditCampaign
+);
+
+router.post(
+  "/edit-campaign/",
+  authMiddleware.isAuth,
+  campaignController.postEditCampaign
+);
+
 module.exports = router;
