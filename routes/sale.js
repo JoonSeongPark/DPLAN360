@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const saleController = require("../controllers/sale");
+const saleController = require("../controllers/work/sale");
 const authMiddleware = require("../middleware/is-auth");
 
 router.get("/", authMiddleware.isAuth, saleController.getIndex);

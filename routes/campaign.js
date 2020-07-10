@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const campaignController = require("../controllers/campaign");
+const campaignController = require("../controllers/work/campaign");
 const authMiddleware = require("../middleware/is-auth");
 
 router.get(
