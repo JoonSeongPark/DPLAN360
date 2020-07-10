@@ -115,7 +115,7 @@ exports.getAddCampaign = (req, res, next) => {
                     });
                 })
                 .catch((err) => {
-                  console.log(err);
+                  return console.log(err);
                 });
             })
             .catch((err) => {
@@ -249,7 +249,6 @@ exports.getEditCampaign = (req, res, next) => {
 
   Campaign.findByPk(campaignId)
     .then((campaign) => {
-      console.log(campaign);
       Team.findByPk(campaign.teamId)
         .then((team) => {
           Advertiser.findByPk(campaign.advertiserId)
@@ -266,7 +265,6 @@ exports.getEditCampaign = (req, res, next) => {
                                 where: { campaignId: campaign.id },
                               })
                                 .then((mediaItems) => {
-                                  console.log(mediaItems);
                                   res.render("work/edit-campaign", {
                                     pageTitle: "Edit Campaign",
                                     menuTitle: "캠페인 수정",
@@ -290,7 +288,7 @@ exports.getEditCampaign = (req, res, next) => {
                                 });
                             })
                             .catch((err) => {
-                              console.log(err);
+                              return console.log(err);
                             });
                         })
                         .catch((err) => {
@@ -318,4 +316,115 @@ exports.getEditCampaign = (req, res, next) => {
     });
 };
 
-exports.postEditCampaign = (req, res, next) => {};
+exports.postEditCampaign = (req, res, next) => {
+  console.log(req.body);
+  // 캠페인 정보
+  const { campaign_id, mediaItem_id, updated_mediaItem_id, _csrf } = req.body;
+
+  const updated_cam_type = req.body.cam_type,
+    updated_cam_title = req.body.cam_title,
+    updated_cam_start_date = req.body.cam_start_date,
+    updated_cam_end_date = req.body.cam_end_date,
+    updated_cam_ad_total = req.body.cam_ad_total,
+    updated_cam_agency_fee = req.body.cam_agency_fee,
+    updated_cam_media_fee = req.body.cam_media_fee,
+    updated_cam_dplan_fee = req.body.cam_dplan_fee,
+    updated_cam_inter_fee = req.body.cam_inter_fee,
+    updated_cam_tax_month = req.body.cam_tax_month,
+    updated_media_issue_type = req.body.media_issue_type,
+    updated_media_count = req.body.media_count;
+
+  // 매체 정보
+  let updated_media_id = req.body.media_id,
+    updated_media_start = req.body.media_start,
+    updated_media_end = req.body.media_end,
+    updated_lower_inter_type = req.body.lower_inter_type,
+    updated_lower_inter_name = req.body.lower_inter_name,
+    updated_lower_issue_date = req.body.lower_issue_date,
+    updated_lower_issue_type = req.body.lower_issue_type,
+    updated_lower_ad_fee = req.body.lower_ad_fee,
+    updated_lower_agency_fee = req.body.lower_agency_fee,
+    updated_lower_media_fee = req.body.lower_media_fee,
+    updated_lower_dplan_fee = req.body.lower_dplan_fee,
+    updated_lower_inter_fee = req.body.lower_inter_fee,
+    updated_google_cid = req.body.google_cid,
+    updated_lower_memo = req.body.lower_memo;
+
+  // for loop 위해서 array화 시키기
+  if (updated_media_count < 2) {
+    updated_media_id = [updated_media_id];
+    updated_media_start = [updated_media_start];
+    updated_media_end = [updated_media_end];
+    updated_lower_inter_type = [updated_lower_inter_type];
+    updated_lower_inter_name = [updated_lower_inter_name];
+    updated_lower_issue_date = [updated_lower_issue_date];
+    updated_lower_issue_type = [updated_lower_issue_type];
+    updated_lower_ad_fee = [updated_lower_ad_fee];
+    updated_lower_agency_fee = [updated_lower_agency_fee];
+    updated_lower_media_fee = [updated_lower_media_fee];
+    updated_lower_dplan_fee = [updated_lower_dplan_fee];
+    updated_lower_inter_fee = [updated_lower_inter_fee];
+    updated_google_cid = [updated_google_cid];
+    updated_lower_memo = [updated_lower_memo];
+  }
+
+  Campaign.findByPk(campaign_id)
+    .then((campaign) => {
+      campaign.type = updated_cam_type;
+      campaign.title = updated_cam_title;
+      campaign.period_begin = updated_cam_start_date;
+      campaign.period_end = updated_cam_end_date;
+      campaign.ad_fee = updated_cam_ad_total;
+      campaign.agency_fee = updated_cam_agency_fee;
+      campaign.media_fee = updated_cam_media_fee;
+      campaign.dplan_fee = updated_cam_dplan_fee;
+      campaign.inter_fee = updated_cam_inter_fee;
+      campaign.tax_date = updated_cam_tax_month;
+      campaign.issue_type = updated_media_issue_type;
+
+      return campaign.save();
+    })
+    .then(() => {
+      mediaItem_id.forEach((itemId) => {
+        if (!updated_mediaItem_id.includes(itemId)) {
+          MediaItem.findByPk(itemId)
+            .then((item) => {
+              item.destroy();
+            })
+            .catch((err) => {
+              return console.log(err);
+            });
+        }
+      });
+
+      for (let i = 0; i < updated_media_count; i++) {
+        MediaItem.findByPk(updated_mediaItem_id[i])
+          .then((item) => {
+            item.media_start = updated_media_start[i];
+            item.media_end = updated_media_end[i];
+            item.inter_type = updated_lower_inter_type[i];
+            item.inter_name = updated_lower_inter_name[i];
+            item.issue_date = updated_lower_issue_date[i];
+            item.issue_type = updated_lower_issue_type[i];
+            item.ad_fee = updated_lower_ad_fee[i];
+            item.agency_fee = updated_lower_agency_fee[i];
+            item.media_fee = updated_lower_media_fee[i];
+            item.dplan_fee = updated_lower_dplan_fee[i];
+            item.inter_fee = updated_lower_inter_fee[i];
+            item.google_cid =
+              updated_google_cid[i] === "" ? null : updated_google_cid[i];
+            item.memo = updated_lower_memo[i];
+
+            return item.save();
+          })
+          .catch((err) => {
+            return console.log(err);
+          });
+      }
+      return;
+    })
+    .then(() => res.redirect(`/campaign/${campaign_id}`))
+    .catch((err) => {
+      return console.log(err);
+    });
+};
