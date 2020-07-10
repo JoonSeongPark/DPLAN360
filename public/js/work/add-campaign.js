@@ -243,15 +243,22 @@ function autoTotalCaculate() {
   lowerMediaFeeSum.innerHTML = nf(mediaFeeSum);
   lowerDplanFeeSum.innerHTML = nf(dplanFeeSum);
   lowerInterFeeSum.innerHTML = nf(interFeeSum);
-  
-  // media total
-  lowerAgencyFeeRateSum.innerHTML = ((agencyFeeSum / adFeeSum) * 100).toFixed(
-    2
-  );
-  lowerMediaFeeRateSum.innerHTML = ((mediaFeeSum / adFeeSum) * 100).toFixed(2);
-  lowerDplanFeeRateSum.innerHTML = ((dplanFeeSum / adFeeSum) * 100).toFixed(2);
-  lowerInterFeeRateSum.innerHTML = ((interFeeSum / adFeeSum) * 100).toFixed(2);
 
+  // media total
+  if (adFeeSum != 0) {
+    lowerAgencyFeeRateSum.innerHTML = ((agencyFeeSum / adFeeSum) * 100).toFixed(
+      2
+    );
+    lowerMediaFeeRateSum.innerHTML = ((mediaFeeSum / adFeeSum) * 100).toFixed(
+      2
+    );
+    lowerDplanFeeRateSum.innerHTML = ((dplanFeeSum / adFeeSum) * 100).toFixed(
+      2
+    );
+    lowerInterFeeRateSum.innerHTML = ((interFeeSum / adFeeSum) * 100).toFixed(
+      2
+    );
+  }
   const camAdTotal = document.getElementById("cam-ad-total");
   const camAgencyFeeRate = document.getElementById("cam-agency-fee-rate");
   const camAgencyFee = document.getElementById("cam-agency-fee");
@@ -260,7 +267,7 @@ function autoTotalCaculate() {
   const camInterFee = document.getElementById("cam-inter-fee");
 
   camAdTotal.value = adFeeSum;
-  camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
+  if (adFeeSum != 0) camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
   camAgencyFee.value = agencyFeeSum;
   camMediaFee.value = mediaFeeSum;
   camDpalnFee.value = dplanFeeSum;
