@@ -267,7 +267,8 @@ function autoTotalCaculate() {
   const camInterFee = document.getElementById("cam-inter-fee");
 
   camAdTotal.value = adFeeSum;
-  if (adFeeSum != 0) camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
+  if (adFeeSum != 0)
+    camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
   camAgencyFee.value = agencyFeeSum;
   camMediaFee.value = mediaFeeSum;
   camDpalnFee.value = dplanFeeSum;
@@ -277,6 +278,13 @@ function autoTotalCaculate() {
 
 // event delegation
 mediaTable.addEventListener("change", autoCalculate);
+mediaTable.addEventListener("click", (e) => {
+  if (e.target.classList.contains("alert-btn")) {
+    mediaCount.value = +mediaCount.value - 1;
+    e.target.closest("tr").remove();
+  }
+  autoTotalCaculate();
+});
 
 const startDate = document.getElementById("cam-start-date");
 const endDate = document.getElementById("cam-end-date");
