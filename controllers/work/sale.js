@@ -1,8 +1,8 @@
-const Team = require("../models/team");
-const Agency = require("../models/agency");
-const Advertiser = require("../models/advertiser");
-const MediaItem = require("../models/media-item");
-const Campaign = require("../models/campaign");
+const Team = require("../../models/team");
+const Agency = require("../../models/agency");
+const Advertiser = require("../../models/advertiser");
+const MediaItem = require("../../models/media-item");
+const Campaign = require("../../models/campaign");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 

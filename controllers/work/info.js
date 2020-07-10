@@ -1,8 +1,8 @@
-const Advertiser = require("../models/advertiser");
-const AdMainCategory = require("../models/ad-main-category");
-const AdSubCategory = require("../models/ad-sub-category");
-const Agency = require("../models/agency");
-const Medium = require("../models/medium");
+const Advertiser = require("../../models/advertiser");
+const AdMainCategory = require("../../models/ad-main-category");
+const AdSubCategory = require("../../models/ad-sub-category");
+const Agency = require("../../models/agency");
+const Medium = require("../../models/medium");
 
 exports.getAdvertisers = (req, res, next) => {
   AdMainCategory.findAll()

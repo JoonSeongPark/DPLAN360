@@ -1,11 +1,11 @@
-const Campaign = require("../models/campaign");
-const Team = require("../models/team");
-const Advertiser = require("../models/advertiser");
-const AdMainCategory = require("../models/ad-main-category");
-const AdSubCategory = require("../models/ad-sub-category");
-const Agency = require("../models/agency");
-const Medium = require("../models/medium");
-const MediaItem = require("../models/media-item");
+const Campaign = require("../../models/campaign");
+const Team = require("../../models/team");
+const Advertiser = require("../../models/advertiser");
+const AdMainCategory = require("../../models/ad-main-category");
+const AdSubCategory = require("../../models/ad-sub-category");
+const Agency = require("../../models/agency");
+const Medium = require("../../models/medium");
+const MediaItem = require("../../models/media-item");
 
 exports.getCampaign = (req, res, next) => {
   const campaignId = req.params.campaignId;
