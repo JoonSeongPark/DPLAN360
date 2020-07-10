@@ -20,16 +20,12 @@ exports.getSales = (req, res, next) => {
   const { team, agency, advertiser } = req.query;
   let { start_month, end_month } = req.query;
   const thisYear = new Date().getFullYear();
-  const thisMonth =
-    new Date().getMonth() + 1 < 10
-      ? `0${new Date().getMonth() + 1}`
-      : new Date().getMonth() + 1;
 
   if (start_month === "") {
     start_month = `${thisYear}-01`;
   }
   if (end_month === "") {
-    end_month = `${thisYear}-${thisMonth}`;
+    end_month = `${thisYear}-12`;
   }
   
   const whereCondition = {
