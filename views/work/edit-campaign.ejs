@@ -11,7 +11,10 @@
       <main>
         <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
         <hr />
-        <form action="/add-campaign" method="POST" onkeydown="return event.key != 'Enter';" autocomplete="off">
+        <form action="/<%= editing ? 'edit-campaign' : 'add-campaign' %>" method="POST" onkeydown="return event.key != 'Enter';" autocomplete="off">
+          <% if (editing) { %>
+            <input type="hidden" name="campaign_id" value="<%= campaign.id %>">
+          <% } %>
           <div class="h-part">
             <table id="cam-table">
                 <td class="h-header">캠페인구분</td>
@@ -180,7 +183,8 @@
               <% if (editing) { %>
                 <% mediaItems.forEach(mediaItem => { %>
                   <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>" />
-                <tr>
+                  <tr>
+                    <input type="hidden" name="updated_mediaItem_id" value="<%= mediaItem.id %>" />
                   <td>
                     <% mediaTarget = media.find(medium => medium.id === mediaItem.mediumId) %>
                     <input type="hidden" name="media_id" value="<%= mediaTarget.id %>" />
@@ -357,74 +361,76 @@
             <button type="submit"><%= editing ? '수정' : '저장' %></button>
             <a href="/" ><button>취소</button></a>
           </div>
-          <input type='hidden' name="media_count" id="media-count" value='0'/>
+          <input type='hidden' name="media_count" id="media-count" value="<%= editing ? mediaItems.length : '0' %>"/>
         </form>
-        </main>
-      </div>
-      <div id="advertiser-ul" hidden>
-        <% if (!editing) { %> 
-        <% advertisers.forEach(advertiser => { %>
-          <ul>
-            <li><%= advertiser.name %></li>
-            <li><%= advertiser.main_category %></li>
-            <li><%= advertiser.sub_category %></li>
-            <li><%= advertiser.id %></li>
-          </ul>
-        <% }) %>
-        <% } %>
-      </div>
-      <div id="agency-ul" hidden>
-        <% if (!editing) { %> 
-        <% agencies.forEach(agency => { %>
-          <ul>
-            <li><%= agency.id %></li>
-            <li><%= agency.name %></li>
-            <li><%= agency.pay_condition %></li>
-            <li><%= agency.deposit_type %></li>
-            <li><%= agency.bill_type %></li>
-          </ul>
-        <% }) %> 
-        <% } %>
-      </div>
-      <div id="main-ul" hidden>
-        <% if (!editing) { %> 
-        <% mains.forEach(main =>{ %>
-          <ul>
-            <li><%= main.id %></li>
-            <li><%= main.name %></li>
-          </ul>
-        <% }) %>
-        <% } %>
-      </div>
-      <div id="sub-ul" hidden>
-        <% if (!editing) { %> 
-        <% subs.forEach(sub =>{ %>
-          <ul>
-            <li><%= sub.id %></li>
-            <li><%= sub.name %></li>
-          </ul>
-        <% }) %>
-        <% } %>
-      </div>
-      <div id="media-ul" hidden>
-        <% media.forEach(medium =>{ %>
-          <ul>
-            <li><%= medium.id %></li>
-            <li><%= medium.name %></li>
-            <li><%= medium.pay_condition %></li>
-            <li><%= medium.bill_type %></li>
-            <li><%= medium.provide_fee_rate %></li>
-            <li><%= medium.inter_type %></li>
-            <li><%= medium.inter_name %></li>
-            <li><%= medium.agency_fee_rate %></li>
-            <li><%= medium.media_fee_rate %></li>
-            <li><%= medium.dplan_fee_rate %></li>
-            <li><%= medium.inter_fee_rate %></li>
-          </ul>
-        <% }) %>
-      </div>
+      </main>
+    </div>
+    <div id="advertiser-ul" hidden>
+      <% if (!editing) { %> 
+      <% advertisers.forEach(advertiser => { %>
+        <ul>
+          <li><%= advertiser.name %></li>
+          <li><%= advertiser.main_category %></li>
+          <li><%= advertiser.sub_category %></li>
+          <li><%= advertiser.id %></li>
+        </ul>
+      <% }) %>
+      <% } %>
+    </div>
+    <div id="agency-ul" hidden>
+      <% if (!editing) { %> 
+      <% agencies.forEach(agency => { %>
+        <ul>
+          <li><%= agency.id %></li>
+          <li><%= agency.name %></li>
+          <li><%= agency.pay_condition %></li>
+          <li><%= agency.deposit_type %></li>
+          <li><%= agency.bill_type %></li>
+        </ul>
+      <% }) %> 
+      <% } %>
+    </div>
+    <div id="main-ul" hidden>
+      <% if (!editing) { %> 
+      <% mains.forEach(main =>{ %>
+        <ul>
+          <li><%= main.id %></li>
+          <li><%= main.name %></li>
+        </ul>
+      <% }) %>
+      <% } %>
+    </div>
+    <div id="sub-ul" hidden>
+      <% if (!editing) { %> 
+      <% subs.forEach(sub =>{ %>
+        <ul>
+          <li><%= sub.id %></li>
+          <li><%= sub.name %></li>
+        </ul>
+      <% }) %>
+      <% } %>
+    </div>
+    <div id="media-ul" hidden>
+      <% media.forEach(medium =>{ %>
+        <ul>
+          <li><%= medium.id %></li>
+          <li><%= medium.name %></li>
+          <li><%= medium.pay_condition %></li>
+          <li><%= medium.bill_type %></li>
+          <li><%= medium.provide_fee_rate %></li>
+          <li><%= medium.inter_type %></li>
+          <li><%= medium.inter_name %></li>
+          <li><%= medium.agency_fee_rate %></li>
+          <li><%= medium.media_fee_rate %></li>
+          <li><%= medium.dplan_fee_rate %></li>
+          <li><%= medium.inter_fee_rate %></li>
+        </ul>
+      <% }) %>
+    </div>
+
     <script src="/auto-complete/autocomplete.js"></script>
-    <script src="/js/work/add-campaign.js"></script>
+    <script src="/js/num-format.js"></script>
+    <script src="/js/work/edit-campaign.js"></script>
     <script src="/js/work/media-modal.js"></script>
     
 
