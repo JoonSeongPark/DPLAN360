@@ -219,6 +219,7 @@ const lowerInterFeeRateSum = document.getElementById(
   "lower-inter-fee-rate-sum"
 );
 
+autoTotalCaculate();
 // 각 매체의 합 계산 함수 (autoCalculate에서 호출)
 function autoTotalCaculate() {
   let adFeeSum = 0,
@@ -237,12 +238,12 @@ function autoTotalCaculate() {
     dplanFeeSum += +targetRow.cells[13].children[0].value;
     interFeeSum += +targetRow.cells[14].children[0].value;
   }
-  lowerAdFeeSum.innerHTML = adFeeSum;
-  lowerAgencyFeeSum.innerHTML = agencyFeeSum;
-  lowerMediaFeeSum.innerHTML = mediaFeeSum;
-  lowerDplanFeeSum.innerHTML = dplanFeeSum;
-  lowerInterFeeSum.innerHTML = interFeeSum;
-
+  lowerAdFeeSum.innerHTML = nf(adFeeSum);
+  lowerAgencyFeeSum.innerHTML = nf(agencyFeeSum);
+  lowerMediaFeeSum.innerHTML = nf(mediaFeeSum);
+  lowerDplanFeeSum.innerHTML = nf(dplanFeeSum);
+  lowerInterFeeSum.innerHTML = nf(interFeeSum);
+  
   // media total
   lowerAgencyFeeRateSum.innerHTML = ((agencyFeeSum / adFeeSum) * 100).toFixed(
     2
@@ -275,6 +276,7 @@ const endDate = document.getElementById("cam-end-date");
 
 const setDate = document.getElementById("set-date");
 
+// 날짜 맞춤 버튼
 function autoSetDate() {
   const len = mediaTable.rows.length;
 
