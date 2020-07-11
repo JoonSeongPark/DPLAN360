@@ -1,6 +1,7 @@
 const Team = require("../../models/team");
 const Agency = require("../../models/agency");
 const Advertiser = require("../../models/advertiser");
+const Medium = require("../../models/medium");
 const MediaItem = require("../../models/media-item");
 const Campaign = require("../../models/campaign");
 const Sequelize = require("sequelize");
@@ -27,7 +28,7 @@ exports.getSales = (req, res, next) => {
   if (end_month === "") {
     end_month = `${thisYear}-12`;
   }
-  
+
   const whereCondition = {
     where: {
       tax_date: {
@@ -85,31 +86,129 @@ exports.getSales = (req, res, next) => {
 };
 
 exports.getMediaSales = (req, res, next) => {
-  const { media } = req.query;
+  const { medium } = req.query;
   let { start_month, end_month } = req.query;
   const thisYear = new Date().getFullYear();
-  const thisMonth =
-    new Date().getMonth() < 10
-      ? `0${new Date().getMonth()}`
-      : new Date().getMonth();
 
   if (start_month === "") {
     start_month = `${thisYear}-01`;
   }
   if (end_month === "") {
-    end_month = `${thisYear}-${thisMonth}`;
+    end_month = `${thisYear}-12`;
   }
 
-  res.render("work/media-sales", {
-    pageTitle: "Media Sales",
-    menuTitle: "매체별 매출조회",
-    path: "/media-sales",
-    sortInfo: {
-      media,
-      start_month,
-      end_month,
+  const whereCondition = {
+    where: {
+      issue_date: {
+        [Op.between]: [Date.parse(start_month), Date.parse(end_month)],
+      },
     },
-    isLoggedIn: req.session.isLoggedIn,
-    isAdmin: req.session.isAdmin,
-  });
+  };
+
+  if (medium !== "") whereCondition.where.mediumId = medium;
+
+  Team.findAll()
+    .then((teams) => {
+      Advertiser.findAll()
+        .then((advertisers) => {
+          Campaign.findAll()
+            .then((campaigns) => {
+              Agency.findAll()
+                .then((agencies) => {
+                  Medium.findAll()
+                    .then((media) => {
+                      MediaItem.findAll()
+                        .then((mediaItemAll) => {
+                          MediaItem.findAll(whereCondition)
+                            .then((mediaItems) => {
+                              // 존재하는 대행사만 넘기기 (select tag)
+                              mediaItemsArr = [
+                                ...new Set(
+                                  mediaItemAll.map(
+                                    (mediaItem) => mediaItem.dataValues.mediumId
+                                  )
+                                ),
+                              ];
+                              media = media.filter((medium) =>
+                                mediaItemsArr.includes(medium.id)
+                              );
+
+                              // 캠페인 Object, 매체명 추가
+                              mediaItems = mediaItems.map((mediaItem) => {
+                                return {
+                                  ...mediaItem,
+                                  campaign: campaigns.find(
+                                    (campaign) =>
+                                      +campaign.id === +mediaItem.campaignId
+                                  ),
+                                  mediaName: media.find(
+                                    (medium) =>
+                                      +medium.id === +mediaItem.mediumId
+                                  ).name,
+                                };
+                              });
+
+                              // 팀, 광고주, 대행사 이름 추가
+                              mediaItems = mediaItems.map((mediaItem) => {
+                                return {
+                                  ...mediaItem,
+                                  teamName: teams.find(
+                                    (team) =>
+                                      +team.id === +mediaItem.campaign.teamId
+                                  ).name,
+                                  advertiserName: advertisers.find(
+                                    (advertiser) =>
+                                      +advertiser.id ===
+                                      +mediaItem.campaign.advertiserId
+                                  ).name,
+                                  agencyName: agencies.find(
+                                    (agency) =>
+                                      +agency.id ===
+                                      +mediaItem.campaign.agencyId
+                                  ).name,
+                                };
+                              });
+
+                              res.render("work/media-sales", {
+                                pageTitle: "Media Sales",
+                                menuTitle: "매체별 매출조회",
+                                path: "/media-sales",
+                                sortInfo: {
+                                  medium,
+                                  start_month,
+                                  end_month,
+                                },
+                                media,
+                                mediaItems,
+                                isLoggedIn: req.session.isLoggedIn,
+                                isAdmin: req.session.isAdmin,
+                              });
+                            })
+                            .catch((err) => {
+                              return console.log(err);
+                            });
+                        })
+                        .catch((err) => {
+                          return console.log(err);
+                        });
+                    })
+                    .catch((err) => {
+                      return console.log(err);
+                    });
+                })
+                .catch((err) => {
+                  return console.log(err);
+                });
+            })
+            .catch((err) => {
+              return console.log(err);
+            });
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
 };
