@@ -10,6 +10,7 @@
         <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
         <hr />
         <form action="/sales" method="GET">
+          <input type="submit" id="submit-button" hidden>
           <div class="v-part sort-part">
             <table id="condition-table">
               <tr>
@@ -18,7 +19,6 @@
                 <th class="h-header">종료월</th>
                 <th class="h-header">대행사</th>
                 <th class="h-header">광고주</th>
-                <input type="submit" id="submit-button" hidden>
                 <th class="h-header" rowspan="2"><p class="excel-download" id="excel-download">엑셀다운로드</p></th>
               </tr>
               <tr>
@@ -59,20 +59,20 @@
           <div class="v-part result-part">
             <table id="result-table">
               <tr>
-                <th class="v-header" rowspan="2" style="width: 50px;">담당팀</th>
-                <th class="v-header" rowspan="2" style="width: 60px;">연도</th>
-                <th class="v-header" rowspan="2" style="width: 50px;">월</th>
+                <th class="v-header" rowspan="2" style="width: 40px;">담당팀</th>
+                <th class="v-header" rowspan="2" style="width: 50px;">연도</th>
+                <th class="v-header" rowspan="2" style="width: 40px;">월</th>
                 <th class="v-header" rowspan="2" style="width: 180px;">광고주</th>
-                <th class="v-header" rowspan="2" style="width: 250px;">캠페인명</th>
+                <th class="v-header" rowspan="2" style="width: 210px;">캠페인명</th>
                 <th class="v-header" rowspan="2" style="width: 180px;">대행사</th>
-                <th class="v-header" rowspan="2" style="width: 110px;">광고수주액</th>
+                <th class="v-header" rowspan="2" style="width: 90px;">광고수주액</th>
                 <th class="v-header" colspan="4">수익배분액</th>
               </tr>
               <tr>
-                <th class="v-header" style="width: 110px;">대행사 수수료</th>
-                <th class="v-header" style="width: 110px;">매체 수수료</th>
-                <th class="v-header" style="width: 110px;">순매출</th>
-                <th class="v-header" style="width: 110px;">인터렙 수수료</th>
+                <th class="v-header" style="width: 90px;">대행사 수수료</th>
+                <th class="v-header" style="width: 90px;">매체 수수료</th>
+                <th class="v-header" style="width: 90px;">순매출</th>
+                <th class="v-header" style="width: 90px;">인터렙 수수료</th>
               </tr>
               <tr>
                 <th class="v-total">Total</th>
@@ -89,17 +89,17 @@
               </tr>
               <% campaigns.forEach(campaign => { %>
                 <tr>
-                  <th><%= teams.find(team => team.id === campaign.teamId).name %> 팀</th>
-                  <th><%= campaign.tax_date.getFullYear() %> 년</th>
-                  <th><%= campaign.tax_date.getMonth()+1 %> 월</th>
-                  <th><%= advertisers.find(advertiser => advertiser.id === campaign.advertiserId).name %></th>
-                  <th><%= campaign.title %></th>
-                  <th><%= agencies.find(agency => agency.id === campaign.agencyId).name %></th>
-                  <th><%= campaign.ad_fee %></th>
-                  <th><%= campaign.agency_fee %></th>
-                  <th><%= campaign.media_fee %></th>
-                  <th><%= campaign.dplan_fee %></th>
-                  <th><%= campaign.inter_fee %></th>
+                  <td><%= teams.find(team => team.id === campaign.teamId).name %> 팀</td>
+                  <td><%= campaign.tax_date.getFullYear() %> 년</td>
+                  <td><%= campaign.tax_date.getMonth()+1 %> 월</td>
+                  <td><%= advertisers.find(advertiser => advertiser.id === campaign.advertiserId).name %></td>
+                  <td><a href="/campaign/<%= campaign.id %>"><%= campaign.title %></a></td>
+                  <td><%= agencies.find(agency => agency.id === campaign.agencyId).name %></td>
+                  <td><%= campaign.ad_fee %></td>
+                  <td><%= campaign.agency_fee %></td>
+                  <td><%= campaign.media_fee %></td>
+                  <td><%= campaign.dplan_fee %></td>
+                  <td><%= campaign.inter_fee %></td>
                 </tr>
               <% }) %>
             </table>
@@ -108,5 +108,6 @@
       </main>
     </div>
 
+    <script src="/js/num-format.js"></script>
     <script src="/js/work/sale.js"></script>
   <%- include('../includes/end-part.ejs') %>

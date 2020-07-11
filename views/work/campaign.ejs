@@ -29,7 +29,7 @@
               <tr>
                 <td class="h-header">광고주</td>
                 <td class="h-content">
-                  <%= campaign.title %>
+                  <%= advertiser.name %>
                 </td>
                 <td class="h-header">업종(대분류)</td>
                 <td class="h-content">
@@ -47,7 +47,7 @@
                 </td>
                 <td class="h-header">대행사</td>
                 <td class="h-content">
-                  <%= campaign.title %>
+                  <%= agency.name %>
                 </td>
                 <td class="h-header">캠페인기간</td>
                 <td class="h-content">
@@ -64,7 +64,7 @@
                 <td class="h-header">대행사 수수료</td>
                 <td class="h-content">
                   <%= (campaign.agency_fee/campaign.ad_fee*100).toFixed(2) %>&nbsp%
-                  &nbsp&nbsp&nbsp&nbsp
+                  &nbsp/&nbsp
                   <%= new Intl.NumberFormat().format(campaign.agency_fee) %>&nbsp원
                 </td>
                 <td class="h-header">대행사 세금계산서 발행월</td>
@@ -86,12 +86,10 @@
                 <td></td>
               </tr>
             </table>
+          </div>          
+          <div style="margin: 10px 7%">
+            <a href="/edit-campaign/<%= campaign.id %>?edit=true"><button type="submit">수정하기</button></a>
           </div>
-          <form action="/edit-campaign/<%= campaign.id %>" method="POST" onkeydown="return event.key != 'Enter';" autocomplete="off">
-            <div style="margin: 10px 7%">
-              <button type="button" id="edit-campaign">수정하기</button>
-            </div>
-          </form>
           <div class="v-part">
             <table id="media-table">
               <tr>
