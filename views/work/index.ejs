@@ -1,0 +1,69 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <div class="index-table-container">
+          <table class="home-table">
+            <tr>
+              <th class="home-table-team" colspan="4">전체</th>
+            </tr>
+            <tr>
+              <th style="width: 40px;">월</th>
+              <th style="width: 100px;">광고수주액</th>
+              <th style="width: 100px;">순매출</th>
+              <th style="width: 70px;">수수료율</th>
+            </tr>
+            <tr>
+              <th class="v-total">Total</th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+            </tr>
+            <% new Array(12).fill(0).map((v,i) => i+1).forEach(month => { %>
+              <tr>
+                <td><%= month %> 월</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            <% }) %>
+          </table>
+          <% teams.forEach(team => { %>
+          <table class="home-table">
+            <tr>
+              <th class="home-table-team" colspan="4"><%= team.name %> 팀</th>
+            </tr>
+            <tr>
+              <th style="width: 40px;">월</th>
+              <th style="width: 100px;">광고수주액</th>
+              <th style="width: 100px;">순매출</th>
+              <th style="width: 70px;">수수료율</th>
+            </tr>
+            <tr>
+              <th class="v-total">Total</th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+            </tr>
+            <% new Array(12).fill(0).map((v,i) => i+1).forEach(month => { %>
+              <tr>
+                <td><%= month %> 월</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            <% }) %>
+          </table>
+          <% }) %>
+        </div>
+      </main>
+    </div>
+
+  <%- include('../includes/end-part.ejs') %>
