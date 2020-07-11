@@ -216,12 +216,6 @@ function alertModal(e) {
     const row = mediaTable.insertRow(len - 1);
     row.innerHTML = newRowContent;
 
-    // media delete button
-    const deleteBtn = row.cells[row.cells.length - 1].children[0];
-    deleteBtn.addEventListener("click", (e) => {
-      mediaCount.value = +mediaCount.value - 1;
-      e.target.closest("tr").remove();
-    });
     mediaCount.value = +mediaCount.value + 1;
     modalContainer.remove();
   });
