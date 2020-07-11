@@ -4,6 +4,7 @@ function sumTotal() {
   const resultTable = document.getElementById("result-table");
   const totalRow = resultTable.rows[2];
 
+  const adTotalCell = totalRow.cells[6];
   const agencyTotalCell = totalRow.cells[7];
   const mediaTotalCell = totalRow.cells[8];
   const dplanTotalCell = totalRow.cells[9];
@@ -19,16 +20,31 @@ function sumTotal() {
     mediaSum += +resultTable.rows[i].cells[8].innerHTML;
     dplanSum += +resultTable.rows[i].cells[9].innerHTML;
     interSum += +resultTable.rows[i].cells[10].innerHTML;
+    resultTable.rows[i].cells[6].innerHTML = nf(
+      +resultTable.rows[i].cells[6].innerHTML
+    );
+    resultTable.rows[i].cells[7].innerHTML = nf(
+      +resultTable.rows[i].cells[7].innerHTML
+    );
+    resultTable.rows[i].cells[8].innerHTML = nf(
+      +resultTable.rows[i].cells[8].innerHTML
+    );
+    resultTable.rows[i].cells[9].innerHTML = nf(
+      +resultTable.rows[i].cells[9].innerHTML
+    );
+    resultTable.rows[i].cells[10].innerHTML = nf(
+      +resultTable.rows[i].cells[10].innerHTML
+    );
   }
 
-  agencyTotalCell.innerHTML = agencySum;
-  mediaTotalCell.innerHTML = mediaSum;
-  dplanTotalCell.innerHTML = dplanSum;
-  interTotalCell.innerHTML = interSum;
+  adTotalCell.innerHTML = nf(agencySum + mediaSum + dplanSum + interSum);
+  agencyTotalCell.innerHTML = nf(agencySum);
+  mediaTotalCell.innerHTML = nf(mediaSum);
+  dplanTotalCell.innerHTML = nf(dplanSum);
+  interTotalCell.innerHTML = nf(interSum);
 }
 
 const conditionTable = document.getElementById("condition-table");
-const formEl = document.querySelector("form");
 const submitInput = document.getElementById("submit-button");
 
 conditionTable.addEventListener("change", () => submitInput.click());
@@ -53,4 +69,3 @@ function excelDownload() {
 }
 
 excelDownloadEl.addEventListener("click", excelDownload);
-
