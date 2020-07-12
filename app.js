@@ -42,6 +42,7 @@ const saleRoutes = require("./routes/sale");
 const campaignRoutes = require("./routes/campaign");
 const authRoutes = require("./routes/auth");
 const infoRoutes = require("./routes/info");
+const taxBillRoutes = require("./routes/tax-bill");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -82,6 +83,7 @@ app.use(campaignRoutes);
 app.use(saleRoutes);
 app.use(authRoutes);
 app.use(infoRoutes);
+app.use(taxBillRoutes);
 
 app.use(errorController.get404);
 
