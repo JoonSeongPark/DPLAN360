@@ -18,7 +18,8 @@ function totalCalculate() {
     mediaSum = 0,
     dplanSum = 0,
     interSum = 0;
-  for (let i = 3; i < mediaTable.rows.length; i++) {
+    
+  for (let i = 2; i < mediaTable.rows.length-1; i++) {
     adSum += +mediaTable.rows[i].cells[10].innerHTML;
     agencySum += +mediaTable.rows[i].cells[11].innerHTML;
     mediaSum += +mediaTable.rows[i].cells[12].innerHTML;

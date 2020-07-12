@@ -117,25 +117,6 @@
                 <th class="v-header" style="width:94px">순매출</th>
                 <th class="v-header" style="width:94px">인터렙수수료</th>
               </tr>
-              <tr>
-                <th class="v-total">Total</th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total" id="agency-fee-rate-sum"></th>
-                <th class="v-total" id="media-fee-rate-sum"></th>
-                <th class="v-total" id="dplan-fee-rate-sum"></th>
-                <th class="v-total" id="inter-fee-rate-sum"></th>
-                <th class="v-total" id="ad-fee-sum"></th>
-                <th class="v-total" id="agency-fee-sum"></th>
-                <th class="v-total" id="media-fee-sum"></th>
-                <th class="v-total" id="dplan-fee-sum"></th>
-                <th class="v-total" id="inter-fee-sum"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-              </tr>
               <% mediaItems.forEach(mediaItem => { %>
                 <tr>
                   <td><%= media.find(medium => medium.id === mediaItem.mediumId).name %></td> 
@@ -157,6 +138,25 @@
                   <td><input value="<%= mediaItem.memo %>" readonly></td>
                 </tr>
               <% }) %>
+              <tr>
+                <th class="v-total">Total</th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total" id="agency-fee-rate-sum"></th>
+                <th class="v-total" id="media-fee-rate-sum"></th>
+                <th class="v-total" id="dplan-fee-rate-sum"></th>
+                <th class="v-total" id="inter-fee-rate-sum"></th>
+                <th class="v-total" id="ad-fee-sum"></th>
+                <th class="v-total" id="agency-fee-sum"></th>
+                <th class="v-total" id="media-fee-sum"></th>
+                <th class="v-total" id="dplan-fee-sum"></th>
+                <th class="v-total" id="inter-fee-sum"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+              </tr>
             </table>
           </div>
         </main>
