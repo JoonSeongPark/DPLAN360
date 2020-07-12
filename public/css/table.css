@@ -28,10 +28,46 @@ table input,
 table select {
   height: 16px;
   font-size: 10px;
+  border: 1px solid rgba(59, 59, 59);
+  border-radius: 2px;
 }
 
 table textarea {
   margin: 0 5px;
+}
+
+.index-table-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.home-table {
+  margin: 0;
+}
+
+.home-table tr {
+  height: 30px;
+}
+
+.home-table th,
+.home-table td {
+  border: thin solid #bbb;
+  font-size: 11px;
+}
+
+.home-table-team {
+  height: 30px;
+  background-color: var(--dplan-yellow);
+}
+
+.home-table-header {
+  background-color: #81807f;
+  color: #fff;
+}
+
+.team-total-table {
+  background-color: #ffffd1;
 }
 
 .h-header {
@@ -81,23 +117,24 @@ table .input-num {
 }
 
 .v-part th {
-  padding: 3px 1px;
   border: 1px solid #999;
 }
 
 .v-part td {
+  padding: 3px;
   text-align: center;
   border: 1px solid #999;
 }
 
 .v-header {
+  padding: 3px 1px;
   font-weight: bold;
   background-color: var(--light-green);
 }
 
 .v-total {
   background-color: #ddd;
-  padding: 4px 12px;
+  padding: 4px 6px;
 }
 
 .submit-btns button {
@@ -125,7 +162,21 @@ th.xxl {
 }
 
 .result-part {
-  height: 70vh;
+  height: 75vh;
   overflow: auto;
   margin: 20px 30px;
+}
+
+.error-border {
+  border-color: var(--red);
+}
+
+.excel-download {
+  font-size: 12px;
+  cursor: pointer;
+  color: blue;
+}
+
+.excel-download:hover {
+  text-decoration-line: underline;
 }

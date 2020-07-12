@@ -132,7 +132,7 @@ nav .active {
 main {
   flex: 15;
   padding: 10px;
-  min-height: 750px;
+  min-height: 900px;
   height: 100%;
 }
 
