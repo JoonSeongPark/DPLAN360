@@ -8,13 +8,67 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 exports.getIndex = (req, res, next) => {
-  res.render("work/index", {
-    pageTitle: "Home",
-    menuTitle: "Home",
-    path: "/",
-    isLoggedIn: req.session.isLoggedIn,
-    isAdmin: req.session.isAdmin,
-  });
+  const thisYear = new Date().getFullYear();
+
+  Campaign.findAll({
+    where: {
+      tax_date: {
+        [Op.between]: [
+          Date.parse(`${thisYear}-01`),
+          Date.parse(`${thisYear}-12`),
+        ],
+      },
+    },
+  })
+    .then((campaigns) => {
+      Team.findAll()
+        .then((teams) => {
+          teams.forEach((team) => {
+            team.month = new Array();
+
+            // 월별 계산
+            new Array(12).fill(0).forEach((v, i) => {
+              const filteredCampaigns = campaigns
+                .filter((campaign) => {
+                  return (
+                    +campaign.tax_date.getMonth() === +i &&
+                    +campaign.teamId === +team.id
+                  );
+                })
+                .map((campaign) => {
+                  return {
+                    adFee: campaign.ad_fee,
+                    dplanFee: campaign.dplan_fee,
+                  };
+                });
+
+              const adSum = filteredCampaigns.reduce((acc, cur, i) => {
+                return acc + cur.adFee;
+              }, 0);
+              const dplanSum = filteredCampaigns.reduce((acc, cur, i) => {
+                return acc + cur.dplanFee;
+              }, 0);
+
+              team.month.push({ adSum, dplanSum });
+            });
+          });
+
+          res.render("work/index", {
+            pageTitle: "Home",
+            menuTitle: "Home",
+            path: "/",
+            teams,
+            isLoggedIn: req.session.isLoggedIn,
+            isAdmin: req.session.isAdmin,
+          });
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
 };
 
 exports.getSales = (req, res, next) => {
