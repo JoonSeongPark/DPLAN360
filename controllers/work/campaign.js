@@ -317,7 +317,6 @@ exports.getEditCampaign = (req, res, next) => {
 };
 
 exports.postEditCampaign = (req, res, next) => {
-  console.log(req.body);
   // 캠페인 정보
   const { campaign_id, mediaItem_id, updated_mediaItem_id, _csrf } = req.body;
 
@@ -384,7 +383,8 @@ exports.postEditCampaign = (req, res, next) => {
 
       return campaign.save();
     })
-    .then(() => {
+    .then((updatedCampaign) => {
+      // 삭제 Item DB Update
       mediaItem_id.forEach((itemId) => {
         if (!updated_mediaItem_id.includes(itemId)) {
           MediaItem.findByPk(itemId)
@@ -398,28 +398,54 @@ exports.postEditCampaign = (req, res, next) => {
       });
 
       for (let i = 0; i < updated_media_count; i++) {
-        MediaItem.findByPk(updated_mediaItem_id[i])
-          .then((item) => {
-            item.media_start = updated_media_start[i];
-            item.media_end = updated_media_end[i];
-            item.inter_type = updated_lower_inter_type[i];
-            item.inter_name = updated_lower_inter_name[i];
-            item.issue_date = updated_lower_issue_date[i];
-            item.issue_type = updated_lower_issue_type[i];
-            item.ad_fee = updated_lower_ad_fee[i];
-            item.agency_fee = updated_lower_agency_fee[i];
-            item.media_fee = updated_lower_media_fee[i];
-            item.dplan_fee = updated_lower_dplan_fee[i];
-            item.inter_fee = updated_lower_inter_fee[i];
-            item.google_cid =
-              updated_google_cid[i] === "" ? null : updated_google_cid[i];
-            item.memo = updated_lower_memo[i];
+        // 추가 Item DB Update
+        if (!mediaItem_id.includes(updated_mediaItem_id[i])) {
+          updatedCampaign
+            .createMediaItem({
+              mediumId: updated_media_id[i],
+              media_start: updated_media_start[i],
+              media_end: updated_media_end[i],
+              inter_type: updated_lower_inter_type[i],
+              inter_name: updated_lower_inter_name[i],
+              issue_date: updated_lower_issue_date[i],
+              issue_type: updated_lower_issue_type[i],
+              ad_fee: updated_lower_ad_fee[i],
+              agency_fee: updated_lower_agency_fee[i],
+              media_fee: updated_lower_media_fee[i],
+              dplan_fee: updated_lower_dplan_fee[i],
+              inter_fee: updated_lower_inter_fee[i],
+              google_cid:
+                updated_google_cid[i] === "" ? null : updated_google_cid[i],
+              memo: updated_lower_memo[i],
+            })
+            .catch((err) => {
+              return console.log(err);
+            });
+        } else {
+          // 수정 Item DB Update
+          MediaItem.findByPk(updated_mediaItem_id[i])
+            .then((item) => {
+              item.media_start = updated_media_start[i];
+              item.media_end = updated_media_end[i];
+              item.inter_type = updated_lower_inter_type[i];
+              item.inter_name = updated_lower_inter_name[i];
+              item.issue_date = updated_lower_issue_date[i];
+              item.issue_type = updated_lower_issue_type[i];
+              item.ad_fee = updated_lower_ad_fee[i];
+              item.agency_fee = updated_lower_agency_fee[i];
+              item.media_fee = updated_lower_media_fee[i];
+              item.dplan_fee = updated_lower_dplan_fee[i];
+              item.inter_fee = updated_lower_inter_fee[i];
+              item.google_cid =
+                updated_google_cid[i] === "" ? null : updated_google_cid[i];
+              item.memo = updated_lower_memo[i];
 
-            return item.save();
-          })
-          .catch((err) => {
-            return console.log(err);
-          });
+              return item.save();
+            })
+            .catch((err) => {
+              return console.log(err);
+            });
+        }
       }
       return;
     })
