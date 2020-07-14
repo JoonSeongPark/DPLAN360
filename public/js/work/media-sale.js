@@ -9,7 +9,6 @@ const mediaList = Array.from(mediaUl.children).map((x) => {
 
 // media auto complete
 const mediaInput = document.getElementById("media-input");
-mediaInput.focus();
 
 new autoComplete({
   selector: mediaInput,
