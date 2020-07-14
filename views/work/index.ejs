@@ -15,10 +15,10 @@
               <th class="home-table-team" colspan="4">전체</th>
             </tr>
             <tr class="home-table-header">
-              <th style="width: 40px;">월</th>
-              <th style="width: 100px;">광고수주액</th>
-              <th style="width: 100px;">순매출</th>
-              <th style="width: 70px;">수수료율</th>
+              <th style="padding: 0 14px;">월</th>
+              <th style="padding: 0 24px;">광고수주액</th>
+              <th style="padding: 0 34px;">순매출</th>
+              <th style="padding: 0 14px;">수수료율</th>
             </tr>
             <tr>
               <th class="v-total">Total</th>
@@ -37,35 +37,37 @@
               </tr>
             <% }) %>
           </table>
-          <% teams.forEach(team => { %>
-          <table class="home-table">
-            <tr>
-              <th class="home-table-team" colspan="4"><%= team.name %> 팀</th>
-            </tr>
-            <tr class="home-table-header">
-              <th style="width: 40px;">월</th>
-              <th style="width: 100px;">광고수주액</th>
-              <th style="width: 100px;">순매출</th>
-              <th style="width: 70px;">수수료율</th>
-            </tr>
-            <tr>
-              <th class="v-total">Total</th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-            </tr>
-            <% new Array(12).fill(0).forEach((v,i) => {
-              const month = i+1 < 10 ? `0${i+1}` : i+1
-              const targetMonth = `${new Date().getFullYear()}-${month}` %>
+          <div class="home-table-team-container">
+            <% teams.forEach(team => { %>
+            <table class="home-table">
               <tr>
-                <td><a href="/sales?team=<%= team.id %>&start_month=<%= targetMonth %>&end_month=<%= targetMonth %>&agency=&advertiser="><%= i+1 %> 월</a></td>
-                <td><%= team.month[i].adSum === 0 ? '' : team.month[i].adSum %></td>
-                <td><%= team.month[i].dplanSum === 0 ? '' : team.month[i].dplanSum %></td>
-                <td><%= team.month[i].adSum ?  (team.month[i].dplanSum / team.month[i].adSum * 100).toFixed(2)+' %' : '' %></td>
+                <th class="home-table-team" colspan="4"><%= team.name %> 팀</th>
               </tr>
+              <tr class="home-table-header">
+                <th style="padding: 0 14px;">월</th>
+                <th style="padding: 0 24px;">광고수주액</th>
+                <th style="padding: 0 34px;">순매출</th>
+                <th style="padding: 0 14px;">수수료율</th>
+              </tr>
+              <tr>
+                <th class="v-total">Total</th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
+              </tr>
+              <% new Array(12).fill(0).forEach((v,i) => {
+                const month = i+1 < 10 ? `0${i+1}` : i+1
+                const targetMonth = `${new Date().getFullYear()}-${month}` %>
+                <tr>
+                  <td><a href="/sales?team=<%= team.id %>&start_month=<%= targetMonth %>&end_month=<%= targetMonth %>&agency=&advertiser="><%= i+1 %> 월</a></td>
+                  <td><%= team.month[i].adSum === 0 ? '' : team.month[i].adSum %></td>
+                  <td><%= team.month[i].dplanSum === 0 ? '' : team.month[i].dplanSum %></td>
+                  <td><%= team.month[i].adSum ?  (team.month[i].dplanSum / team.month[i].adSum * 100).toFixed(2)+' %' : '' %></td>
+                </tr>
+              <% }) %>
+            </table>
             <% }) %>
-          </table>
-          <% }) %>
+          </div>
         </div>
       </main>
     </div>
