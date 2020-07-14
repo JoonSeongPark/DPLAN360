@@ -16,10 +16,10 @@ const subList = Array.from(subUl.children).map((x) => {
 const advertiserUl = document.getElementById("advertiser-ul");
 const adList = Array.from(advertiserUl.children).map((x) => {
   return {
-    name: x.children[0].innerHTML,
-    main_id: x.children[1].innerHTML,
-    sub_id: x.children[2].innerHTML,
-    id: x.children[3].innerHTML,
+    id: x.children[0].innerHTML,
+    name: x.children[1].innerHTML,
+    main_id: x.children[2].innerHTML,
+    sub_id: x.children[3].innerHTML,
   };
 });
 

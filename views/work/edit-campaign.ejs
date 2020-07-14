@@ -377,10 +377,10 @@
       <% if (!editing) { %> 
       <% advertisers.forEach(advertiser => { %>
         <ul>
+          <li><%= advertiser.id %></li>
           <li><%= advertiser.name %></li>
           <li><%= advertiser.main_category %></li>
           <li><%= advertiser.sub_category %></li>
-          <li><%= advertiser.id %></li>
         </ul>
       <% }) %>
       <% } %>
