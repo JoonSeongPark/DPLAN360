@@ -1,3 +1,32 @@
+// media List
+const mediaUl = document.getElementById("media-ul");
+const mediaList = Array.from(mediaUl.children).map((x) => {
+  return {
+    id: x.children[0].innerHTML,
+    name: x.children[1].innerHTML,
+  };
+});
+
+// media auto complete
+const mediaInput = document.getElementById("media-input");
+mediaInput.focus();
+
+new autoComplete({
+  selector: mediaInput,
+  minChars: 1,
+  source: function (term, suggest) {
+    term = term.toLowerCase();
+    const choices = mediaList.map((x) => {
+      return x.name;
+    });
+
+    const matches = choices.filter((choice) => {
+      return choice.toLowerCase().includes(term);
+    });
+    suggest(matches);
+  },
+});
+
 // table total calculate
 sumTotal();
 function sumTotal() {
@@ -47,5 +76,22 @@ function sumTotal() {
 const conditionTable = document.getElementById("condition-table");
 const formEl = document.querySelector("form");
 const submitInput = document.getElementById("submit-button");
+const mediaId = document.getElementById("media-id");
 
-conditionTable.addEventListener("change", () => submitInput.click());
+conditionTable.addEventListener("change", (e) => {
+  if (e.target.id === "media-input") {
+    const searchedMedia = mediaList.find(
+      (media) => media.name === e.target.value
+    );
+    if (searchedMedia === undefined) {
+      const errorP = document.createElement("p");
+      errorP.classList.add("error-p");
+      errorP.innerText = "매체를 새로 추가하거나 매체명을 확인하세요.";
+      conditionTable.parentElement.append(errorP);
+      return;
+    } else {
+      mediaId.value = searchedMedia.id;
+    }
+  }
+  submitInput.click();
+});

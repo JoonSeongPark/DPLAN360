@@ -1,4 +1,5 @@
 <%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/auto-complete/autocomplete.css" />
     <link rel="stylesheet" href="/css/table.css" />
   </head>
   <body>
@@ -9,7 +10,7 @@
       <main>
         <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
         <hr />
-        <form action="/media-sales" method="GET">
+        <form action="/media-sales" method="GET" onkeydown="return event.key != 'Enter';">
           <input type="submit" id="submit-button" hidden>
           <div class="v-part sort-part">
             <table id="condition-table">
@@ -20,12 +21,8 @@
               </tr>
               <tr>
                 <td>
-                  <select name="medium">
-                    <option value="">전체보기</option>
-                    <% media.forEach(medium => { %>
-                      <option value="<%= medium.id %>" <%= sortInfo.medium == medium.id ? "selected" : "" %>><%= medium.name %></option>
-                    <% }) %>
-                  </select>
+                  <input type="hidden" name="medium" id="media-id" value="<%= sortInfo.medium %>">
+                  <input type="text" id="media-input" value="<%= sortInfo.medium === '' ? '' : media.find(x => +x.id === +sortInfo.medium).name %>">
                 </td>
                 <td>
                   <input type="month" name="start_month" value="<%= sortInfo.start_month %>">
@@ -36,6 +33,7 @@
               </tr>
             </table>
           </div>
+
 
           <div class="v-part result-part">
             <table id="result-table">
@@ -95,7 +93,16 @@
         </form>
       </main>
     </div>
+    <div id="media-ul" hidden>
+      <% media.forEach(medium =>{ %>
+        <ul>
+          <li><%= medium.id %></li>
+          <li><%= medium.name %></li>
+        </ul>
+      <% }) %>
+    </div>
 
+    <script src="/auto-complete/autocomplete.js"></script>
     <script src="/js/num-format.js"></script>
     <script src="/js/work/media-sale.js"></script>
 
