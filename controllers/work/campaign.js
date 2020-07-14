@@ -160,6 +160,7 @@ exports.postAddCampaign = (req, res, next) => {
     lower_inter_name,
     lower_issue_date,
     lower_issue_type,
+    lower_attribution_time,
     lower_ad_fee,
     lower_agency_fee,
     lower_media_fee,
@@ -178,6 +179,7 @@ exports.postAddCampaign = (req, res, next) => {
     lower_inter_name = [lower_inter_name];
     lower_issue_date = [lower_issue_date];
     lower_issue_type = [lower_issue_type];
+    lower_attribution_time = [lower_attribution_time];
     lower_ad_fee = [lower_ad_fee];
     lower_agency_fee = [lower_agency_fee];
     lower_media_fee = [lower_media_fee];
@@ -217,6 +219,7 @@ exports.postAddCampaign = (req, res, next) => {
                 inter_name: lower_inter_name[i],
                 issue_date: lower_issue_date[i],
                 issue_type: lower_issue_type[i],
+                attribution_time: lower_attribution_time[i],
                 ad_fee: lower_ad_fee[i],
                 agency_fee: lower_agency_fee[i],
                 media_fee: lower_media_fee[i],
@@ -341,6 +344,7 @@ exports.postEditCampaign = (req, res, next) => {
     updated_lower_inter_name = req.body.lower_inter_name,
     updated_lower_issue_date = req.body.lower_issue_date,
     updated_lower_issue_type = req.body.lower_issue_type,
+    updated_lower_attribution_time = req.body.lower_attribution_time,
     updated_lower_ad_fee = req.body.lower_ad_fee,
     updated_lower_agency_fee = req.body.lower_agency_fee,
     updated_lower_media_fee = req.body.lower_media_fee,
@@ -358,6 +362,7 @@ exports.postEditCampaign = (req, res, next) => {
     updated_lower_inter_name = [updated_lower_inter_name];
     updated_lower_issue_date = [updated_lower_issue_date];
     updated_lower_issue_type = [updated_lower_issue_type];
+    updated_lower_attribution_time = [updated_lower_attribution_time];
     updated_lower_ad_fee = [updated_lower_ad_fee];
     updated_lower_agency_fee = [updated_lower_agency_fee];
     updated_lower_media_fee = [updated_lower_media_fee];
@@ -409,6 +414,7 @@ exports.postEditCampaign = (req, res, next) => {
               inter_name: updated_lower_inter_name[i],
               issue_date: updated_lower_issue_date[i],
               issue_type: updated_lower_issue_type[i],
+              attribution_time: updated_lower_attribution_time[i],
               ad_fee: updated_lower_ad_fee[i],
               agency_fee: updated_lower_agency_fee[i],
               media_fee: updated_lower_media_fee[i],
@@ -431,6 +437,7 @@ exports.postEditCampaign = (req, res, next) => {
               item.inter_name = updated_lower_inter_name[i];
               item.issue_date = updated_lower_issue_date[i];
               item.issue_type = updated_lower_issue_type[i];
+              item.attribution_time = updated_lower_attribution_time[i];
               item.ad_fee = updated_lower_ad_fee[i];
               item.agency_fee = updated_lower_agency_fee[i];
               item.media_fee = updated_lower_media_fee[i];

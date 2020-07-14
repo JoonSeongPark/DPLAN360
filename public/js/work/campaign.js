@@ -20,16 +20,16 @@ function totalCalculate() {
     interSum = 0;
     
   for (let i = 2; i < mediaTable.rows.length-1; i++) {
-    adSum += +mediaTable.rows[i].cells[10].innerHTML;
-    agencySum += +mediaTable.rows[i].cells[11].innerHTML;
-    mediaSum += +mediaTable.rows[i].cells[12].innerHTML;
-    dplanSum += +mediaTable.rows[i].cells[13].innerHTML;
-    interSum += +mediaTable.rows[i].cells[14].innerHTML;
-    mediaTable.rows[i].cells[10].innerHTML = nf(+mediaTable.rows[i].cells[10].innerHTML)
+    adSum += +mediaTable.rows[i].cells[11].innerHTML;
+    agencySum += +mediaTable.rows[i].cells[12].innerHTML;
+    mediaSum += +mediaTable.rows[i].cells[13].innerHTML;
+    dplanSum += +mediaTable.rows[i].cells[14].innerHTML;
+    interSum += +mediaTable.rows[i].cells[15].innerHTML;
     mediaTable.rows[i].cells[11].innerHTML = nf(+mediaTable.rows[i].cells[11].innerHTML)
     mediaTable.rows[i].cells[12].innerHTML = nf(+mediaTable.rows[i].cells[12].innerHTML)
     mediaTable.rows[i].cells[13].innerHTML = nf(+mediaTable.rows[i].cells[13].innerHTML)
     mediaTable.rows[i].cells[14].innerHTML = nf(+mediaTable.rows[i].cells[14].innerHTML)
+    mediaTable.rows[i].cells[15].innerHTML = nf(+mediaTable.rows[i].cells[15].innerHTML)
   }
 
   adFeeSum.innerHTML = nf(adSum);

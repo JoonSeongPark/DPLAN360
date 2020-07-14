@@ -97,6 +97,7 @@
                 <th class="v-header" colspan="2">기간</th>
                 <th class="v-header" colspan="2">인터랩</th>
                 <th class="v-header" rowspan="2" style="width: 100px;">매체발행월</th>
+                <th class="v-header" rowspan="2" style="width: 80px;">귀속시기</th>
                 <th class="v-header" colspan="4">수수료율 (%)</th>
                 <th class="v-header" rowspan="2" style="width: 94px">광고수주액</th>
                 <th class="v-header" colspan="4">수익배분액</th>
@@ -125,6 +126,7 @@
                   <td><%= mediaItem.inter_type %></td>
                   <td><%= mediaItem.inter_name %></td>
                   <td><%= mediaItem.issue_date.getFullYear() %> 년 <%= mediaItem.issue_date.getMonth()+1 %> 월 (<%= mediaItem.issue_type %>)</td>
+                  <td><%= mediaItem.attribution_time.getFullYear() %> 년 <%= mediaItem.attribution_time.getMonth()+1 %> 월</td>
                   <td><%= (mediaItem.agency_fee / mediaItem.ad_fee * 100).toFixed(2) %></td>
                   <td><%= (mediaItem.media_fee / mediaItem.ad_fee * 100).toFixed(2) %></td>
                   <td><%= (mediaItem.dplan_fee / mediaItem.ad_fee * 100).toFixed(2) %></td>
@@ -140,6 +142,7 @@
               <% }) %>
               <tr>
                 <th class="v-total">Total</th>
+                <th class="v-total"></th>
                 <th class="v-total"></th>
                 <th class="v-total"></th>
                 <th class="v-total"></th>

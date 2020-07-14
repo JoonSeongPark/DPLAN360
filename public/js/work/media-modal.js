@@ -63,6 +63,7 @@ function alertModal(e) {
     const media_name = media_info.name;
     const media_inter_type = media_info.inter_type;
     const media_inter_name = media_info.inter_name;
+    const attribution_time = document.getElementById("cam-tax-month").value;
     const media_agency_fee_rate = media_info.agency_fee_rate;
     const media_fee_rate = media_info.media_fee_rate;
     const media_dplan_fee_rate = media_info.dplan_fee_rate;
@@ -81,7 +82,7 @@ function alertModal(e) {
       <input class="input-date" type="date" name="media_end" />
     </td>
     <td>
-      <select name="lower_inter_type" id="lower-inter-type">
+      <select name="lower_inter_type">
         <option value="" ${media_inter_type === "" ? "selected" : ""}></option>
         <option value="in" ${
           media_inter_type === "in" ? "selected" : ""
@@ -95,9 +96,8 @@ function alertModal(e) {
       <input
         name="lower_inter_name"
         value="${media_inter_name}"
-        id="lower-inter-name"
         type="text"
-        style="width:88px"
+        style="width:54px"
       />
     </td>
     <td>
@@ -108,6 +108,13 @@ function alertModal(e) {
         <option value="순액">순액</option>
       </select>
       </div>
+    </td>
+    <td>
+      <input
+        name="lower_attribution_time"
+        value="${attribution_time}"
+        type="month"
+      />
     </td>
     <td>
       <input
@@ -197,7 +204,7 @@ function alertModal(e) {
     <td>
       <input
         class="input-num"
-        style="width:68px"
+        style="width:54px"
         type="text"
         name="google_cid"
       />

@@ -123,7 +123,7 @@
                 </td>
                 <td class="h-header">대행사 세금계산서 발행월</td>
                 <td class="h-content">
-                  <input class="input-date" type="month" name="cam_tax_month"
+                  <input class="input-date" type="month" name="cam_tax_month" id="cam-tax-month"
                   value="<%= editing ? `${campaign.tax_date.getFullYear()}-${campaign.tax_date.getMonth()+1 < 10 ? '0'+(campaign.tax_date.getMonth()+1) : campaign.tax_date.getMonth()+1}` : '' %>"/>
                   &nbsp&nbsp
                   <select name="media_issue_type" id="media-issue-type">
@@ -158,10 +158,11 @@
                 <th class="v-header" colspan="2">기간</th>
                 <th class="v-header" colspan="2">인터랩</th>
                 <th class="v-header" rowspan="2" style="width: 174px;">매체발행월</th>
+                <th class="v-header" rowspan="2" style="width: 120px;">귀속시기</th>
                 <th class="v-header" colspan="4">수수료율 (%)</th>
                 <th class="v-header" rowspan="2" style="width: 94px">광고수주액</th>
                 <th class="v-header" colspan="4">수익배분액</th>
-                <th class="v-header" rowspan="2" style="width: 84px">구글CID</th>
+                <th class="v-header" rowspan="2" style="width: 60px">구글CID</th>
                 <th class="v-header" rowspan="2" style="width: 84px">비고</th>
                 <th class="v-header" rowspan="2" style="width: 44px;">삭제</th>
               </tr>
@@ -169,7 +170,7 @@
                 <th class="v-header" style="width:120px">시작일</th>
                 <th class="v-header" style="width:120px">종료일</th>
                 <th class="v-header" style="width:45px">구분</th>
-                <th class="v-header" style="width:94px">인터랩</th>
+                <th class="v-header" style="width:60px">인터랩</th>
                 <th class="v-header" style="width:41px">대행사</th>
                 <th class="v-header" style="width:41px">매체</th>
                 <th class="v-header" style="width:41px">디플랜</th>
@@ -199,30 +200,36 @@
                     value="<%=`${mediaItem.media_end.getFullYear()}-${mediaItem.media_end.getMonth()+1 < 10 ? '0'+(mediaItem.media_end.getMonth()+1) : mediaItem.media_end.getMonth()+1}-${mediaItem.media_end.getDate()}`%>" />
                   </td>
                   <td>
-                    <select name="lower_inter_type" id="lower-inter-type">
+                    <select name="lower_inter_type">
                       <option value="" <%= mediaItem.inter_type === "" ? "selected" : "" %>></option>
                       <option value="in" <%= mediaItem.inter_type === "in" ? "selected" : "" %>>in</option>
                       <option value="out" <%= mediaItem.inter_type === "out" ? "selected" : "" %>>out</option>
                     </select>
                   </td>
-                  <td>
+                  <td >
                     <input
                       name="lower_inter_name"
                       value="<%= mediaItem.inter_name %>"
-                      id="lower-inter-name"
                       type="text"
-                      style="width:88px"
+                      style="width:54px"
                     />
                   </td>
                   <td>
-                  <div style="display:flex;align-items:center;justify-content:center;">
-                    <input class="input-date" type="month" name="lower_issue_date"
-                    value="<%= `${mediaItem.issue_date.getFullYear()}-${mediaItem.issue_date.getMonth()+1 < 10 ? '0'+(mediaItem.issue_date.getMonth()+1) : mediaItem.issue_date.getMonth()+1}`%>"/>
-                    <select name="lower_issue_type">
-                      <option value="전액" <%= mediaItem.issue_type === '전액' ? "selected" : "" %>>전액</option>
-                      <option value="순액" <%= mediaItem.issue_type === '순액' ? "selected" : "" %>>순액</option>
-                    </select>
+                    <div style="display:flex;align-items:center;justify-content:center;">
+                      <input class="input-date" type="month" name="lower_issue_date"
+                      value="<%= `${mediaItem.issue_date.getFullYear()}-${mediaItem.issue_date.getMonth()+1 < 10 ? '0'+(mediaItem.issue_date.getMonth()+1) : mediaItem.issue_date.getMonth()+1}`%>"/>
+                      <select name="lower_issue_type">
+                        <option value="전액" <%= mediaItem.issue_type === '전액' ? "selected" : "" %>>전액</option>
+                        <option value="순액" <%= mediaItem.issue_type === '순액' ? "selected" : "" %>>순액</option>
+                      </select>
                     </div>
+                  </td>
+                  <td>
+                    <input
+                      name="lower_attribution_time"
+                      value="<%=`${mediaItem.attribution_time.getFullYear()}-${mediaItem.attribution_time.getMonth()+1 < 10 ? '0'+(mediaItem.attribution_time.getMonth()+1) : mediaItem.attribution_time.getMonth()+1}`%>"
+                      type="month"
+                    />
                   </td>
                   <td>
                     <input
@@ -308,7 +315,7 @@
                   <td>
                     <input
                       class="input-num"
-                      style="width:68px"
+                      style="width:54px"
                       type="text"
                       name="google_cid"
                       value="<%= mediaItem.google_cid  %>"
@@ -330,6 +337,7 @@
 
               <tr>
                 <th class="v-total">Total</th>
+                <th class="v-total"></th>
                 <th class="v-total"></th>
                 <th class="v-total"></th>
                 <th class="v-total"></th>

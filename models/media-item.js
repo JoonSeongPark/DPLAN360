@@ -31,6 +31,10 @@ const MediaItem = sequelize.define("mediaItem", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  attribution_time: {
+    type: Sequelize.DATE,
+    allowNull: false,
+  },
   ad_fee: {
     type: Sequelize.INTEGER,
     allowNull: false,

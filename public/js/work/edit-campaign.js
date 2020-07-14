@@ -124,15 +124,15 @@ function autoCalculate(e) {
   if (e.target.getAttribute("name") === "google_cid") return;
 
   const targetRow = e.target.closest("tr");
-  const agencyFeeRateInput = targetRow.cells[6].children[0];
-  const mediaFeeRateInput = targetRow.cells[7].children[0];
-  const dplanFeeRateInput = targetRow.cells[8].children[0];
-  const interFeeRateInput = targetRow.cells[9].children[0];
-  const totalFeeInput = targetRow.cells[10].children[0];
-  const agencyFeeInput = targetRow.cells[11].children[0];
-  const mediaFeeInput = targetRow.cells[12].children[0];
-  const dplanFeeInput = targetRow.cells[13].children[0];
-  const interFeeInput = targetRow.cells[14].children[0];
+  const agencyFeeRateInput = targetRow.cells[7].children[0];
+  const mediaFeeRateInput = targetRow.cells[8].children[0];
+  const dplanFeeRateInput = targetRow.cells[9].children[0];
+  const interFeeRateInput = targetRow.cells[10].children[0];
+  const totalFeeInput = targetRow.cells[11].children[0];
+  const agencyFeeInput = targetRow.cells[12].children[0];
+  const mediaFeeInput = targetRow.cells[13].children[0];
+  const dplanFeeInput = targetRow.cells[14].children[0];
+  const interFeeInput = targetRow.cells[15].children[0];
 
   // input cases
   if (
@@ -232,11 +232,11 @@ function autoTotalCaculate() {
 
   for (let i = 2; i < len - 1; i++) {
     targetRow = mediaTable.rows[i];
-    adFeeSum += +targetRow.cells[10].children[0].value;
-    agencyFeeSum += +targetRow.cells[11].children[0].value;
-    mediaFeeSum += +targetRow.cells[12].children[0].value;
-    dplanFeeSum += +targetRow.cells[13].children[0].value;
-    interFeeSum += +targetRow.cells[14].children[0].value;
+    adFeeSum += +targetRow.cells[11].children[0].value;
+    agencyFeeSum += +targetRow.cells[12].children[0].value;
+    mediaFeeSum += +targetRow.cells[13].children[0].value;
+    dplanFeeSum += +targetRow.cells[14].children[0].value;
+    interFeeSum += +targetRow.cells[15].children[0].value;
   }
   lowerAdFeeSum.innerHTML = nf(adFeeSum);
   lowerAgencyFeeSum.innerHTML = nf(agencyFeeSum);
