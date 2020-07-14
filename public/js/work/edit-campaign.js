@@ -59,7 +59,6 @@ const mediaCount = document.getElementById("media-count");
 
 // advertiser auto complete
 const advertiserInput = document.getElementById("cam-advertiser");
-const advertiserInputId = document.getElementById("cam-advertiser-id");
 
 new autoComplete({
   selector: advertiserInput,
@@ -81,6 +80,7 @@ new autoComplete({
 const mainInput = document.getElementById("cam-main-cat");
 const subInput = document.getElementById("cam-sub-cat");
 
+const advertiserInputId = document.getElementById("cam-advertiser-id");
 advertiserInput.addEventListener("focusout", (e) => {
   const advertiser_info = adList.find((x) => x.name === e.target.value);
   if (!advertiser_info) return;
@@ -109,6 +109,7 @@ new autoComplete({
     suggest(matches);
   },
 });
+
 const agencyIdInput = document.getElementById("cam-agency-id");
 agencyInput.addEventListener("change", (e) => {
   agencyIdInput.value = agencyList.find(
