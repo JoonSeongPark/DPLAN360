@@ -56,6 +56,15 @@ table textarea {
   font-size: 11px;
 }
 
+.home-table-team-container {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 60vw;
+  white-space: nowrap;
+  padding-bottom: 10px;
+}
+
 .home-table-team {
   height: 30px;
   background-color: var(--dplan-yellow);
@@ -114,6 +123,7 @@ table .input-num {
 
 .v-part {
   margin-top: 20px;
+  text-align: center;
 }
 
 .v-part th {

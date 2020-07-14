@@ -33,13 +33,6 @@
   padding: 40px 50px;
 }
 
-.media-modal .error-p {
-  width: 100%;
-  color: var(--red);
-  font-size: 12px;
-  padding: 4px;
-}
-
 .modal .btns {
   display: flex;
   align-items: flex-end;

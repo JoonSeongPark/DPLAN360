@@ -214,3 +214,10 @@ main h3 {
   background-color: rgb(255, 176, 176);
   color: red;
 }
+
+.error-p {
+  width: 100%;
+  color: var(--red);
+  font-size: 12px;
+  padding: 4px;
+}
