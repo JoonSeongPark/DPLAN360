@@ -1,5 +1,6 @@
 <%- include('../includes/first-part.ejs') %>
     <link rel="stylesheet" href="/css/table.css" />
+    <link rel="stylesheet" href="/auto-complete/autocomplete.css">
   </head>
   <body>
     <%- include('../includes/header.ejs') %>
@@ -9,7 +10,7 @@
       <main>
         <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
         <hr />
-        <form action="/sales" method="GET">
+        <form action="/sales" method="GET" onkeydown="return event.key != 'Enter';">
           <input type="submit" id="submit-button" hidden>
           <div class="v-part sort-part">
             <table id="condition-table">
@@ -37,20 +38,12 @@
                   <input type="month" name="end_month" value="<%= sortInfo.end_month %>">
                 </td>
                 <td>
-                  <select name="agency" id="">
-                    <option value="" <%= sortInfo.agency === "" ? "selected" : "" %>>전체보기</option>
-                    <% agencies.forEach(agency => { %>
-                      <option value="<%= agency.id %>" <%= sortInfo.agency == agency.id ? "selected" : "" %>><%= agency.name %></option>  
-                    <% }) %>
-                  </select>
+                  <input type="hidden" name="agency" id="agency-id" value="<%= sortInfo.agency %>">
+                  <input type="text" id="agency-input" style="width:160px" value="<%= sortInfo.agency === '' ? '' : agencies.find(x => +x.id === +sortInfo.agency).name %>">
                 </td>
                 <td>
-                  <select name="advertiser" id="">
-                    <option value="" <%= sortInfo.advertiser === "" ? "selected" : "" %>>전체보기</option>
-                    <% advertisers.forEach(advertiser => { %>
-                      <option value="<%= advertiser.id %>" <%= sortInfo.advertiser == advertiser.id ? "selected" : "" %>><%= advertiser.name %></option>  
-                    <% }) %>
-                  </select>
+                  <input type="hidden" name="advertiser" id="advertiser-id" value="<%= sortInfo.advertiser %>">
+                  <input type="text" id="advertiser-input" style="width:140px" value="<%= sortInfo.advertiser === '' ? '' : advertisers.find(x => +x.id === +sortInfo.advertiser).name %>">
                 </td>
               </tr>
             </table>
@@ -89,7 +82,7 @@
               </tr>
               <% mediaItems.forEach(mediaItem => { %>
                 <tr>
-                  <td>1 팀</td>
+                  <td><%= mediaItem.team.name %> 팀</td>
                   <td><%= mediaItem.dataValues.attribution_time.getFullYear() %> 년</td>
                   <td><%= mediaItem.dataValues.attribution_time.getMonth()+1 %> 월</td>
                   <td><%= advertisers.find(advertiser => advertiser.id === mediaItem.campaign.advertiserId).name %></td>
@@ -107,7 +100,24 @@
         </form>
       </main>
     </div>
+    <div id="advertiser-ul" hidden>
+      <% advertisers.forEach(advertiser => { %>
+        <ul>
+          <li><%= advertiser.id %></li>
+          <li><%= advertiser.name %></li>
+        </ul>
+      <% }) %>
+    </div>
+    <div id="agency-ul" hidden>
+      <% agencies.forEach(agency => { %>
+        <ul>
+          <li><%= agency.id %></li>
+          <li><%= agency.name %></li>
+        </ul>
+      <% }) %> 
+    </div>
 
+    <script src="/auto-complete/autocomplete.js"></script>
     <script src="/js/num-format.js"></script>
     <script src="/js/work/sale.js"></script>
   <%- include('../includes/end-part.ejs') %>

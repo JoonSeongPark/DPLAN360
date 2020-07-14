@@ -105,9 +105,6 @@ exports.getSales = (req, res, next) => {
     },
   };
 
-  if (agency !== "") whereCondition.where.agencyId = agency;
-  if (advertiser !== "") whereCondition.where.advertiserId = advertiser;
-
   Team.findAll()
     .then((teams) => {
       Agency.findAll({ order: [["name", "ASC"]] })
@@ -117,15 +114,25 @@ exports.getSales = (req, res, next) => {
               Campaign.findAll()
                 .then((campaigns) => {
                   if (team !== "") {
-                    const targetCampaigns = campaigns
-                      .filter((campaign) => {
-                        return +campaign.teamId === +team;
-                      })
-                      .map((campaign) => {
-                        return campaign.id;
-                      });
-                    whereCondition.where.campaignId = targetCampaigns;
+                    campaigns = campaigns.filter((campaign) => {
+                      return +campaign.teamId === +team;
+                    });
                   }
+                  if (agency !== "") {
+                    campaigns = campaigns.filter((campaign) => {
+                      return +campaign.agencyId === +agency;
+                    });
+                  }
+                  if (advertiser !== "") {
+                    campaigns = campaigns.filter((campaign) => {
+                      return +campaign.advertiserId === +advertiser;
+                    });
+                  }
+                  const targetCampaignIds = campaigns.map((campaign) => {
+                    return campaign.id;
+                  });
+                  whereCondition.where.campaignId = targetCampaignIds;
+
                   MediaItem.findAll(whereCondition)
                     .then((mediaItems) => {
                       mediaItems = mediaItems.map((mediaItem) => {

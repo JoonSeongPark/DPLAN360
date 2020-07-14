@@ -1,3 +1,60 @@
+// agency List
+const agencyUl = document.getElementById("agency-ul");
+const agencyList = Array.from(agencyUl.children).map((x) => {
+  return {
+    id: x.children[0].innerHTML,
+    name: x.children[1].innerHTML,
+  };
+});
+
+// agency auto complete
+const agencyInput = document.getElementById("agency-input");
+
+new autoComplete({
+  selector: agencyInput,
+  minChars: 1,
+  source: function (term, suggest) {
+    term = term.toLowerCase();
+    const choices = agencyList.map((x) => {
+      return x.name;
+    });
+
+    const matches = choices.filter((choice) => {
+      return choice.toLowerCase().includes(term);
+    });
+    suggest(matches);
+  },
+});
+
+// advertiser List
+const advertiserUl = document.getElementById("advertiser-ul");
+const advertiserList = Array.from(advertiserUl.children).map((x) => {
+  return {
+    id: x.children[0].innerHTML,
+    name: x.children[1].innerHTML,
+  };
+});
+
+// advertiser auto complete
+const advertiserInput = document.getElementById("advertiser-input");
+
+new autoComplete({
+  selector: advertiserInput,
+  minChars: 1,
+  source: function (term, suggest) {
+    term = term.toLowerCase();
+    const choices = advertiserList.map((x) => {
+      return x.name;
+    });
+
+    const matches = choices.filter((choice) => {
+      return choice.toLowerCase().includes(term);
+    });
+
+    suggest(matches);
+  },
+});
+
 // table total calculate
 sumTotal();
 function sumTotal() {
@@ -47,7 +104,72 @@ function sumTotal() {
 const conditionTable = document.getElementById("condition-table");
 const submitInput = document.getElementById("submit-button");
 
-conditionTable.addEventListener("change", () => submitInput.click());
+const agencyId = document.getElementById("agency-id");
+const advertiserId = document.getElementById("advertiser-id");
+
+conditionTable.addEventListener("change", (e) => {
+  // 기존 경고문 제거
+  conditionTable.nextSibling.remove();
+
+  let targetList, target, targetId;
+  switch (e.target.id) {
+    case "agency-input":
+      targetList = agencyList;
+      target = "대행사";
+      targetId = agencyId;
+      break;
+    case "advertiser-input":
+      targetList = advertiserList;
+      target = "광고주";
+      targetId = advertiserId;
+      break;
+    default:
+      submitInput.click();
+      break
+  }
+  // switch (e.target.id) {
+  //   case "agency-input":
+  //     const searchedAgency = agencyList.find(
+  //       (agency) => agency.name === e.target.value
+  //     );
+  //     if (searchedAgency === undefined) {
+  //       const errorP = document.createElement("p");
+  //       errorP.classList.add("error-p");
+  //       errorP.innerText = "대행사를 새로 추가하거나 대행사명을 확인하세요.";
+  //       conditionTable.parentElement.append(errorP);
+  //       return;
+  //     } else {
+  //       agencyId.value = searchedAgency.id;
+  //     }
+  //     break;
+  //   case "advertiser-input":
+  //     const searchedAdvertiser = advertiserList.find(
+  //       (advertiser) => advertiser.name === e.target.value
+  //     );
+  //     if (searchedAdvertiser === undefined) {
+  //       const errorP = document.createElement("p");
+  //       errorP.classList.add("error-p");
+  //       errorP.innerText = "광고주를 새로 추가하거나 광고주명을 확인하세요.";
+  //       conditionTable.parentElement.append(errorP);
+  //       return;
+  //     } else {
+  //       advertiserId.value = searchedAdvertiser.id;
+  //     }
+  // }
+  if (targetList) {
+    const searchedList = targetList.find((x) => x.name === e.target.value);
+    if (searchedList === undefined) {
+      const errorP = document.createElement("p");
+      errorP.classList.add("error-p");
+      errorP.innerText = `${target}를 새로 추가하거나 ${target}명을 확인하세요.`;
+      conditionTable.parentElement.append(errorP);
+      return;
+    } else {
+      targetId.value = searchedList.id;
+    }
+  }
+  submitInput.click();
+});
 
 /////////////////////////////////////////////////////////////////////////
 
