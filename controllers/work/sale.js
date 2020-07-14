@@ -85,7 +85,7 @@ exports.getSales = (req, res, next) => {
 
   const whereCondition = {
     where: {
-      tax_date: {
+      attribution_time: {
         [Op.between]: [Date.parse(start_month), Date.parse(end_month)],
       },
     },
@@ -101,26 +101,40 @@ exports.getSales = (req, res, next) => {
         .then((agencies) => {
           Advertiser.findAll({ order: [["name", "ASC"]] })
             .then((advertisers) => {
-              Campaign.findAll(whereCondition)
+              Campaign.findAll()
                 .then((campaigns) => {
-                  res.render("work/sales", {
-                    pageTitle: "Sales",
-                    menuTitle: "전체 매출조회",
-                    path: "/sales",
-                    sortInfo: {
-                      team,
-                      start_month,
-                      end_month,
-                      agency,
-                      advertiser,
-                    },
-                    teams,
-                    agencies,
-                    advertisers,
-                    campaigns,
-                    isLoggedIn: req.session.isLoggedIn,
-                    isAdmin: req.session.isAdmin,
-                  });
+                  MediaItem.findAll(whereCondition)
+                    .then((mediaItems) => {
+                      mediaItems = mediaItems.map((mediaItem) => {
+                        return {
+                          ...mediaItem,
+                          campaign: campaigns.find(
+                            (campaign) => +campaign.id === +mediaItem.campaignId
+                          ),
+                        };
+                      });
+                      res.render("work/sales", {
+                        pageTitle: "Sales",
+                        menuTitle: "전체 매출조회",
+                        path: "/sales",
+                        sortInfo: {
+                          team,
+                          start_month,
+                          end_month,
+                          agency,
+                          advertiser,
+                        },
+                        teams,
+                        agencies,
+                        advertisers,
+                        mediaItems,
+                        isLoggedIn: req.session.isLoggedIn,
+                        isAdmin: req.session.isAdmin,
+                      });
+                    })
+                    .catch((err) => {
+                      return console.log(err);
+                    });
                 })
                 .catch((err) => {
                   return console.log(err);

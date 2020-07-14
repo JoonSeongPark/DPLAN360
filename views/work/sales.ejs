@@ -87,19 +87,19 @@
                 <th class="v-total"></th>
                 <th class="v-total"></th>
               </tr>
-              <% campaigns.forEach(campaign => { %>
+              <% mediaItems.forEach(mediaItem => { %>
                 <tr>
-                  <td><%= teams.find(team => team.id === campaign.teamId).name %> 팀</td>
-                  <td><%= campaign.tax_date.getFullYear() %> 년</td>
-                  <td><%= campaign.tax_date.getMonth()+1 %> 월</td>
-                  <td><%= advertisers.find(advertiser => advertiser.id === campaign.advertiserId).name %></td>
-                  <td><a href="/campaign/<%= campaign.id %>"><%= campaign.title %></a></td>
-                  <td><%= agencies.find(agency => agency.id === campaign.agencyId).name %></td>
-                  <td><%= campaign.ad_fee %></td>
-                  <td><%= campaign.agency_fee %></td>
-                  <td><%= campaign.media_fee %></td>
-                  <td><%= campaign.dplan_fee %></td>
-                  <td><%= campaign.inter_fee %></td>
+                  <td>1 팀</td>
+                  <td><%= mediaItem.dataValues.attribution_time.getFullYear() %> 년</td>
+                  <td><%= mediaItem.dataValues.attribution_time.getMonth()+1 %> 월</td>
+                  <td><%= advertisers.find(advertiser => advertiser.id === mediaItem.campaign.advertiserId).name %></td>
+                  <td><a href="/campaign/<%= mediaItem.dataValues.campaignId %>"><%= mediaItem.campaign.title %></a></td>
+                  <td><%= agencies.find(agency => agency.id === mediaItem.campaign.agencyId).name %></td>
+                  <td><%= mediaItem.dataValues.ad_fee %></td>
+                  <td><%= mediaItem.dataValues.agency_fee %></td>
+                  <td><%= mediaItem.dataValues.media_fee %></td>
+                  <td><%= mediaItem.dataValues.dplan_fee %></td>
+                  <td><%= mediaItem.dataValues.inter_fee %></td>
                 </tr>
               <% }) %>
             </table>
