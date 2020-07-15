@@ -127,35 +127,6 @@ conditionTable.addEventListener("change", (e) => {
       submitInput.click();
       break
   }
-  // switch (e.target.id) {
-  //   case "agency-input":
-  //     const searchedAgency = agencyList.find(
-  //       (agency) => agency.name === e.target.value
-  //     );
-  //     if (searchedAgency === undefined) {
-  //       const errorP = document.createElement("p");
-  //       errorP.classList.add("error-p");
-  //       errorP.innerText = "대행사를 새로 추가하거나 대행사명을 확인하세요.";
-  //       conditionTable.parentElement.append(errorP);
-  //       return;
-  //     } else {
-  //       agencyId.value = searchedAgency.id;
-  //     }
-  //     break;
-  //   case "advertiser-input":
-  //     const searchedAdvertiser = advertiserList.find(
-  //       (advertiser) => advertiser.name === e.target.value
-  //     );
-  //     if (searchedAdvertiser === undefined) {
-  //       const errorP = document.createElement("p");
-  //       errorP.classList.add("error-p");
-  //       errorP.innerText = "광고주를 새로 추가하거나 광고주명을 확인하세요.";
-  //       conditionTable.parentElement.append(errorP);
-  //       return;
-  //     } else {
-  //       advertiserId.value = searchedAdvertiser.id;
-  //     }
-  // }
   if (targetList) {
     const searchedList = targetList.find((x) => x.name === e.target.value);
     if (searchedList === undefined) {
