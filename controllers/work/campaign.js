@@ -388,7 +388,7 @@ exports.postEditCampaign = (req, res, next) => {
       campaign.inter_fee = updated_cam_inter_fee;
       campaign.tax_date = updated_cam_tax_month;
       campaign.issue_type = updated_media_issue_type;
-      campaign.writer = user;
+      campaign.writer = user.name;
 
       return campaign.save();
     })
