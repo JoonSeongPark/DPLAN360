@@ -174,7 +174,22 @@ th.xxl {
 .result-part {
   height: 75vh;
   overflow: auto;
-  margin: 20px 30px;
+  margin: 20px 1vw;
+}
+
+.scrollable {
+  overflow-x: auto;
+  overflow-y: auto;
+  width: 85vw;
+  white-space: nowrap;
+  padding-bottom: 10px;
+}
+
+.text-overflow {
+  margin: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .error-border {
