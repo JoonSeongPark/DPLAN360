@@ -132,6 +132,7 @@ exports.getAddCampaign = (req, res, next) => {
 };
 
 exports.postAddCampaign = (req, res, next) => {
+  const user = req.user;
   const {
     // 캠페인 정보
     cam_type,
@@ -205,6 +206,7 @@ exports.postAddCampaign = (req, res, next) => {
           inter_fee: cam_inter_fee,
           tax_date: cam_tax_month,
           issue_type: media_issue_type,
+          writer: user,
           advertiserId: cam_advertiser_id,
           agencyId: cam_agency_id,
         })
@@ -320,6 +322,7 @@ exports.getEditCampaign = (req, res, next) => {
 };
 
 exports.postEditCampaign = (req, res, next) => {
+  const user = req.user;
   // 캠페인 정보
   const { campaign_id, mediaItem_id, updated_mediaItem_id, _csrf } = req.body;
 
@@ -385,6 +388,7 @@ exports.postEditCampaign = (req, res, next) => {
       campaign.inter_fee = updated_cam_inter_fee;
       campaign.tax_date = updated_cam_tax_month;
       campaign.issue_type = updated_media_issue_type;
+      campaign.writer = user;
 
       return campaign.save();
     })

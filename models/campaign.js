@@ -57,6 +57,10 @@ const Campaign = sequelize.define("campaign", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  writer: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
 });
 
 module.exports = Campaign;

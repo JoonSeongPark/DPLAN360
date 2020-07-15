@@ -76,14 +76,18 @@
               <tr>
                 <td class="h-header">등록일</td>
                 <td class="h-content">
-                  <%= campaign.createdAt.getFullYear() %> 년 <%= campaign.createdAt.getMonth()+1 %> 월 <%= campaign.createdAt.getDate() %> 일
+                  <%= campaign.createdAt.getFullYear() %> 년 <%= campaign.createdAt.getMonth()+1 %> 월 <%= campaign.createdAt.getDate() %> 일 (<%= campaign.pic %>)
                 </td>
                 <td class="h-header">수정일</td>
                 <td class="h-content">
-                  <%= campaign.updatedAt.getFullYear() %> 년 <%= campaign.updatedAt.getMonth()+1 %> 월 <%= campaign.updatedAt.getDate() %> 일
+                  <%= campaign.updatedAt.getFullYear() %> 년 <%= campaign.updatedAt.getMonth()+1 %> 월 <%= campaign.updatedAt.getDate() %> 일 (<%= campaign.writer %>)
                 </td>
-                <td class="h-header"></td>
-                <td></td>
+                <td class="h-header">상태</td>
+                <td class="h-content">
+                  <%= Date.now() >= campaign.period_end ? '[마감]' : (Date.now() >= campaign.period_begin ? '[진행중]' : '[예정]') %>
+
+                  
+                </td>
               </tr>
             </table>
           </div>          
