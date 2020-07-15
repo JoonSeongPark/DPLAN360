@@ -34,14 +34,14 @@
                   <td><%= agency.bill_publisher %></td>
                   <td><%= agency.memo %></td>
                   <% if (isAdmin) { %>
-                  <td>
+                    <td style="padding:0">
                     <a href="/admin/edit-agency/<%= agency.id %>?edit=true">
                       <button class="btn" type="button">
                         수정
                       </button>
                       </a>
                    </td>
-                  <td>
+                   <td style="padding:0">
                     <form action="/admin/delete-agency" method="POST">
                       <input type="hidden" value="<%= agency.id %>" name="agencyId">
                       <button class="btn alert-btn" type="button">삭제</button>

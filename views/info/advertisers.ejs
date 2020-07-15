@@ -28,14 +28,14 @@
                   <td><%= advertiser.mainName %></td>
                   <td><%= advertiser.subName %></td>
                   <% if (isAdmin) { %>
-                  <td>
+                  <td style="padding:0">
                     <a href="/admin/edit-advertiser/<%= advertiser.id %>?edit=true">
                       <button class="btn" type="button">
                         수정
                       </button>
                       </a>
                    </td>
-                  <td>
+                   <td style="padding:0">
                     <form action="/admin/delete-advertiser" method="POST">
                       <input type="hidden" value="<%= advertiser.id %>" name="advertiserId">
                       <button class="btn alert-btn" type="button">삭제</button>

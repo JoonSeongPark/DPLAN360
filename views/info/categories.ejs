@@ -25,14 +25,14 @@
                 <tr>
                   <td><%= main.name %></td>
                   <% if (isAdmin) { %>
-                  <td>
+                    <td style="padding:0">
                     <a href="/admin/edit-main-category/<%= main.id %>?edit=true">
                       <button class="btn" type="button">
                         수정
                       </button>
                       </a>
                    </td>
-                  <td>
+                   <td style="padding:0">
                     <form action="/admin/delete-main-category" method="POST" id="main-delete-form">
                       <input type="hidden" value="<%= main.id %>" name="mainId">
                       <button class="btn alert-btn" type="button" id="delete-main-button">삭제</button>
@@ -59,20 +59,20 @@
                   <td><%= sub.mainName %></td>
                   <td><%= sub.name %></td>
                   <% if (isAdmin) { %>
-                  <td>
+                  <td style="padding:0">
                     <a href="/admin/edit-sub-category/<%= sub.id %>?edit=true">
                       <button class="btn" type="button">
                         수정
                       </button>
                       </a>
-                   </td>
-                  <td>
+                  </td>
+                  <td style="padding:0">
                     <form action="/admin/delete-sub-category" method="POST">
                       <input type="hidden" value="<%= sub.id %>" name="subId">
                       <button class="btn alert-btn" type="button">삭제</button>
                     </form>
-                   </td>
-                   <% } %>
+                  </td>
+                  <% } %>
                 </tr>
               <% }) %>
             </table>

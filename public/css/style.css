@@ -147,11 +147,9 @@ main h3 {
 .btn {
   cursor: pointer;
   border: none;
-  width: 35px;
-  height: 25px;
   margin: 1px;
-  padding: 2px 4px;
-  font-size: 13px;
+  padding: 1px 2px;
+  font-size: 10px;
   border: 1px solid #999;
   border-radius: 5px;
   color: #fff;
