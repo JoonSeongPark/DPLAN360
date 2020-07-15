@@ -9,23 +9,27 @@ exports.getAdvertisers = (req, res, next) => {
     .then((mains) => {
       AdSubCategory.findAll()
         .then((subs) => {
-          Advertiser.findAll().then((advertisers) => {
-            advertisers.map((ad) => {
-              ad.mainName = mains.find(
-                (main) => main.id === ad.main_category
-              ).name;
-              ad.subName = subs.find((sub) => sub.id === ad.sub_category).name;
-            });
+          Advertiser.findAll({ order: [["name", "ASC"]] }).then(
+            (advertisers) => {
+              advertisers.map((ad) => {
+                ad.mainName = mains.find(
+                  (main) => main.id === ad.main_category
+                ).name;
+                ad.subName = subs.find(
+                  (sub) => sub.id === ad.sub_category
+                ).name;
+              });
 
-            res.render("info/advertisers", {
-              pageTitle: "Advertisers",
-              menuTitle: "광고주 조회",
-              path: "/advertisers",
-              advertisers: advertisers,
-              isLoggedIn: req.session.isLoggedIn,
-              isAdmin: req.session.isAdmin,
-            });
-          });
+              res.render("info/advertisers", {
+                pageTitle: "Advertisers",
+                menuTitle: "광고주 조회",
+                path: "/advertisers",
+                advertisers,
+                isLoggedIn: req.session.isLoggedIn,
+                isAdmin: req.session.isAdmin,
+              });
+            }
+          );
         })
         .catch((err) => {
           return console.log(err);
@@ -40,13 +44,13 @@ exports.getAdvertisers = (req, res, next) => {
 };
 
 exports.getAgencies = (req, res, next) => {
-  Agency.findAll()
+  Agency.findAll({ order: [["name", "ASC"]] })
     .then((agencies) => {
       res.render("info/agencies", {
         pageTitle: "Agencies",
         menuTitle: "대행사 조회",
         path: "/agencies",
-        agencies: agencies.reverse(),
+        agencies,
         isLoggedIn: req.session.isLoggedIn,
         isAdmin: req.session.isAdmin,
       });
@@ -57,8 +61,13 @@ exports.getAgencies = (req, res, next) => {
 };
 
 exports.getCategories = (req, res, next) => {
-  AdMainCategory.findAll().then((mains) => {
-    AdSubCategory.findAll().then((subs) => {
+  AdMainCategory.findAll({ order: [["name", "ASC"]] }).then((mains) => {
+    AdSubCategory.findAll({
+      order: [
+        ["adMainCategoryId", "ASC"],
+        ["name", "ASC"],
+      ],
+    }).then((subs) => {
       subs.map((sub) => {
         sub.mainName = mains.find(
           (main) => main.id === sub.adMainCategoryId
@@ -69,8 +78,8 @@ exports.getCategories = (req, res, next) => {
         pageTitle: "Categories",
         menuTitle: "업종 조회",
         path: "/categories",
-        mains: mains,
-        subs: subs,
+        mains,
+        subs,
         isLoggedIn: req.session.isLoggedIn,
         isAdmin: req.session.isAdmin,
       });
@@ -79,13 +88,13 @@ exports.getCategories = (req, res, next) => {
 };
 
 exports.getMedia = (req, res, next) => {
-  Medium.findAll()
+  Medium.findAll({ order: [["name", "ASC"]] })
     .then((media) => {
       res.render("info/media", {
         pageTitle: "Media",
         menuTitle: "매체 조회",
         path: "/media",
-        media: media.reverse(),
+        media,
         isLoggedIn: req.session.isLoggedIn,
         isAdmin: req.session.isAdmin,
       });
