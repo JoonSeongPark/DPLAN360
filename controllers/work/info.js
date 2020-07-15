@@ -9,8 +9,8 @@ exports.getAdvertisers = (req, res, next) => {
     .then((mains) => {
       AdSubCategory.findAll()
         .then((subs) => {
-          Advertiser.findAll({ order: [["name", "ASC"]] }).then(
-            (advertisers) => {
+          Advertiser.findAll({ order: [["name", "ASC"]] })
+            .then((advertisers) => {
               advertisers.map((ad) => {
                 ad.mainName = mains.find(
                   (main) => main.id === ad.main_category
@@ -28,11 +28,10 @@ exports.getAdvertisers = (req, res, next) => {
                 isLoggedIn: req.session.isLoggedIn,
                 isAdmin: req.session.isAdmin,
               });
-            }
-          );
-        })
-        .catch((err) => {
-          return console.log(err);
+            })
+            .catch((err) => {
+              return console.log(err);
+            });
         })
         .catch((err) => {
           return console.log(err);
