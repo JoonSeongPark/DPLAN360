@@ -1,0 +1,127 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+      <main>
+        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
+        <hr />
+        <form action="/tax-bill" method="GET">
+          <input type="submit" id="submit-button" hidden>
+          <div class="v-part sort-part">
+            <table id="condition-table">
+              <tr>
+                <th class="h-header" style="height:22px" colspan="2">대행사 발행월</th>
+                <th class="h-header" style="height:22px" colspan="2">매체 발행월</th>
+                <th class="h-header" rowspan="3"><p class="excel-download" id="excel-download">엑셀다운로드</p></th>
+              </tr>
+              <tr>
+                <th class="h-header" style="height:22px">시작월</th>
+                <th class="h-header" style="height:22px">종료월</th>
+                <th class="h-header" style="height:22px">시작월</th>
+                <th class="h-header" style="height:22px">종료월</th>
+              </tr>
+              <tr>
+                <td>
+                  <input type="month" name="agency_start" value="<%= sortInfo.agency_start %>">
+                </td>
+                <td>
+                  <input type="month" name="agency_end" value="<%= sortInfo.agency_end %>">
+                </td>
+                <td>
+                  <input type="month" name="media_start" value="<%= sortInfo.media_start %>">
+                </td>
+                <td>
+                  <input type="month" name="media_end" value="<%= sortInfo.media_end %>">
+                </td>
+            </table>
+          </div>
+        </form>
+
+        <div class="v-part result-part scrollable">
+          <table style="width:1850px;" id="result-table">
+            <tr>
+              <th class="v-header" rowspan="2" style="width: 40px;">담당팀</th>
+              <th class="v-header" rowspan="2" style="width: 140px;">광고주</th>
+              <th class="v-header" rowspan="2" style="width: 180px;">캠페인명</th>
+              <th class="v-header" rowspan="2" style="width: 140px;">대행사</th>
+              <th class="v-header" rowspan="2" style="width: 140px;">매체</th>
+              <th class="v-header" colspan="2">인터랩</th>
+              <th class="v-header" rowspan="2" style="width: 80px;">광고수주액</th>
+              <th class="v-header" colspan="4">수익배분액</th>
+              <th class="v-header" rowspan="2" style="width: 70px;">귀속시기</th>
+              <th class="v-header" colspan="3">대행사</th>
+              <th class="v-header" colspan="3">매체</th>
+            </tr>
+            <tr>
+              <th class="v-header" style="width: 30px">구분</th>
+              <th class="v-header" style="width: 100px">인터랩</th>
+              <th class="v-header" style="width: 80px;">대행사수수료</th>
+              <th class="v-header" style="width: 80px;">매체수수료</th>
+              <th class="v-header" style="width: 80px;">순매출</th>
+              <th class="v-header" style="width: 80px;">인터랩수수료</th>
+              <th class="v-header" style="width: 70px;">발행월</th>
+              <th class="v-header" style="width: 60px;">여신</th>
+              <th class="v-header" style="width: 100px;">입금일</th>
+              <th class="v-header" style="width: 70px;">발행월</th>
+              <th class="v-header" style="width: 60px;">여신</th>
+              <th class="v-header" style="width: 100px;">입금일</th>
+            </tr>
+            <tr>
+              <th class="v-total">Total</th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+            </tr>
+            <% mediaItems.forEach(mediaItem => { %>
+              <tr>
+                <td><%= mediaItem.teamName %> 팀</td>
+                <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.advertiserName %></div></td>
+                <td><div class="text-overflow" style="width: 162px;"><%= mediaItem.campaign.title %></div></td>
+                <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.agency.name %></div></td>
+                <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.media.name %></div></td>
+                <td><%= mediaItem.dataValues.inter_type %></td>
+                <td><div class="text-overflow" style="width: 72px;"><%= mediaItem.dataValues.inter_name %></div></td>
+                <td><%= mediaItem.dataValues.ad_fee %></td>
+                <td><%= mediaItem.dataValues.agency_fee %></td>
+                <td><%= mediaItem.dataValues.media_fee %></td>
+                <td><%= mediaItem.dataValues.dplan_fee %></td>
+                <td><%= mediaItem.dataValues.inter_fee %></td>
+                <td><%= mediaItem.dataValues.attribution_time.getFullYear() %> 년 <%= mediaItem.dataValues.attribution_time.getMonth()+1 %> 월</td>
+                <td><%= mediaItem.dataValues.issue_date.getFullYear() %> 년 <%= mediaItem.dataValues.issue_date.getMonth()+1 %> 월</td>
+                <td><%= mediaItem.agency.pay_condition %></td>
+                <td>대행사입금일</td>
+                <td><%= mediaItem.dataValues.attribution_time.getFullYear() %> 년 <%= mediaItem.dataValues.attribution_time.getMonth()+1 %> 월</td>
+                <td><%= mediaItem.media.pay_condition %></td>
+                <td>매체입금일</td>
+                <td hidden><%= mediaItem.dataValues.attribution_time %></td>
+                <td hidden><%= mediaItem.dataValues.attribution_time %></td>
+              </tr>
+            <% }) %>
+          </table>
+       </div>        
+      </main>
+    </div>
+
+    <script src="/js/deposit-calculator.js"></script>
+    <script src="/js/num-format.js"></script>
+    <script src="/js/work/tex-bill.js"></script>
+  <%- include('../includes/end-part.ejs') %>
