@@ -30,7 +30,9 @@
   <div class="nav-header">세금계산서</div>
   <ul>
     <li class="<%= path === '/tax-bill' ? 'active' : '' %>">
-      <a class="<%= path === '/tax-bill' ? 'active' : '' %>" href="/tax-bill"
+      <a
+        class="<%= path === '/tax-bill' ? 'active' : '' %>"
+        href="/tax-bill?agency_start=&agency_end=&media_start=&media_end="
         >계산서 발행</a
       >
     </li>
