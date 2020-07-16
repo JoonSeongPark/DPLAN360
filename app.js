@@ -120,13 +120,25 @@ sequelize
   .then(async () => {
     const email = "admin@d-plan360.com";
     const hashedPassword = await bcrypt.hash("123", 12);
-    const admin = new User({
-      name: "관리자",
-      email,
-      password: hashedPassword,
-      leader: 1,
-    });
-    return admin.save();
+    User.findOne({
+      where: {
+        email,
+      },
+    })
+      .then((user) => {
+        if (!user) {
+          const admin = new User({
+            name: "관리자",
+            email,
+            password: hashedPassword,
+            leader: 1,
+          });
+          return admin.save();
+        }
+      })
+      .catch((err) => {
+        return console.log(err);
+      });
   })
   .then((user) => {
     app.listen(3000);

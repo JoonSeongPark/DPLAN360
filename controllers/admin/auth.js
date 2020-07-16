@@ -53,9 +53,14 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.getUserSignup = (req, res, next) => {
-  let message = req.flash("error");
-  if (message.length > 0) message = message[0];
-  else message = null;
+  let successMessage = req.flash("success");
+  if (successMessage.length > 0) successMessage = successMessage[0];
+  else successMessage = null;
+
+  let errorMessage = req.flash("error");
+  if (errorMessage.length > 0) errorMessage = errorMessage[0];
+  else errorMessage = null;
+
   Team.findAll()
     .then((teams) => {
       res.render("auth/user-signup", {
@@ -63,7 +68,8 @@ exports.getUserSignup = (req, res, next) => {
         menuTitle: "사용자 등록",
         path: "/admin/user-signup",
         teams: teams,
-        errorMessage: message,
+        successMessage,
+        errorMessage,
         isLoggedIn: req.session.isLoggedIn,
       });
     })
@@ -93,8 +99,9 @@ exports.postUserSignup = (req, res, next) => {
                   password: hashedPassword,
                   leader,
                 })
-                .then((result) => {
-                  res.redirect("/login");
+                .then((user) => {
+                  req.flash("success", "새로운 사용자가 생성되었습니다.");
+                  return res.redirect("/admin/user-signup");
                 })
                 .catch((err) => {
                   return console.log(err);
