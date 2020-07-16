@@ -6,9 +6,9 @@
 
     <div class="container">
       <%- include('../includes/nav.ejs') %>
-      <main>
-        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
-        <hr />
+
+      <%- include('../includes/menu-title.ejs') %>
+      
         <% if (errorMessage) { %>
           <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>

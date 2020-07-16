@@ -8,9 +8,7 @@
 
     <div class="container">
       <%- include('../includes/nav.ejs') %>
-      <main>
-        <h3> ➣&nbsp&nbsp<%= menuTitle %></h3>
-        <hr />
+      <%- include('../includes/menu-title.ejs') %>
         <form action="/<%= editing ? 'edit-campaign' : 'add-campaign' %>" method="POST" onkeydown="return event.key != 'Enter';" autocomplete="off">
           <% if (editing) { %>
             <input type="hidden" name="campaign_id" value="<%= campaign.id %>">
