@@ -40,7 +40,6 @@ exports.getCampaign = (req, res, next) => {
                                     agency,
                                     mediaItems,
                                     isLoggedIn: req.session.isLoggedIn,
-                                    isAdmin: req.session.isAdmin,
                                   });
                                 })
                                 .catch((err) => {
@@ -103,7 +102,6 @@ exports.getAddCampaign = (req, res, next) => {
                             subs,
                             editing: false,
                             isLoggedIn: req.session.isLoggedIn,
-                            isAdmin: req.session.isAdmin,
                           });
                         })
                         .catch((err) => {
@@ -285,7 +283,6 @@ exports.getEditCampaign = (req, res, next) => {
                                     mediaItems,
                                     editing: edit,
                                     isLoggedIn: req.session.isLoggedIn,
-                                    isAdmin: req.session.isAdmin,
                                   });
                                 })
                                 .catch((err) => {

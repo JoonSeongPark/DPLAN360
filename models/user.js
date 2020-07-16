@@ -23,6 +23,10 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    leader: {
+      type: Sequelize.TINYINT,
+      allowNull: false,
+    }
   },
   {
     timestamps: false,

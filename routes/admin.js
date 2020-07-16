@@ -12,128 +12,128 @@ const categoryController = require("../controllers/admin/category");
 // admin media
 router.get(
   "/add-media",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminMediaController.getAddMedia
 );
 router.post(
   "/add-media",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminMediaController.postAddMedia
 );
 router.get(
   "/edit-media/:mediumId",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminMediaController.getEditMedia
 );
 router.post(
   "/edit-media",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminMediaController.postEditMedia
 );
 router.post(
   "/delete-media",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminMediaController.postDeleteMedia
 );
 
 // admin agency
 router.get(
   "/add-agency",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAgencyController.getAddAgency
 );
 router.post(
   "/add-agency",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAgencyController.postAddAgency
 );
 router.get(
   "/edit-agency/:agencyId",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAgencyController.getEditAgency
 );
 router.post(
   "/edit-agency",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAgencyController.postEditAgency
 );
 router.post(
   "/delete-agency",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAgencyController.postDeleteAgency
 );
 
 // admin advertiser
 router.get(
   "/add-advertiser",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAdvertiserController.getAddAdvertiser
 );
 router.post(
   "/add-advertiser",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAdvertiserController.postAddAdvertiser
 );
 router.get(
   "/edit-advertiser/:advertiserId",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAdvertiserController.getEditAdvertiser
 );
 router.post(
   "/edit-advertiser",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAdvertiserController.postEditAdvertiser
 );
 router.post(
   "/delete-advertiser",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   adminAdvertiserController.postDeleteAdvertiser
 );
 
 // admin category
 router.get(
   "/add-category",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   categoryController.getAddCategory
 );
 router.post(
   "/add-main-category",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   categoryController.postAddMain
 );
 router.get(
   "/edit-main-category/:mainId",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   categoryController.getEditMain
 );
 router.post(
   "/edit-main-category",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   categoryController.postEditMain
 );
 router.post(
   "/delete-main-category",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   categoryController.postDeleteMain
 );
 router.post(
   "/add-sub-category",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   categoryController.postAddSub
 );
 router.get(
   "/edit-sub-category/:subId",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   categoryController.getEditSub
 );
 router.post(
   "/edit-sub-category",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   categoryController.postEditSub
 );
 router.post(
   "/delete-sub-category",
-  authMiddleware.isAdmin,
+  authMiddleware.isLeader,
   categoryController.postDeleteSub
 );
 

@@ -7,7 +7,6 @@ exports.getAddAgency = (req, res, next) => {
     path: "/admin/add-agency",
     editing: false,
     isLoggedIn: req.session.isLoggedIn,
-    isAdmin: req.session.isAdmin,
   });
 };
 
@@ -48,7 +47,6 @@ exports.getEditAgency = (req, res, next) => {
         editing: req.query.edit,
         agency: agency,
         isLoggedIn: req.session.isLoggedIn,
-        isAdmin: req.session.isAdmin,
       });
     })
     .catch((err) => {

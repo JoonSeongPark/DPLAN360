@@ -21,7 +21,7 @@
                 <th class="v-header xxl" rowspan="2">비고</th>
                 <th class="v-header" colspan="2">인터렙</th>
                 <th class="v-header" colspan="4">수수료율</th>
-                <% if (isAdmin) { %>
+                <% if (isLeader) { %>
                 <th class="v-header xs" rowspan="2">수정</th>
                 <th class="v-header xs" rowspan="2">삭제</th>
                 <% } %>
@@ -48,7 +48,7 @@
                   <td><%= medium.media_fee_rate %>%</td>
                   <td><%= medium.dplan_fee_rate %>%</td>
                   <td><%= medium.inter_fee_rate %>%</td>
-                  <% if (isAdmin) { %>
+                  <% if (isLeader) { %>
                   <td style="padding:0">
                     <a href="/admin/edit-media/<%= medium.id %>?edit=true">
                       <button class="btn" type="button">
@@ -69,7 +69,7 @@
           </div>
         </main>
     </div>
-    <% if (isAdmin) { %>
+    <% if (isLeader) { %>
     <script src="/js/admin/alert-modal.js"></script>
     <% } %>
   <%- include('../includes/end-part.ejs') %>

@@ -15,7 +15,6 @@ exports.getAddAdvertiser = (req, res, next) => {
             subs: subs,
             editing: false,
             isLoggedIn: req.session.isLoggedIn,
-            isAdmin: req.session.isAdmin,
           });
         })
         .catch((err) => {
@@ -74,7 +73,6 @@ exports.getEditAdvertiser = (req, res, next) => {
                 subs: subs,
                 editing: req.query.edit,
                 isLoggedIn: req.session.isLoggedIn,
-                isAdmin: req.session.isAdmin,
               });
             })
             .catch((err) => {

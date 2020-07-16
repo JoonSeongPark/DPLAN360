@@ -4,6 +4,5 @@ exports.get404 = (req, res, next) => {
     menuTitle: "페이지를 찾을 수 없습니다.",
     path: "/404",
     isLoggedIn: req.session.isLoggedIn,
-    isAdmin: req.session.isAdmin,
   });
 };

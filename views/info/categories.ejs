@@ -16,7 +16,7 @@
             <table class="has-margin">
               <tr>
                 <th class="v-header xl">업종(대분류)</th>
-                <% if (isAdmin) { %>
+                <% if (isLeader) { %>
                 <th class="v-header xs">수정</th>
                 <th class="v-header xs">삭제</th>
                 <% } %>
@@ -24,7 +24,7 @@
               <% mains.forEach(main => { %>
                 <tr>
                   <td><%= main.name %></td>
-                  <% if (isAdmin) { %>
+                  <% if (isLeader) { %>
                     <td style="padding:0">
                     <a href="/admin/edit-main-category/<%= main.id %>?edit=true">
                       <button class="btn" type="button">
@@ -49,7 +49,7 @@
               <tr>
                 <th class="v-header xl">업종(대분류)</th>
                 <th class="v-header xl">업종(소분류)</th>
-                <% if (isAdmin) { %>
+                <% if (isLeader) { %>
                 <th class="v-header xs">수정</th>
                 <th class="v-header xs">삭제</th>
                 <% } %>
@@ -58,7 +58,7 @@
                 <tr>
                   <td><%= sub.mainName %></td>
                   <td><%= sub.name %></td>
-                  <% if (isAdmin) { %>
+                  <% if (isLeader) { %>
                   <td style="padding:0">
                     <a href="/admin/edit-sub-category/<%= sub.id %>?edit=true">
                       <button class="btn" type="button">
@@ -80,7 +80,7 @@
         </div>
       </main>
     </div>
-    <% if (isAdmin) { %>
+    <% if (isLeader) { %>
     <script src="/js/admin/alert-modal.js"></script>
     <% } %>
   <%- include('../includes/end-part.ejs') %>

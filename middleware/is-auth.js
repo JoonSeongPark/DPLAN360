@@ -6,9 +6,9 @@ exports.isAuth = (req, res, next) => {
   next();
 };
 
-// 관리자 계정이 아닐 경우, Home 화면으로 이동
-exports.isAdmin = (req, res, next) => {
-  if (!req.session.isAdmin) {
+// 팀장 계정이 아닐 경우, Home 화면으로 이동
+exports.isLeader = (req, res, next) => {
+  if (!req.session.isLeader) {
     return res.redirect("/");
   }
   next();

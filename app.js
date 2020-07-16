@@ -74,6 +74,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
+  res.locals.isLeader = req.session.isLeader;
   next();
 });
 
@@ -115,30 +116,17 @@ AdMainCategory.hasMany(AdSubCategory);
 sequelize
   // .sync({ force: true })
   .sync()
-  // .then(() => {
-  //   return Team.findByPk(1);
-  // })
-  // .then((team) => {
-  //   if (!team) {
-  //     Team.create({ name: "김나영" });
-  //     Team.create({ name: "조선영" });
-  //     Team.create({ name: "이미선" });
-  //   }
-  //   return User.findOne({ name: "관리자" });
-  // })
-  // .then((user) => {
-  //   if (!user) {
-  //     return bcrypt.hash("123", 12).then((hashedPassword) => {
-  //       const admin = new User({
-  //         name: "관리자",
-  //         email: "admin@d-plan360.com",
-  //         password: hashedPassword,
-  //       });
-  //       return admin.save();
-  //     });
-  //   }
-  //   return user;
-  // })
+  .then(async () => {
+    const email = "admin@d-plan360.com";
+    const hashedPassword = await bcrypt.hash("123", 12);
+    const admin = new User({
+      name: "관리자",
+      email,
+      password: hashedPassword,
+      leader: 1,
+    });
+    return admin.save();
+  })
   .then((user) => {
     app.listen(3000);
   })

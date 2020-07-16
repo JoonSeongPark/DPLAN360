@@ -19,7 +19,7 @@
                 <th class="v-header xs">계산서 발행</th>
                 <th class="v-header xl">계산서 발행처</th>
                 <th class="v-header xxl">비고</th>
-                <% if (isAdmin) { %>
+                <% if (isLeader) { %>
                 <th class="v-header xs">수정</th>
                 <th class="v-header xs">삭제</th>
                 <% } %>
@@ -33,7 +33,7 @@
                   <td><%= agency.bill_type %></td>
                   <td><%= agency.bill_publisher %></td>
                   <td><%= agency.memo %></td>
-                  <% if (isAdmin) { %>
+                  <% if (isLeader) { %>
                     <td style="padding:0">
                     <a href="/admin/edit-agency/<%= agency.id %>?edit=true">
                       <button class="btn" type="button">
@@ -54,7 +54,7 @@
           </div>
         </main>
     </div>
-    <% if (isAdmin) { %>
+    <% if (isLeader) { %>
     <script src="/js/admin/alert-modal.js"></script>
     <% } %>
   <%- include('../includes/end-part.ejs') %>

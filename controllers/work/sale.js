@@ -69,7 +69,6 @@ exports.getIndex = (req, res, next) => {
                 path: "/",
                 teams,
                 isLoggedIn: req.session.isLoggedIn,
-                isAdmin: req.session.isAdmin,
               });
             })
             .catch((err) => {
@@ -167,7 +166,6 @@ exports.getSales = (req, res, next) => {
                         advertisers,
                         mediaItems,
                         isLoggedIn: req.session.isLoggedIn,
-                        isAdmin: req.session.isAdmin,
                       });
                     })
                     .catch((err) => {
@@ -271,7 +269,6 @@ exports.getMediaSales = (req, res, next) => {
                             media,
                             mediaItems,
                             isLoggedIn: req.session.isLoggedIn,
-                            isAdmin: req.session.isAdmin,
                           });
                         })
                         .catch((err) => {

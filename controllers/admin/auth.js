@@ -14,7 +14,6 @@ exports.getLogin = (req, res, next) => {
     path: "/login",
     errorMessage: message,
     isLoggedIn: req.session.isLoggedIn,
-    isAdmin: req.session.isAdmin,
   });
 };
 
@@ -32,7 +31,10 @@ exports.postLogin = (req, res, next) => {
       bcrypt.compare(password, user.password).then((doMatch) => {
         if (doMatch) {
           if (user.email === "admin@d-plan360.com") {
-            req.session.isAdmin = true;
+            req.session.isLeader = true;
+          }
+          if (user.leader === 1) {
+            req.session.isLeader = true;
           }
           req.session.isLoggedIn = true;
           req.session.user = user;
@@ -63,7 +65,6 @@ exports.getUserSignup = (req, res, next) => {
         teams: teams,
         errorMessage: message,
         isLoggedIn: req.session.isLoggedIn,
-        isAdmin: req.session.isAdmin,
       });
     })
     .catch((err) => {
@@ -76,8 +77,7 @@ exports.postUserSignup = (req, res, next) => {
 
   const name = req.body.name;
   const email = req.body.email;
-  const password = req.body.password;
-  const confirmed_password = req.body.confirmed_password;
+  const leader = req.body.leader;
 
   User.findOne({ where: { email: email } })
     .then((user) => {
@@ -86,22 +86,27 @@ exports.postUserSignup = (req, res, next) => {
         return res.redirect("/admin/user-signup");
       }
       bcrypt
-        .hash(password, 12)
+        .hash(email, 12)
         .then((hashedPassword) => {
-          Team.findByPk(teamId).then((team) => {
-            team
-              .createUser({
-                name: name,
-                email: email,
-                password: hashedPassword,
-              })
-              .then((result) => {
-                res.redirect("/login");
-              })
-              .catch((err) => {
-                return console.log(err);
-              });
-          });
+          Team.findByPk(teamId)
+            .then((team) => {
+              team
+                .createUser({
+                  name,
+                  email,
+                  password: hashedPassword,
+                  leader,
+                })
+                .then((result) => {
+                  res.redirect("/login");
+                })
+                .catch((err) => {
+                  return console.log(err);
+                });
+            })
+            .catch((err) => {
+              return console.log(err);
+            });
         })
         .catch((err) => {
           return console.log(err);

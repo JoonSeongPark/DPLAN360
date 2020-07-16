@@ -7,7 +7,6 @@ exports.getAddMedia = (req, res, next) => {
     path: "/admin/add-media",
     editing: false,
     isLoggedIn: req.session.isLoggedIn,
-    isAdmin: req.session.isAdmin,
   });
 };
 
@@ -60,7 +59,6 @@ exports.getEditMedia = (req, res, next) => {
         editing: req.query.edit,
         medium: medium,
         isLoggedIn: req.session.isLoggedIn,
-        isAdmin: req.session.isAdmin,
       });
     })
     .catch((err) => {

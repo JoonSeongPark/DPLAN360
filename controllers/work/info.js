@@ -26,7 +26,6 @@ exports.getAdvertisers = (req, res, next) => {
                 path: "/advertisers",
                 advertisers,
                 isLoggedIn: req.session.isLoggedIn,
-                isAdmin: req.session.isAdmin,
               });
             })
             .catch((err) => {
@@ -51,7 +50,6 @@ exports.getAgencies = (req, res, next) => {
         path: "/agencies",
         agencies,
         isLoggedIn: req.session.isLoggedIn,
-        isAdmin: req.session.isAdmin,
       });
     })
     .catch((err) => {
@@ -80,7 +78,6 @@ exports.getCategories = (req, res, next) => {
         mains,
         subs,
         isLoggedIn: req.session.isLoggedIn,
-        isAdmin: req.session.isAdmin,
       });
     });
   });
@@ -95,7 +92,6 @@ exports.getMedia = (req, res, next) => {
         path: "/media",
         media,
         isLoggedIn: req.session.isLoggedIn,
-        isAdmin: req.session.isAdmin,
       });
     })
     .catch((err) => {

@@ -16,7 +16,7 @@
                 <th class="v-header xl">광고주</th>
                 <th class="v-header xl">업종(대분류)</th>
                 <th class="v-header xl">업종(소분류)</th>
-                <% if (isAdmin) { %>
+                <% if (isLeader) { %>
                 <th class="v-header xs">수정</th>
                 <th class="v-header xs">삭제</th>
                 <% } %>
@@ -27,7 +27,7 @@
                   <td><%= advertiser.name %></td>
                   <td><%= advertiser.mainName %></td>
                   <td><%= advertiser.subName %></td>
-                  <% if (isAdmin) { %>
+                  <% if (isLeader) { %>
                   <td style="padding:0">
                     <a href="/admin/edit-advertiser/<%= advertiser.id %>?edit=true">
                       <button class="btn" type="button">
@@ -48,7 +48,7 @@
           </div>
         </main>
     </div>
-    <% if (isAdmin) { %>
+    <% if (isLeader) { %>
     <script src="/js/admin/alert-modal.js"></script>
     <% } %>
   <%- include('../includes/end-part.ejs') %>
