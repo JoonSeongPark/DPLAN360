@@ -21,3 +21,11 @@ exports.isLogin = (req, res, next) => {
   }
   next();
 };
+
+// 관리자 계정일 경우, 관리자 탭 메뉴만 이용 가능
+exports.isAdmin = (req, res, next) => {
+  if (req.session.isAdmin) {
+    return res.redirect("/");
+  }
+  next();
+};

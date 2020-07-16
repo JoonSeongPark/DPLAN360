@@ -1,5 +1,6 @@
 <% if (isLoggedIn) { %>
 <nav>
+  <% if (!isAdmin) { %>
   <div class="nav-header">매출조회</div>
   <ul>
     <li class="<%= path === '/sales' ? 'active' : '' %>">
@@ -37,6 +38,7 @@
       >
     </li>
   </ul>
+  <% } %>
   <div class="nav-header">정보조회</div>
   <ul>
     <li class="<%= path === '/media' ? 'active' : '' %>">

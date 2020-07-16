@@ -31,7 +31,7 @@ exports.postLogin = (req, res, next) => {
       bcrypt.compare(password, user.password).then((doMatch) => {
         if (doMatch) {
           if (user.email === "admin@d-plan360.com") {
-            req.session.isLeader = true;
+            req.session.isAdmin = true;
           }
           if (user.leader === 1) {
             req.session.isLeader = true;
