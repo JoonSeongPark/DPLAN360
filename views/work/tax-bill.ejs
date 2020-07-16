@@ -42,7 +42,7 @@
         </form>
 
         <div class="v-part result-part scrollable">
-          <table style="width:1850px;" id="result-table">
+          <table style="width:1910px;" id="result-table">
             <tr>
               <th class="v-header" rowspan="2" style="width: 40px;">담당팀</th>
               <th class="v-header" rowspan="2" style="width: 140px;">광고주</th>
@@ -63,10 +63,10 @@
               <th class="v-header" style="width: 80px;">매체수수료</th>
               <th class="v-header" style="width: 80px;">순매출</th>
               <th class="v-header" style="width: 80px;">인터랩수수료</th>
-              <th class="v-header" style="width: 70px;">발행월</th>
+              <th class="v-header" style="width: 100px;">발행월</th>
               <th class="v-header" style="width: 60px;">여신</th>
               <th class="v-header" style="width: 100px;">입금일</th>
-              <th class="v-header" style="width: 70px;">발행월</th>
+              <th class="v-header" style="width: 100px;">발행월</th>
               <th class="v-header" style="width: 60px;">여신</th>
               <th class="v-header" style="width: 100px;">입금일</th>
             </tr>
@@ -106,14 +106,12 @@
                 <td><%= mediaItem.dataValues.dplan_fee %></td>
                 <td><%= mediaItem.dataValues.inter_fee %></td>
                 <td><%= mediaItem.dataValues.attribution_time.getFullYear() %> 년 <%= mediaItem.dataValues.attribution_time.getMonth()+1 %> 월</td>
-                <td><%= mediaItem.dataValues.issue_date.getFullYear() %> 년 <%= mediaItem.dataValues.issue_date.getMonth()+1 %> 월</td>
+                <td><%= mediaItem.dataValues.attribution_time.getFullYear() %> 년 <%= mediaItem.dataValues.attribution_time.getMonth()+1 %> 월</td>
                 <td><%= mediaItem.agency.pay_condition %></td>
                 <td>대행사입금일</td>
-                <td><%= mediaItem.dataValues.attribution_time.getFullYear() %> 년 <%= mediaItem.dataValues.attribution_time.getMonth()+1 %> 월</td>
+                <td><%= mediaItem.dataValues.issue_date.getFullYear() %> 년 <%= mediaItem.dataValues.issue_date.getMonth()+1 %> 월</td>
                 <td><%= mediaItem.media.pay_condition %></td>
                 <td>매체입금일</td>
-                <td hidden><%= mediaItem.dataValues.attribution_time %></td>
-                <td hidden><%= mediaItem.dataValues.attribution_time %></td>
               </tr>
             <% }) %>
           </table>

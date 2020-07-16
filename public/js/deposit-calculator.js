@@ -1,9 +1,6 @@
-function depositCalculator(issue, loan) {
-  const year = issue.getFullYear();
-  const month = issue.getMonth();
-
+function depositCalculator(year, month, loan) {
   const lastDay = new Date(year, month, 0);
-
+  
   let depositDay;
 
   // 여신이 숫자인 경우 (월말에서 숫자만큼 날짜 추가)
@@ -20,6 +17,6 @@ function depositCalculator(issue, loan) {
     ${depositDay.getMonth() + 1} 월
     ${depositDay.getDate()} 일
     `;
-    
+
   return result;
 }
