@@ -73,11 +73,7 @@ exports.getUserSignup = (req, res, next) => {
 };
 
 exports.postUserSignup = (req, res, next) => {
-  const teamId = req.body.team;
-
-  const name = req.body.name;
-  const email = req.body.email;
-  const leader = req.body.leader;
+  const { teamId, name, email, leader } = req.body;
 
   User.findOne({ where: { email: email } })
     .then((user) => {
