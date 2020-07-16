@@ -6,6 +6,8 @@ const adminMediaController = require("../controllers/admin/media");
 const adminAgencyController = require("../controllers/admin/agency");
 const adminAdvertiserController = require("../controllers/admin/advertiser");
 const adminTeamController = require("../controllers/admin/team");
+const adminUserController = require("../controllers/admin/user");
+
 const authMiddleware = require("../middleware/is-auth");
 
 const categoryController = require("../controllers/admin/category");
@@ -148,6 +150,19 @@ router.post(
   "/add-team",
   authMiddleware.isLeader,
   adminTeamController.postAddTeam
+);
+
+// admin user
+router.get(
+  "/user-signup",
+  authMiddleware.isLeader,
+  adminUserController.getUserSignup
+);
+
+router.post(
+  "/user-signup",
+  authMiddleware.isLeader,
+  adminUserController.postUserSignup
 );
 
 module.exports = router;

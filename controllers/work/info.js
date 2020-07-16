@@ -3,6 +3,8 @@ const AdMainCategory = require("../../models/ad-main-category");
 const AdSubCategory = require("../../models/ad-sub-category");
 const Agency = require("../../models/agency");
 const Medium = require("../../models/medium");
+const Team = require("../../models/team");
+const User = require("../../models/user");
 
 exports.getAdvertisers = (req, res, next) => {
   AdMainCategory.findAll()
@@ -93,6 +95,49 @@ exports.getMedia = (req, res, next) => {
         media,
         isLoggedIn: req.session.isLoggedIn,
       });
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
+};
+
+exports.getUsers = (req, res, next) => {
+  User.findAll({
+    order: [
+      ["leader", "DESC"],
+      ["name", "ASC"],
+    ],
+  })
+    .then((users) => {
+      Team.findAll()
+        .then((teams) => {
+          teams = teams.map((team) => {
+            return {
+              ...team,
+              members: users.filter((user) => {
+                return +user.teamId === +team.id;
+              }),
+            };
+          });
+          
+          const numberOfMembers = teams.map((team) => {
+            return team.members.length;
+          })
+          
+          const memberMax = Math.max(...numberOfMembers);
+          
+          res.render("info/users", {
+            pageTitle: "Users",
+            menuTitle: "사용자 조회",
+            path: "/users",
+            teams,
+            memberMax,
+            isLoggedIn: req.session.isLoggedIn,
+          });
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
     })
     .catch((err) => {
       return console.log(err);

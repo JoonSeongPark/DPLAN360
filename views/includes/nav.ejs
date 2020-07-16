@@ -65,6 +65,13 @@
         >업종 조회</a
       >
     </li>
+    <li class="<%= path === '/users' ? 'active' : '' %>">
+      <a
+        class="<%= path === '/users' ? 'active' : '' %>"
+        href="/users"
+        >사용자 조회</a
+      >
+    </li>
   </ul>
   <% if (isLeader) { %>
   <div class="nav-header">관리자</div>
@@ -102,13 +109,6 @@
         class="<%= path === '/admin/add-team' ? 'active' : '' %>"
         href="/admin/add-team"
         >팀 추가</a
-      >
-    </li>
-    <li class="<%= path === '/admin/users' ? 'active' : '' %>">
-      <a
-        class="<%= path === '/admin/users' ? 'active' : '' %>"
-        href="/admin/users"
-        >직원 조회</a
       >
     </li>
     <li class="<%= path === '/admin/user-signup' ? 'active' : '' %>">

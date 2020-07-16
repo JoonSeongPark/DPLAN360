@@ -1,0 +1,35 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+
+      <%- include('../includes/menu-title.ejs') %>
+        
+        <div class="user-table-container"">
+          <% teams.forEach(team => { %>
+          <div class="user-team-table">
+            <table>
+              <tr>
+                <th class="team-table-header"><%= team.dataValues.name %> 팀</th>
+              </tr>
+              <% for (let i=0; i < memberMax; i++) { %>
+                <tr>
+                  <% if (i < team.members.length) { %>
+                    <td class="<%= team.members[i].leader ? 'user-cell leader' : 'user-cell' %>"><%= team.members[i].name %></td>
+                  <% } else { %>
+                    <td></td>
+                  <% } %>
+                </tr>
+              <% } %>
+            </table>
+          </div>
+          <% }) %>  
+        </div>
+      </main>
+    </div>
+
+  <%- include('../includes/end-part.ejs') %>
