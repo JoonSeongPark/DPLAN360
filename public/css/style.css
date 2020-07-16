@@ -199,18 +199,23 @@ main h3 {
 
 .user-message {
   margin: auto;
-  width: 90%;
-  border: 1px solid #4771fa;
-  padding: 0.5rem;
+  width: 80%;
+  padding: 0.4rem;
   border-radius: 3px;
-  background-color: #b9c9ff;
   text-align: center;
+  font-weight: bold;
+}
+
+.user-message--success {
+  border: 1px solid #2f5ffd;
+  background-color: #b9c9ff;
+  color: #2f5ffd;
 }
 
 .user-message--error {
-  border-color: red;
-  background-color: rgb(255, 176, 176);
-  color: red;
+  border: 1px solid var(--red);
+  background-color: rgb(255, 211, 203);
+  color: var(--red);
 }
 
 .error-p {
