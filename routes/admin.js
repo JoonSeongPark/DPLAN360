@@ -5,6 +5,7 @@ const router = express.Router();
 const adminMediaController = require("../controllers/admin/media");
 const adminAgencyController = require("../controllers/admin/agency");
 const adminAdvertiserController = require("../controllers/admin/advertiser");
+const adminTeamController = require("../controllers/admin/team");
 const authMiddleware = require("../middleware/is-auth");
 
 const categoryController = require("../controllers/admin/category");
@@ -135,6 +136,18 @@ router.post(
   "/delete-sub-category",
   authMiddleware.isLeader,
   categoryController.postDeleteSub
+);
+
+// admin team
+router.get(
+  "/add-team",
+  authMiddleware.isLeader,
+  adminTeamController.getAddTeam
+);
+router.post(
+  "/add-team",
+  authMiddleware.isLeader,
+  adminTeamController.postAddTeam
 );
 
 module.exports = router;
