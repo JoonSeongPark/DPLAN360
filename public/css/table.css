@@ -59,9 +59,8 @@ table textarea {
 .home-table-team-container {
   display: flex;
   overflow-x: auto;
-  overflow-y: hidden;
-  width: 60vw;
   white-space: nowrap;
+  width: 60vw;
   padding-bottom: 10px;
 }
 
@@ -204,4 +203,43 @@ th.xxl {
 
 .excel-download:hover {
   text-decoration-line: underline;
+}
+
+.user-table-container {
+  text-align: center;
+  margin: 10px 20px
+}
+
+.user-team-table {
+  display: inline-block;
+  margin: 20px;
+}
+
+.user-team-table table {
+  margin: 0;
+}
+
+.team-table-header {
+  height: 30px;
+  background-color: var(--dplan-yellow);
+  padding: 0 50px;
+}
+
+.user-team-table tr {
+  height: 30px;
+}
+
+.user-team-table th,
+.user-team-table td {
+  border: thin solid #bbb;
+  font-size: 12px;
+}
+
+.leader {
+  font-weight: bold;
+  background-color: #ffffd1;
+}
+
+.user-cell {
+  letter-spacing: 0.5rem; text-indent: 0.5rem; text-align: center;
 }
