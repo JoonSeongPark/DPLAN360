@@ -1,8 +1,8 @@
 .auth-form {
-  width: 20rem;
+  width: 18rem;
   max-width: 90%;
   margin: auto;
-  padding: 7rem 0 14rem;
+  padding: 3rem 0;
   display: block;
 }
 
@@ -11,25 +11,31 @@
 }
 
 .auth-logo-container {
-  margin: 2rem;
+  margin: 1rem;
   text-align: center;
-  padding-left: 30px;
+  padding: 0 0 10px 15px;
 }
 
 .form-control label,
 .form-control input,
 .form-control select {
+  font-size: 14px;
+  font-weight: bold;
   display: block;
   width: 100%;
-  margin-bottom: 0.25rem;
+}
+.form-control label {
+  padding-left: 3px;
+  margin-bottom: 0.2rem;
 }
 
 .form-control input,
 .form-control select {
   border: 1px solid #a1a1a1;
-  padding: 5px;
+  padding: 2px;
   font-size: 11px;
   border-radius: 2px;
+  margin-bottom: 0.1rem;
 }
 
 .form-control input:focus {
