@@ -26,7 +26,9 @@ const User = sequelize.define(
     leader: {
       type: Sequelize.TINYINT,
       allowNull: false,
-    }
+    },
+    resetToken: Sequelize.STRING,
+    resetTokenExpiration: Sequelize.DATE,
   },
   {
     timestamps: false,

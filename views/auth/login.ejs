@@ -5,13 +5,11 @@
     <%- include('../includes/header.ejs') %>
 
     <div class="container">
-      <%- include('../includes/nav.ejs') %>
 
       <%- include('../includes/menu-title.ejs') %>
       
-        <% if (errorMessage) { %>
-          <div class="user-message user-message--error"><%= errorMessage %></div>
-        <% } %>
+      <%- include('../includes/message.ejs') %>
+      
         <form class="auth-form" action="/login" method="POST">
           <div class="form-control auth-logo-container">
             <img src="/img/logo_black.png" alt="logo" width="100%">
@@ -26,6 +24,7 @@
           </div>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button class="auth-btn" type="submit">Login</button>
+          <a href="/reset-password" style="float: right; font-size: 13px; padding: 5px">비밀번호 변경</a>
         </main>
     </div>
 
