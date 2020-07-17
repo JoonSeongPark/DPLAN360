@@ -19,15 +19,19 @@ const transporter = nodemailer.createTransport(
 );
 
 exports.getLogin = (req, res, next) => {
-  let message = req.flash("error");
-  if (message.length > 0) message = message[0];
-  else message = null;
+  let successMessage = req.flash("error");
+  if (successMessage.length > 0) successMessage = successMessage[0];
+  else successMessage = null;
+  let errorMessage = req.flash("error");
+  if (errorMessage.length > 0) errorMessage = errorMessage[0];
+  else errorMessage = null;
 
   res.render("auth/login", {
     pageTitle: "Login",
     menuTitle: "로그인",
     path: "/login",
-    errorMessage: message,
+    successMessage,
+    errorMessage,
     isLoggedIn: req.session.isLoggedIn,
   });
 };
