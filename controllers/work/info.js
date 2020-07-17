@@ -11,14 +11,19 @@ exports.getAdvertisers = (req, res, next) => {
     .then((mains) => {
       AdSubCategory.findAll()
         .then((subs) => {
-          Advertiser.findAll({ order: [["name", "ASC"]] })
+          Advertiser.findAll({
+            order: [
+              ["main_category", "ASC"],
+              ["sub_category", "ASC"],
+            ],
+          })
             .then((advertisers) => {
               advertisers.map((ad) => {
                 ad.mainName = mains.find(
-                  (main) => main.id === ad.main_category
+                  (main) => +main.id === +ad.main_category
                 ).name;
                 ad.subName = subs.find(
-                  (sub) => sub.id === ad.sub_category
+                  (sub) => +sub.id === +ad.sub_category
                 ).name;
               });
 
@@ -60,7 +65,7 @@ exports.getAgencies = (req, res, next) => {
 };
 
 exports.getCategories = (req, res, next) => {
-  AdMainCategory.findAll({ order: [["name", "ASC"]] }).then((mains) => {
+  AdMainCategory.findAll({ order: [["id", "ASC"]] }).then((mains) => {
     AdSubCategory.findAll({
       order: [
         ["adMainCategoryId", "ASC"],
@@ -69,7 +74,7 @@ exports.getCategories = (req, res, next) => {
     }).then((subs) => {
       subs.map((sub) => {
         sub.mainName = mains.find(
-          (main) => main.id === sub.adMainCategoryId
+          (main) => +main.id === +sub.adMainCategoryId
         ).name;
       });
 
@@ -119,13 +124,13 @@ exports.getUsers = (req, res, next) => {
               }),
             };
           });
-          
+
           const numberOfMembers = teams.map((team) => {
             return team.members.length;
-          })
-          
+          });
+
           const memberMax = Math.max(...numberOfMembers);
-          
+
           res.render("info/users", {
             pageTitle: "Users",
             menuTitle: "사용자 조회",
