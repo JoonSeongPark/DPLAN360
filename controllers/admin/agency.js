@@ -28,7 +28,7 @@ exports.postAddAgency = (req, res, next) => {
   })
     .then((agency) => {
       console.log("Agency Successfully Add!");
-      res.redirect("/admin/agencies");
+      res.redirect("/agencies");
     })
     .catch((err) => {
       return console.log(err);
@@ -43,7 +43,7 @@ exports.getEditAgency = (req, res, next) => {
       res.render("admin/edit-agency", {
         pageTitle: "Edit Agency",
         menuTitle: "대행사 수정",
-        path: "/admin/agencies",
+        path: "/agencies",
         editing: req.query.edit,
         agency: agency,
         isLoggedIn: req.session.isLoggedIn,
@@ -75,7 +75,7 @@ exports.postEditAgency = (req, res, next) => {
     })
     .then((result) => {
       console.log("Agency Updated!");
-      res.redirect("/admin/agencies");
+      res.redirect("/agencies");
     })
     .catch((err) => {
       return console.log(err);
@@ -92,7 +92,7 @@ exports.postDeleteAgency = (req, res, next) => {
     })
     .then(() => {
       console.log("Agency Destroyed!");
-      res.redirect("/admin/agencies");
+      res.redirect("/agencies");
     })
     .catch((err) => {
       return console.log(err);

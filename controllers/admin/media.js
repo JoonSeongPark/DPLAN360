@@ -40,7 +40,7 @@ exports.postAddMedia = (req, res, next) => {
   })
     .then(() => {
       console.log("Media Successfully Add!");
-      res.redirect("/admin/media");
+      res.redirect("/media");
     })
     .catch((err) => {
       console.log(err);
@@ -55,7 +55,7 @@ exports.getEditMedia = (req, res, next) => {
       res.render("admin/edit-media", {
         pageTitle: "Edit Media",
         menuTitle: "매체 수정",
-        path: "/admin/media",
+        path: "/media",
         editing: req.query.edit,
         medium: medium,
         isLoggedIn: req.session.isLoggedIn,
@@ -99,7 +99,7 @@ exports.postEditMedia = (req, res, next) => {
     })
     .then((result) => {
       console.log("Media Updated!");
-      res.redirect("/admin/media");
+      res.redirect("/media");
     })
     .catch((err) => {
       return console.log(err);
@@ -115,7 +115,7 @@ exports.postDeleteMedia = (req, res, next) => {
     })
     .then(() => {
       console.log("Media Destroyed!");
-      res.redirect("/admin/media");
+      res.redirect("/media");
     })
     .catch((err) => {
       return console.log(err);

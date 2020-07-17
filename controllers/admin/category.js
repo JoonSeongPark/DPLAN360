@@ -21,7 +21,7 @@ exports.postAddMain = (req, res, next) => {
     name: name,
   })
     .then((main) => {
-      res.redirect("/admin/categories");
+      res.redirect("/categories");
     })
     .catch((err) => {
       return console.log(err);
@@ -35,7 +35,7 @@ exports.getEditMain = (req, res, next) => {
     res.render("admin/edit-category", {
       pageTitle: "Edit Main Category",
       menuTitle: "업종(대분류) 수정",
-      path: "/admin/categories",
+      path: "/categories",
       main: main,
       editTarget: "main",
       editing: req.query.edit,
@@ -56,7 +56,7 @@ exports.postEditMain = (req, res, next) => {
     })
     .then(() => {
       console.log("Main-Category Updated!");
-      res.redirect("/admin/categories");
+      res.redirect("/categories");
     });
 };
 
@@ -69,7 +69,7 @@ exports.postDeleteMain = (req, res, next) => {
     })
     .then(() => {
       console.log("Main-Category Destroyed!");
-      res.redirect("/admin/categories");
+      res.redirect("/categories");
     })
     .catch((err) => {
       return console.log(err);
@@ -85,7 +85,7 @@ exports.postAddSub = (req, res, next) => {
       main.createAdSubCategory({
         name: name,
       });
-      res.redirect("/admin/categories");
+      res.redirect("/categories");
     })
     .catch((err) => {
       return console.log(err);
@@ -101,7 +101,7 @@ exports.getEditSub = (req, res, next) => {
         res.render("admin/edit-category", {
           pageTitle: "Edit Sub Category",
           menuTitle: "업(소분류) 수정",
-          path: "/admin/categories",
+          path: "/categories",
           mains: mains,
           sub: sub,
           editTarget: "sub",
@@ -129,7 +129,7 @@ exports.postEditSub = (req, res, next) => {
     })
     .then(() => {
       console.log("Sub-Category Updated!");
-      res.redirect("/admin/categories");
+      res.redirect("/categories");
     })
     .catch((err) => {
       return console.log(err);
@@ -145,7 +145,7 @@ exports.postDeleteSub = (req, res, next) => {
     })
     .then(() => {
       console.log("Sub-Category Destroyed!");
-      res.redirect("/admin/categories");
+      res.redirect("/categories");
     })
     .catch((err) => {
       return console.log(err);

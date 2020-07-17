@@ -41,7 +41,7 @@ exports.postAddAdvertiser = (req, res, next) => {
           })
             .then((advertiser) => {
               console.log("Advertiser Add!");
-              res.redirect("/admin/advertisers");
+              res.redirect("/advertisers");
             })
             .catch((err) => {
               return console.log(err);
@@ -67,7 +67,7 @@ exports.getEditAdvertiser = (req, res, next) => {
               res.render("admin/edit-advertiser", {
                 pageTitle: "Edit Advertiser",
                 menuTitle: "광고주 수정",
-                path: "/admin/advertisers",
+                path: "/advertisers",
                 advertiser: advertiser,
                 mains: mains,
                 subs: subs,
@@ -103,7 +103,7 @@ exports.postEditAdvertiser = (req, res, next) => {
     })
     .then(() => {
       console.log("Advertiser Updated!");
-      res.redirect("/admin/advertisers");
+      res.redirect("/advertisers");
     })
     .catch((err) => {
       return console.log(err);
@@ -119,7 +119,7 @@ exports.postDeleteAdvertiser = (req, res, next) => {
     })
     .then(() => {
       console.log("Advertiser Destroyed!");
-      res.redirect("/admin/advertisers");
+      res.redirect("/advertisers");
     })
     .catch((err) => {
       return console.log(err);
