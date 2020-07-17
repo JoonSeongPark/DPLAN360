@@ -41,6 +41,7 @@
               <% if (editing) { %>
                 <input type='hidden' value="<%= advertiser.id %>" name="advertiserId" >
               <% } %>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit">광고주<%= editing ? '수정' : '추가' %></button>
               <a href="/admin/advertisers" ><button type="button">취소</button></a>
             </div>

@@ -70,6 +70,7 @@
               <% if (editing) { %>
                 <input type='hidden' value="<%= medium.id %>" name="mediumId" >
               <% } %>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit">매체<%= editing ? '수정' : '추가' %></button>
               <a href="/admin/media" ><button type="button">취소</button></a>
             </div>

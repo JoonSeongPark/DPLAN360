@@ -57,6 +57,7 @@
               <% if (editing) { %>
                 <input type='hidden' value="<%= agency.id %>" name="agencyId" >
               <% } %>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit">대행사<%= editing ? '수정' : '추가' %></button>
               <a href="/admin/agencies" ><button type="button">취소</button></a>
             </div>

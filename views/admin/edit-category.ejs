@@ -60,6 +60,7 @@
                 <% if (editing) { %>
                   <input type='hidden' value="<%= sub.id %>" name="subId" >
                 <% } %>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit">업종(소분류)<%= editing ? '수정' : '추가' %></button>
                 <a href="/admin/categories" ><button type="button">취소</button></a>
               </div>
