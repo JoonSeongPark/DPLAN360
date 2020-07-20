@@ -38,22 +38,29 @@ function sumTotal() {
     );
 
     // 입금일 계산
+    const mediaBegin = new Date(resultTable.rows[i].cells[19].innerHTML);
+    const mediaEnd = new Date(resultTable.rows[i].cells[20].innerHTML);
+
     // 대행사
-    const agencyIssue = resultTable.rows[i].cells[13].innerHTML.split(' ');
-    
+    const agencyIssue = resultTable.rows[i].cells[13].innerHTML.split(" ");
+
     const agencyLoan = resultTable.rows[i].cells[14].innerHTML;
 
     resultTable.rows[i].cells[15].innerHTML = depositCalculator(
+      mediaBegin,
+      mediaEnd,
       agencyIssue[0],
       agencyIssue[2],
       agencyLoan
     );
 
     // 매체
-    const mediaIssue = resultTable.rows[i].cells[16].innerHTML.split(' ');
+    const mediaIssue = resultTable.rows[i].cells[16].innerHTML.split(" ");
     const mediaLoan = resultTable.rows[i].cells[17].innerHTML;
 
     resultTable.rows[i].cells[18].innerHTML = depositCalculator(
+      mediaBegin,
+      mediaEnd,
       mediaIssue[0],
       mediaIssue[2],
       mediaLoan
