@@ -55,6 +55,15 @@ const mediaList = Array.from(mediaUl.children).map((x) => {
 
 /////////////////////////////////////////////////////////////////
 const mediaCount = document.getElementById("media-count");
+
+const camAdTotal = document.getElementById("cam-ad-total");
+const camAgencyFeeRate = document.getElementById("cam-agency-fee-rate");
+const camAgencyFee = document.getElementById("cam-agency-fee");
+const camMediaFee = document.getElementById("cam-media-fee");
+const camDpalnFee = document.getElementById("cam-dplan-fee");
+const camInterFee = document.getElementById("cam-inter-fee");
+
+const block = document.getElementById("block").value;
 /////////////////////////////////////////////////////////////////
 
 // advertiser auto complete
@@ -260,20 +269,18 @@ function autoTotalCaculate() {
       2
     );
   }
-  const camAdTotal = document.getElementById("cam-ad-total");
-  const camAgencyFeeRate = document.getElementById("cam-agency-fee-rate");
-  const camAgencyFee = document.getElementById("cam-agency-fee");
-  const camMediaFee = document.getElementById("cam-media-fee");
-  const camDpalnFee = document.getElementById("cam-dplan-fee");
-  const camInterFee = document.getElementById("cam-inter-fee");
 
-  camAdTotal.value = adFeeSum;
-  if (adFeeSum != 0)
-    camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
-  camAgencyFee.value = agencyFeeSum;
-  camMediaFee.value = mediaFeeSum;
-  camDpalnFee.value = dplanFeeSum;
-  camInterFee.value = interFeeSum;
+  console.log(block);
+  if (!block) {
+    console.log("doone");
+    camAdTotal.value = adFeeSum;
+    if (adFeeSum != 0)
+      camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
+    camAgencyFee.value = agencyFeeSum;
+    camMediaFee.value = mediaFeeSum;
+    camDpalnFee.value = dplanFeeSum;
+    camInterFee.value = interFeeSum;
+  }
 }
 ////////////////////////////////////////////////////////////////////////
 

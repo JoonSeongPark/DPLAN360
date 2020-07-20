@@ -250,6 +250,18 @@ exports.getEditCampaign = (req, res, next) => {
   const campaignId = req.params.campaignId;
   const edit = req.query.edit;
 
+  let blockCondition;
+
+  if (new Date().getDate() < 10) {
+    blockCondition = Date.parse(
+      new Date(new Date().getFullYear(), new Date().getMonth() - 1)
+    );
+  } else {
+    blockCondition = Date.parse(
+      new Date(new Date().getFullYear(), new Date().getMonth())
+    );
+  }
+
   Campaign.findByPk(campaignId)
     .then((campaign) => {
       Team.findByPk(campaign.teamId)
@@ -281,6 +293,7 @@ exports.getEditCampaign = (req, res, next) => {
                                     main,
                                     sub,
                                     mediaItems,
+                                    blockCondition,
                                     editing: edit,
                                     isLoggedIn: req.session.isLoggedIn,
                                   });
@@ -320,6 +333,7 @@ exports.getEditCampaign = (req, res, next) => {
 
 exports.postEditCampaign = (req, res, next) => {
   const user = req.user;
+
   // 캠페인 정보
   const { campaign_id, mediaItem_id, updated_mediaItem_id, _csrf } = req.body;
 
