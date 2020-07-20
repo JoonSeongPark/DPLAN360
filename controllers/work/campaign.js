@@ -204,7 +204,7 @@ exports.postAddCampaign = (req, res, next) => {
           inter_fee: cam_inter_fee,
           tax_date: cam_tax_month,
           issue_type: media_issue_type,
-          writer: user,
+          writer: user.name,
           advertiserId: cam_advertiser_id,
           agencyId: cam_agency_id,
         })
