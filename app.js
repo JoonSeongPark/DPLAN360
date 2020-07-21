@@ -60,7 +60,6 @@ app.use(flash());
 
 app.use((req, res, next) => {
   if (!req.session.user) return next();
-
   User.findByPk(req.session.user.id)
     .then((user) => {
       req.user = user;
@@ -77,7 +76,6 @@ app.use((req, res, next) => {
     res.locals.blockAuth = req.user.block_auth;
     res.locals.isLoggedIn = true;
   }
-  res.locals.isLoggedIn = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   res.locals.isAdmin = req.session.isAdmin;
   next();

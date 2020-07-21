@@ -1,6 +1,6 @@
 // 로그인 안 되어있을 경우, 로그인 페이지로 이동
 exports.isAuth = (req, res, next) => {
-  if (!req.session.isLoggedIn) {
+  if (!req.session.user) {
     return res.redirect("/login");
   }
   next();
@@ -16,7 +16,7 @@ exports.isLeader = (req, res, next) => {
 
 // 로그인 상태일 경우, 로그인 페이지 접근 불가
 exports.isLogin = (req, res, next) => {
-  if (req.session.isLoggedIn) {
+  if (req.session.user) {
     return res.redirect("/");
   }
   next();

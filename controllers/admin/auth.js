@@ -32,6 +32,7 @@ exports.getLogin = (req, res, next) => {
     path: "/login",
     successMessage,
     errorMessage,
+    isLoggedIn: null,
   });
 };
 
@@ -51,7 +52,6 @@ exports.postLogin = (req, res, next) => {
           if (user.email === "admin@d-plan360.com") {
             req.session.isAdmin = true;
           }
-
           req.session.user = user;
           return req.session.save((err) => {
             console.log(err);
@@ -88,6 +88,7 @@ exports.getResetPassword = (req, res, next) => {
     menuTitle: "비밀번호 초기화",
     successMessage,
     errorMessage,
+    isLoggedIn: req.session.isLoggedIn,
   });
 };
 
