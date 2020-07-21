@@ -270,9 +270,7 @@ function autoTotalCaculate() {
     );
   }
 
-  console.log(block);
   if (!block) {
-    console.log("doone");
     camAdTotal.value = adFeeSum;
     if (adFeeSum != 0)
       camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
