@@ -68,7 +68,6 @@ exports.getIndex = (req, res, next) => {
                 menuTitle: "Home",
                 path: "/",
                 teams,
-                isLoggedIn: req.session.isLoggedIn,
               });
             })
             .catch((err) => {
@@ -165,7 +164,6 @@ exports.getSales = (req, res, next) => {
                         agencies,
                         advertisers,
                         mediaItems,
-                        isLoggedIn: req.session.isLoggedIn,
                       });
                     })
                     .catch((err) => {
@@ -268,7 +266,6 @@ exports.getMediaSales = (req, res, next) => {
                             },
                             media,
                             mediaItems,
-                            isLoggedIn: req.session.isLoggedIn,
                           });
                         })
                         .catch((err) => {

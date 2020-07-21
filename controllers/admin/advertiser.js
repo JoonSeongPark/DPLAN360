@@ -14,7 +14,7 @@ exports.getAddAdvertiser = (req, res, next) => {
             mains: mains,
             subs: subs,
             editing: false,
-            isLoggedIn: req.session.isLoggedIn,
+            
           });
         })
         .catch((err) => {
@@ -72,7 +72,6 @@ exports.getEditAdvertiser = (req, res, next) => {
                 mains: mains,
                 subs: subs,
                 editing: req.query.edit,
-                isLoggedIn: req.session.isLoggedIn,
               });
             })
             .catch((err) => {

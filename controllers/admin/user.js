@@ -22,7 +22,6 @@ exports.getUserSignup = (req, res, next) => {
         successMessage,
         errorMessage,
         editing: false,
-        isLoggedIn: req.session.isLoggedIn,
       });
     })
     .catch((err) => {
@@ -93,7 +92,6 @@ exports.getEditUser = (req, res, next) => {
             successMessage: null,
             errorMessage,
             editing: req.query.edit,
-            isLoggedIn: req.session.isLoggedIn,
           });
         })
         .catch((err) => {

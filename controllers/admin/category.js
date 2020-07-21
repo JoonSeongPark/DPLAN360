@@ -9,7 +9,6 @@ exports.getAddCategory = (req, res, next) => {
       path: "/admin/add-category",
       mains: mainCategories,
       editing: false,
-      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };
@@ -39,7 +38,6 @@ exports.getEditMain = (req, res, next) => {
       main: main,
       editTarget: "main",
       editing: req.query.edit,
-      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };
@@ -106,7 +104,6 @@ exports.getEditSub = (req, res, next) => {
           sub: sub,
           editTarget: "sub",
           editing: req.query.edit,
-          isLoggedIn: req.session.isLoggedIn,
         });
       });
     })

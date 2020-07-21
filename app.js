@@ -72,10 +72,14 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
+  if (req.user) {
+    res.locals.isLeader = req.user.leader;
+    res.locals.blockAuth = req.user.block_auth;
+    res.locals.isLoggedIn = true;
+  }
+  res.locals.isLoggedIn = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   res.locals.isAdmin = req.session.isAdmin;
-  res.locals.isLeader = req.session.isLeader;
   next();
 });
 
@@ -132,6 +136,7 @@ sequelize
             email,
             password: hashedPassword,
             leader: 1,
+            block_auth: 0,
           });
           return admin.save();
         }

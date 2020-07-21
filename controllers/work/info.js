@@ -32,7 +32,6 @@ exports.getAdvertisers = (req, res, next) => {
                 menuTitle: "광고주 조회",
                 path: "/advertisers",
                 advertisers,
-                isLoggedIn: req.session.isLoggedIn,
               });
             })
             .catch((err) => {
@@ -56,7 +55,6 @@ exports.getAgencies = (req, res, next) => {
         menuTitle: "대행사 조회",
         path: "/agencies",
         agencies,
-        isLoggedIn: req.session.isLoggedIn,
       });
     })
     .catch((err) => {
@@ -84,7 +82,6 @@ exports.getCategories = (req, res, next) => {
         path: "/categories",
         mains,
         subs,
-        isLoggedIn: req.session.isLoggedIn,
       });
     });
   });
@@ -98,7 +95,6 @@ exports.getMedia = (req, res, next) => {
         menuTitle: "매체 조회",
         path: "/media",
         media,
-        isLoggedIn: req.session.isLoggedIn,
       });
     })
     .catch((err) => {
@@ -137,7 +133,6 @@ exports.getUsers = (req, res, next) => {
             path: "/users",
             teams,
             memberMax,
-            isLoggedIn: req.session.isLoggedIn,
           });
         })
         .catch((err) => {

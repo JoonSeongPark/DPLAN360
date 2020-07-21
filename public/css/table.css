@@ -243,3 +243,7 @@ th.xxl {
 .user-cell {
   letter-spacing: 0.5rem; text-indent: 0.5rem; text-align: center;
 }
+
+.blocked {
+  background-color: #ccc;
+}

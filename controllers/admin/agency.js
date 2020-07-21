@@ -6,7 +6,6 @@ exports.getAddAgency = (req, res, next) => {
     menuTitle: "대행사 추가",
     path: "/admin/add-agency",
     editing: false,
-    isLoggedIn: req.session.isLoggedIn,
   });
 };
 
@@ -46,7 +45,6 @@ exports.getEditAgency = (req, res, next) => {
         path: "/agencies",
         editing: req.query.edit,
         agency: agency,
-        isLoggedIn: req.session.isLoggedIn,
       });
     })
     .catch((err) => {

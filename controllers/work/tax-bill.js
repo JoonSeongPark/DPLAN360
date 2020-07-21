@@ -96,7 +96,6 @@ exports.getTaxBill = (req, res, next) => {
                               media_end,
                             },
                             mediaItems,
-                            isLoggedIn: req.session.isLoggedIn,
                           });
                         })
                         .catch((err) => {

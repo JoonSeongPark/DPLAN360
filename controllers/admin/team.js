@@ -13,7 +13,6 @@ exports.getAddTeam = (req, res, next) => {
     pageTitle: "Add Team",
     menuTitle: "팀 추가",
     path: "/admin/add-team",
-    isLoggedIn: req.session.isLoggedIn,
     successMessage,
     errorMessage,
   });

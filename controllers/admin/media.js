@@ -6,7 +6,6 @@ exports.getAddMedia = (req, res, next) => {
     menuTitle: "매체 추가",
     path: "/admin/add-media",
     editing: false,
-    isLoggedIn: req.session.isLoggedIn,
   });
 };
 
@@ -58,7 +57,6 @@ exports.getEditMedia = (req, res, next) => {
         path: "/media",
         editing: req.query.edit,
         medium: medium,
-        isLoggedIn: req.session.isLoggedIn,
       });
     })
     .catch((err) => {
