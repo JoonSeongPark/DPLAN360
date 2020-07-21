@@ -11,7 +11,7 @@
       
         <form action="/admin/<%= editing ? 'edit-agency' : 'add-agency' %>" method="POST">
           <div class="h-part">
-            <table id="cam-table">
+            <table id="cam-table" style="margin: auto">
               <tr>
                 <td class="h-header">*업체명</td>
                 <td>
@@ -58,7 +58,7 @@
                 <input type='hidden' value="<%= agency.id %>" name="agencyId" >
               <% } %>
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit">대행사<%= editing ? '수정' : '추가' %></button>
+              <button type="submit"><%= editing ? '수정' : '등록' %></button>
               <a href="/agencies" ><button type="button">취소</button></a>
             </div>
           </div>

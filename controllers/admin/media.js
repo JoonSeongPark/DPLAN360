@@ -3,7 +3,7 @@ const Medium = require("../../models/medium");
 exports.getAddMedia = (req, res, next) => {
   res.render("admin/edit-media", {
     pageTitle: "Add Media",
-    menuTitle: "매체 추가",
+    menuTitle: "매체 등록",
     path: "/admin/add-media",
     editing: false,
   });

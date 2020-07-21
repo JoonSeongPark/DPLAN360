@@ -3,7 +3,7 @@ const Agency = require("../../models/agency");
 exports.getAddAgency = (req, res, next) => {
   res.render("admin/edit-agency", {
     pageTitle: "Add Agency",
-    menuTitle: "대행사 추가",
+    menuTitle: "대행사 등록",
     path: "/admin/add-agency",
     editing: false,
   });

@@ -13,7 +13,7 @@
 
           <% if (!editing || editTarget === "main") { %>
             <form action="/admin/<%= editing ? 'edit-main-category' : 'add-main-category' %>" method="POST">
-              <div class="h-part" >
+              <div class="h-part" style="margin: auto">
                 <h4>∙ 업종(대분류) 추가</h4>
                 <table>
                   <tr>
@@ -27,7 +27,7 @@
                   <% if (editing) { %>
                     <input type='hidden' value="<%= main.id %>" name="mainId" >
                   <% } %>
-                  <button type="submit">업종(대분류)<%= editing ? '수정' : '추가' %></button>
+                  <button type="submit"><%= editing ? '수정' : '등록' %></button>
                   <a href="/admin/categories" ><button>취소</button></a>
                 </div>
               </div>
@@ -61,7 +61,7 @@
                   <input type='hidden' value="<%= sub.id %>" name="subId" >
                 <% } %>
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button type="submit">업종(소분류)<%= editing ? '수정' : '추가' %></button>
+                <button type="submit"><%= editing ? '수정' : '등록' %></button>
                 <a href="/categories" ><button type="button">취소</button></a>
               </div>
             </div>

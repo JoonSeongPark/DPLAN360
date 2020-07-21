@@ -9,7 +9,7 @@ exports.getAddAdvertiser = (req, res, next) => {
         .then((subs) => {
           res.render("admin/edit-advertiser", {
             pageTitle: "Add Advertiser",
-            menuTitle: "광고주 추가",
+            menuTitle: "광고주 등록",
             path: "/admin/add-advertiser",
             mains: mains,
             subs: subs,

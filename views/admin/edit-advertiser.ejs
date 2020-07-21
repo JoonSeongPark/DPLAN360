@@ -11,7 +11,7 @@
       
         <form action="/admin/<%= editing ? 'edit-advertiser' : 'add-advertiser' %>" method="POST">
           <div class="h-part">
-            <table>
+            <table style="margin: auto">
               <tr>
                 <td class="h-header">*광고주</td>
                 <td>
@@ -42,7 +42,7 @@
                 <input type='hidden' value="<%= advertiser.id %>" name="advertiserId" >
               <% } %>
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit">광고주<%= editing ? '수정' : '추가' %></button>
+              <button type="submit"><%= editing ? '수정' : '등록' %></button>
               <a href="/advertisers" ><button type="button">취소</button></a>
             </div>
           </div>

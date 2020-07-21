@@ -11,7 +11,7 @@
       
         <form action="/admin/<%= editing ? 'edit-media' : 'add-media' %>" method="POST">
           <div class="h-part">
-            <table id="cam-table">
+            <table id="cam-table" style="margin: auto">
               <tr>
                 <td class="h-header">*매체사</td>
                 <td>
@@ -48,14 +48,14 @@
               <tr>
                 <td class="h-header">매체제공 수수료율</td>
                 <td>
-                  <input class="input-num" type="text" name="provide_fee_rate" size="4" value="<%= editing ? medium.provide_fee_rate : '' %>"/>%
+                  <input class="input-num" type="text" name="provide_fee_rate" size="4" value="<%= editing ? medium.provide_fee_rate : '' %>"/> %
                 </td>
                 <td class="h-header">*수수료율</td>
                 <td >
-                  대행사:<input class="input-num" type="text" name="agency_fee_rate" placeholder="00" size="3" value="<%= editing ? medium.agency_fee_rate : '' %>"/>%&nbsp&nbsp/&nbsp&nbsp
-                  매체:<input class="input-num" type="text" name="media_fee_rate" placeholder="00" size="3" value="<%= editing ? medium.media_fee_rate : '' %>"/>%&nbsp&nbsp/&nbsp&nbsp
-                  디플랜:<input class="input-num" type="text" name="dplan_fee_rate" placeholder="00" size="3" value="<%= editing ? medium.dplan_fee_rate : '' %>"/>%&nbsp&nbsp/&nbsp&nbsp
-                  인터렙:<input class="input-num" type="text" name="inter_fee_rate" placeholder="00" size="3" value="<%= editing ? medium.inter_fee_rate : '' %>"/>%
+                  대행사: <input class="input-num" type="text" name="agency_fee_rate" size="3" value="<%= editing ? medium.agency_fee_rate : '' %>"/> %&nbsp&nbsp/&nbsp&nbsp
+                  매체: <input class="input-num" type="text" name="media_fee_rate" size="3" value="<%= editing ? medium.media_fee_rate : '' %>"/> %&nbsp&nbsp/&nbsp&nbsp
+                  디플랜: <input class="input-num" type="text" name="dplan_fee_rate" size="3" value="<%= editing ? medium.dplan_fee_rate : '' %>"/> %&nbsp&nbsp/&nbsp&nbsp
+                  인터렙: <input class="input-num" type="text" name="inter_fee_rate" size="3" value="<%= editing ? medium.inter_fee_rate : '' %>"/> %
                 </td>
                 
               </tr>
@@ -71,7 +71,7 @@
                 <input type='hidden' value="<%= medium.id %>" name="mediumId" >
               <% } %>
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit">매체<%= editing ? '수정' : '추가' %></button>
+              <button type="submit"><%= editing ? '수정' : '등록' %></button>
               <a href="/media" ><button type="button">취소</button></a>
             </div>
           </div>

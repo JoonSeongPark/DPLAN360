@@ -5,7 +5,7 @@ exports.getAddCategory = (req, res, next) => {
   AdMainCategory.findAll().then((mainCategories) => {
     res.render("admin/edit-category", {
       pageTitle: "Add Category",
-      menuTitle: "업종 추가",
+      menuTitle: "업종 등록",
       path: "/admin/add-category",
       mains: mainCategories,
       editing: false,
