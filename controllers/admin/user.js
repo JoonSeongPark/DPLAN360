@@ -21,6 +21,7 @@ exports.getUserSignup = (req, res, next) => {
         teams: teams,
         successMessage,
         errorMessage,
+        editing: false,
         isLoggedIn: req.session.isLoggedIn,
       });
     })
@@ -49,6 +50,7 @@ exports.postUserSignup = (req, res, next) => {
                   email,
                   password: hashedPassword,
                   leader,
+                  block_auth: 0,
                 })
                 .then((user) => {
                   req.flash("success", "새로운 사용자가 생성되었습니다.");
@@ -61,6 +63,38 @@ exports.postUserSignup = (req, res, next) => {
             .catch((err) => {
               return console.log(err);
             });
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
+};
+
+exports.getEditUser = (req, res, next) => {
+  const { userId } = req.params;
+
+  let errorMessage = req.flash("error");
+  if (errorMessage.length > 0) errorMessage = errorMessage[0];
+  else errorMessage = null;
+
+  Team.findAll()
+    .then((teams) => {
+      User.findByPk(userId)
+        .then((user) => {
+          res.render("auth/user-signup", {
+            pageTitle: "Edit User",
+            menuTitle: "사용자 수정",
+            path: "users",
+            user,
+            teams,
+            successMessage: null,
+            errorMessage,
+            editing: req.query.edit,
+            isLoggedIn: req.session.isLoggedIn,
+          });
         })
         .catch((err) => {
           return console.log(err);

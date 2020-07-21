@@ -19,7 +19,7 @@
               <% for (let i=0; i < memberMax; i++) { %>
                 <tr>
                   <% if (i < team.members.length) { %>
-                    <td class="<%= team.members[i].leader ? 'user-cell leader' : 'user-cell' %>"><%= team.members[i].name %></td>
+                    <td class="<%= team.members[i].leader ? 'user-cell leader' : 'user-cell' %>"><a href="/admin/edit-user/<%= team.members[i].id %>?edit=true"><div><%= team.members[i].name %></div></a></td>
                   <% } else { %>
                     <td></td>
                   <% } %>
