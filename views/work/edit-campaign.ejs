@@ -16,7 +16,7 @@
           <% if (editing) { %>
             <input type="hidden" name="campaign_id" value="<%= campaign.id %>">
           <% } %>
-          <div class="h-part">
+          <div class="h-part sort-part">
             <table id="cam-table">
                 <td class="h-header">캠페인구분</td>
                 <td class="h-content">
@@ -135,9 +135,9 @@
               </tr>
             </table>
           </div>
-          <div style="margin: 10px 7%">
-            <button type="button" id="media-modal-btn">매체추가</button>
-          </div>
+          
+          <button style="margin: 0 1.1vw;" type="button" id="media-modal-btn">매체추가</button>
+          
           <div class="v-part">
             <table id="media-table">
               <tr>

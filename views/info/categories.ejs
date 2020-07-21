@@ -11,9 +11,10 @@
       <%- include('../includes/menu-title.ejs') %>
       
         <div style="display: flex; justify-content: space-evenly;">
-          <div class="v-part result-part" style="width: auto;">
-            <h4>∙ 업종(대분류)</h4>
-            <table class="has-margin">
+          <div>
+          <h4 style="margin:1.1vw";>∙ 업종(대분류)</h4>
+            <div class="result-part">
+            <table>
               <tr>
                 <th class="v-header xl">업종(대분류)</th>
                 <% if (isLeader) { %>
@@ -43,9 +44,11 @@
               <% }) %>
             </table>
           </div>
-          <div class="v-part result-part" style="width: auto;">
-            <h4>∙ 업종(소분류)</h4>
-            <table class="has-margin">
+          </div>
+          <div>
+            <h4 style="margin:1.1vw";>∙ 업종(소분류)</h4>
+            <div class="result-part">
+            <table>
               <tr>
                 <th class="v-header xl">업종(대분류)</th>
                 <th class="v-header xl">업종(소분류)</th>
@@ -76,6 +79,7 @@
                 </tr>
               <% }) %>
             </table>
+            </div>
           </div>
         </div>
       </main>

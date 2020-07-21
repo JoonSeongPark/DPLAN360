@@ -2,15 +2,10 @@ table {
   border-top: 2px solid #555;
   border-collapse: collapse;
   font-size: 10px;
-  margin: auto;
 }
 
 table.max-width {
   width: 100%;
-}
-
-table.has-margin {
-  margin: auto;
 }
 
 section {
@@ -170,10 +165,16 @@ th.xxl {
   width: 180px;
 }
 
+.sort-part {
+  margin: 1.3vw 1.1vw;
+}
+
 .result-part {
+  display: inline-block;
   height: 75vh;
   overflow: auto;
-  margin: 20px 1vw;
+  margin: 0 1.1vw 1.3vw;
+  padding-right: 11px;
 }
 
 .scrollable {
