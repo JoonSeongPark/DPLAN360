@@ -8,7 +8,7 @@ exports.isAuth = (req, res, next) => {
 
 // 팀장 계정이 아닐 경우, Home 화면으로 이동
 exports.isLeader = (req, res, next) => {
-  if (!req.session.isLeader) {
+  if (!req.session.user.leader) {
     return res.redirect("/");
   }
   next();
