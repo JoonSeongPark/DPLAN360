@@ -102,3 +102,30 @@ exports.getEditUser = (req, res, next) => {
       return console.log(err);
     });
 };
+
+exports.postEditUser = (req, res, next) => {
+  const { userId } = req.body;
+
+  const updatedName = req.body.name;
+  const updatedEmail = req.body.email;
+  const updatedTeamId = req.body.teamId;
+  const updatedLeader = req.body.leader;
+  const updatedBlockAuth = req.body.blockAuth;
+
+  User.findByPk(userId)
+    .then((user) => {
+      user.name = updatedName;
+      user.email = updatedEmail;
+      user.teamId = updatedTeamId;
+      user.leader = updatedLeader;
+      user.block_auth = updatedBlockAuth;
+
+      return user.save();
+    })
+    .then((result) => {
+      res.redirect("/users");
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
+};
