@@ -208,7 +208,7 @@ th.xxl {
 
 .user-table-container {
   text-align: center;
-  margin: 10px 20px
+  margin: 10px 20px;
 }
 
 .user-team-table {
@@ -242,9 +242,15 @@ th.xxl {
 }
 
 .user-cell {
-  letter-spacing: 0.5rem; text-indent: 0.5rem; text-align: center;
+  letter-spacing: 0.5rem;
+  text-indent: 0.5rem;
+  text-align: center;
 }
 
 .blocked {
   background-color: #ccc;
+}
+
+.blocked_but_auth {
+  background-color: var(--dark-blue);
 }

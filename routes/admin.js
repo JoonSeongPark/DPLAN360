@@ -171,4 +171,10 @@ router.get(
   adminUserController.getEditUser
 );
 
+router.post(
+  "/edit-user",
+  authMiddleware.isLeader,
+  adminUserController.postEditUser
+);
+
 module.exports = router;
