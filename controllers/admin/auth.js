@@ -116,7 +116,7 @@ exports.postResetPassword = (req, res, next) => {
       })
       .then((result) => {
         req.flash("success", `${email} 으로 메일이 발송되었습니다.`);
-        res.redirect("/reset-password");
+        res.redirect("/login");
 
         transporter.sendMail({
           to: email,
