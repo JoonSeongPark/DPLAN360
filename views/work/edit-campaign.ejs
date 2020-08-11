@@ -73,7 +73,7 @@
                     type="date"
                     name="cam_start_date"
                     id="cam-start-date"
-                    value="<%= editing ? `${campaign.period_begin.getFullYear()}-${campaign.period_begin.getMonth()+1 < 10 ? '0'+(campaign.period_begin.getMonth()+1) : campaign.period_begin.getMonth()+1}-${campaign.period_begin.getDate() < 10 ? '0'+campaign.period_begin.getDate() : campaign.period_begin.getDate()}` : ''%>"
+                    value="<%= editing ? `${campaign.period_begin.getFullYear()}-${(campaign.period_begin.getMonth()+1).toString().padStart(2,'0')}-${campaign.period_begin.getDate().toString().padStart(2,'0')}` : ''%>"
                   />
                   &nbsp~&nbsp
                   <input
@@ -81,7 +81,7 @@
                     type="date"
                     name="cam_end_date"
                     id="cam-end-date"
-                    value="<%= editing ? `${campaign.period_end.getFullYear()}-${campaign.period_end.getMonth()+1 < 10 ? '0'+(campaign.period_end.getMonth()+1) : campaign.period_end.getMonth()+1}-${campaign.period_end.getDate() < 10 ? '0'+campaign.period_end.getDate() : campaign.period_end.getDate()}` : ''%>"
+                    value="<%= editing ? `${campaign.period_end.getFullYear()}-${(campaign.period_end.getMonth()+1).toString().padStart(2,'0')}-${campaign.period_end.getDate().toString().padStart(2,'0')}` : ''%>"
                   />
                   &nbsp&nbsp
                   <button style="font-size: 10px; padding: 1px 2px;" type="button" id="set-date">맞춤</button>
@@ -125,7 +125,7 @@
                 <td class="h-header">대행사 세금계산서 발행월</td>
                 <td class="h-content">
                   <input class="input-date" type="month" name="cam_tax_month" id="cam-tax-month"
-                  value="<%= editing ? `${campaign.tax_date.getFullYear()}-${campaign.tax_date.getMonth()+1 < 10 ? '0'+(campaign.tax_date.getMonth()+1) : campaign.tax_date.getMonth()+1}` : '' %>"/>
+                  value="<%= editing ? `${campaign.tax_date.getFullYear()}-${(campaign.tax_date.getMonth()+1).toString().padStart(2,'0')}` : '' %>"/>
                   &nbsp&nbsp
                   <select name="media_issue_type" id="media-issue-type">
                     <option value="전액" <%= editing && campaign.issue_type === '전액' ? 'selected' : '' %>>전액</option>
@@ -180,12 +180,12 @@
                   </td>
                   <td>
                     <input class="input-date" type="date" name="media_start"
-                    value="<%=`${mediaItem.media_start.getFullYear()}-${mediaItem.media_start.getMonth()+1 < 10 ? '0'+(mediaItem.media_start.getMonth()+1) : mediaItem.media_start.getMonth()+1}-${mediaItem.media_start.getDate() < 10 ? '0'+mediaItem.media_start.getDate() : mediaItem.media_start.getDate()}`%>"
+                    value="<%=`${mediaItem.media_start.getFullYear()}-${(mediaItem.media_start.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.media_start.getDate().toString().padStart(2,'0')}`%>"
                     <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
                   </td>
                   <td>
                     <input class="input-date" type="date" name="media_end"
-                    value="<%=`${mediaItem.media_end.getFullYear()}-${mediaItem.media_end.getMonth()+1 < 10 ? '0'+(mediaItem.media_end.getMonth()+1) : mediaItem.media_end.getMonth()+1}-${mediaItem.media_end.getDate() < 10 ? '0'+mediaItem.media_end.getDate() : mediaItem.media_end.getDate()}`%>"
+                    value="<%=`${mediaItem.media_end.getFullYear()}-${(mediaItem.media_end.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.media_end.getDate().toString().padStart(2,'0')}`%>"
                     <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
                   </td>
                   <td>
@@ -213,7 +213,7 @@
                   <td>
                     <div style="display:flex;align-items:center;justify-content:center;">
                       <input class="input-date" type="month" name="lower_issue_date"
-                      value="<%= `${mediaItem.issue_date.getFullYear()}-${mediaItem.issue_date.getMonth()+1 < 10 ? '0'+(mediaItem.issue_date.getMonth()+1) : mediaItem.issue_date.getMonth()+1}`%>"
+                      value="<%= `${mediaItem.issue_date.getFullYear()}-${(mediaItem.issue_date.getMonth()+1).toString().padStart(2,'0')}`%>"
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                       />
                       <select name="lower_issue_type">
@@ -229,7 +229,7 @@
                   <td>
                     <input
                       name="lower_attribution_time"
-                      value="<%=`${mediaItem.attribution_time.getFullYear()}-${mediaItem.attribution_time.getMonth()+1 < 10 ? '0'+(mediaItem.attribution_time.getMonth()+1) : mediaItem.attribution_time.getMonth()+1}`%>"
+                      value="<%=`${mediaItem.attribution_time.getFullYear()}-${(mediaItem.attribution_time.getMonth()+1).toString().padStart(2,'0')}`%>"
                       type="month"
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
