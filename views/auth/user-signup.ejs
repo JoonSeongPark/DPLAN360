@@ -50,7 +50,8 @@
           <% } %>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button class="auth-btn" type="submit">사용자 <%= editing ? '수정' : '등록' %></button>
-        </main>
+        </form>
+      </main>
     </div>
 
   <%- include('../includes/end-part.ejs') %>
