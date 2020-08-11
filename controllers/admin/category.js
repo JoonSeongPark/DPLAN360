@@ -1,8 +1,10 @@
 const AdMainCategory = require("../../models/ad-main-category");
 const AdSubCategory = require("../../models/ad-sub-category");
 
-exports.getAddCategory = (req, res, next) => {
-  AdMainCategory.findAll().then((mainCategories) => {
+exports.getAddCategory = async (req, res, next) => {
+  try {
+    const mainCategories = await AdMainCategory.findAll();
+
     res.render("admin/edit-category", {
       pageTitle: "Add Category",
       menuTitle: "업종 등록",
@@ -10,27 +12,30 @@ exports.getAddCategory = (req, res, next) => {
       mains: mainCategories,
       editing: false,
     });
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postAddMain = (req, res, next) => {
+exports.postAddMain = async (req, res, next) => {
   const name = req.body.name;
 
-  AdMainCategory.create({
-    name: name,
-  })
-    .then((main) => {
-      res.redirect("/categories");
-    })
-    .catch((err) => {
-      return console.log(err);
+  try {
+    await AdMainCategory.create({
+      name: name,
     });
+
+    res.redirect("/categories");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.getEditMain = (req, res, next) => {
+exports.getEditMain = async (req, res, next) => {
   const mainId = req.params.mainId;
 
-  AdMainCategory.findByPk(mainId).then((main) => {
+  try {
+    const main = await AdMainCategory.findByPk(mainId);
     res.render("admin/edit-category", {
       pageTitle: "Edit Main Category",
       menuTitle: "업종(대분류) 수정",
@@ -39,112 +44,112 @@ exports.getEditMain = (req, res, next) => {
       editTarget: "main",
       editing: req.query.edit,
     });
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postEditMain = (req, res, next) => {
+exports.postEditMain = async (req, res, next) => {
   const mainId = req.body.mainId;
   const updated_name = req.body.name;
 
-  AdMainCategory.findByPk(mainId)
-    .then((main) => {
-      main.name = updated_name;
+  try {
+    const main = await AdMainCategory.findByPk(mainId);
 
-      return main.save();
-    })
-    .then(() => {
-      console.log("Main-Category Updated!");
-      res.redirect("/categories");
-    });
+    main.name = updated_name;
+
+    await main.save();
+
+    console.log("Main-Category Updated!");
+    res.redirect("/categories");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postDeleteMain = (req, res, next) => {
+exports.postDeleteMain = async (req, res, next) => {
   const mainId = req.body.mainId;
 
-  AdMainCategory.findByPk(mainId)
-    .then((main) => {
-      return main.destroy();
-    })
-    .then(() => {
-      console.log("Main-Category Destroyed!");
-      res.redirect("/categories");
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
+  try {
+    const main = await AdMainCategory.findByPk(mainId);
+
+    await main.destroy();
+
+    console.log("Main-Category Destroyed!");
+    res.redirect("/categories");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postAddSub = (req, res, next) => {
+exports.postAddSub = async (req, res, next) => {
   const mainId = req.body.mainId;
   const name = req.body.name;
 
-  AdMainCategory.findByPk(mainId)
-    .then((main) => {
-      main.createAdSubCategory({
-        name: name,
-      });
-      res.redirect("/categories");
-    })
-    .catch((err) => {
-      return console.log(err);
+  try {
+    const main = await AdMainCategory.findByPk(mainId);
+
+    await main.createAdSubCategory({
+      name: name,
     });
+    res.redirect("/categories");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.getEditSub = (req, res, next) => {
+exports.getEditSub = async (req, res, next) => {
   const subId = req.params.subId;
 
-  AdMainCategory.findAll()
-    .then((mains) => {
-      AdSubCategory.findByPk(subId).then((sub) => {
-        res.render("admin/edit-category", {
-          pageTitle: "Edit Sub Category",
-          menuTitle: "업(소분류) 수정",
-          path: "/categories",
-          mains: mains,
-          sub: sub,
-          editTarget: "sub",
-          editing: req.query.edit,
-        });
-      });
-    })
-    .catch((err) => {
-      return console.log(err);
+  try {
+    const mains = await AdMainCategory.findAll();
+
+    const sub = await AdSubCategory.findByPk(subId);
+    res.render("admin/edit-category", {
+      pageTitle: "Edit Sub Category",
+      menuTitle: "업(소분류) 수정",
+      path: "/categories",
+      mains: mains,
+      sub: sub,
+      editTarget: "sub",
+      editing: req.query.edit,
     });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postEditSub = (req, res, next) => {
+exports.postEditSub = async (req, res, next) => {
   const subId = req.body.subId;
   const updated_name = req.body.name;
   const updated_mainId = req.body.mainId;
 
-  AdSubCategory.findByPk(subId)
-    .then((sub) => {
-      sub.name = updated_name;
-      sub.adMainCategoryId = updated_mainId;
+  try {
+    const sub = await AdSubCategory.findByPk(subId);
 
-      return sub.save();
-    })
-    .then(() => {
-      console.log("Sub-Category Updated!");
-      res.redirect("/categories");
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
+    sub.name = updated_name;
+    sub.adMainCategoryId = updated_mainId;
+
+    await sub.save();
+
+    console.log("Sub-Category Updated!");
+    res.redirect("/categories");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postDeleteSub = (req, res, next) => {
+exports.postDeleteSub = async (req, res, next) => {
   const subId = req.body.subId;
 
-  AdSubCategory.findByPk(subId)
-    .then((sub) => {
-      return sub.destroy();
-    })
-    .then(() => {
-      console.log("Sub-Category Destroyed!");
-      res.redirect("/categories");
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
+  try {
+    const sub = await AdSubCategory.findByPk(subId);
+
+    await sub.destroy();
+
+    console.log("Sub-Category Destroyed!");
+    res.redirect("/categories");
+  } catch (err) {
+    console.log(err);
+  }
 };

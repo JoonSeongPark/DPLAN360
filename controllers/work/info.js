@@ -6,140 +6,121 @@ const Medium = require("../../models/medium");
 const Team = require("../../models/team");
 const User = require("../../models/user");
 
-exports.getAdvertisers = (req, res, next) => {
-  AdMainCategory.findAll()
-    .then((mains) => {
-      AdSubCategory.findAll()
-        .then((subs) => {
-          Advertiser.findAll({
-            order: [
-              ["main_category", "ASC"],
-              ["sub_category", "ASC"],
-            ],
-          })
-            .then((advertisers) => {
-              advertisers.map((ad) => {
-                ad.mainName = mains.find(
-                  (main) => +main.id === +ad.main_category
-                ).name;
-                ad.subName = subs.find(
-                  (sub) => +sub.id === +ad.sub_category
-                ).name;
-              });
+exports.getAdvertisers = async (req, res, next) => {
+  const mains = await AdMainCategory.findAll();
+  const subs = await AdSubCategory.findAll();
 
-              res.render("info/advertisers", {
-                pageTitle: "Advertisers",
-                menuTitle: "광고주 조회",
-                path: "/advertisers",
-                advertisers,
-              });
-            })
-            .catch((err) => {
-              return console.log(err);
-            });
-        })
-        .catch((err) => {
-          return console.log(err);
-        });
-    })
-    .catch((err) => {
-      return console.log(err);
+  try {
+    const advertisers = await Advertiser.findAll({
+      order: [
+        ["main_category", "ASC"],
+        ["sub_category", "ASC"],
+      ],
     });
+
+    advertisers.map((ad) => {
+      ad.mainName = mains.find((main) => +main.id === +ad.main_category).name;
+      ad.subName = subs.find((sub) => +sub.id === +ad.sub_category).name;
+    });
+
+    res.render("info/advertisers", {
+      pageTitle: "Advertisers",
+      menuTitle: "광고주 조회",
+      path: "/advertisers",
+      advertisers,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.getAgencies = (req, res, next) => {
-  Agency.findAll({ order: [["name", "ASC"]] })
-    .then((agencies) => {
-      res.render("info/agencies", {
-        pageTitle: "Agencies",
-        menuTitle: "대행사 조회",
-        path: "/agencies",
-        agencies,
-      });
-    })
-    .catch((err) => {
-      return console.log(err);
+exports.getAgencies = async (req, res, next) => {
+  try {
+    const agencies = await Agency.findAll({ order: [["name", "ASC"]] });
+
+    res.render("info/agencies", {
+      pageTitle: "Agencies",
+      menuTitle: "대행사 조회",
+      path: "/agencies",
+      agencies,
     });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.getCategories = (req, res, next) => {
-  AdMainCategory.findAll({ order: [["id", "ASC"]] }).then((mains) => {
-    AdSubCategory.findAll({
+exports.getCategories = async (req, res, next) => {
+  try {
+    const mains = await AdMainCategory.findAll({ order: [["id", "ASC"]] });
+    const subs = await AdSubCategory.findAll({
       order: [
         ["adMainCategoryId", "ASC"],
         ["name", "ASC"],
       ],
-    }).then((subs) => {
-      subs.map((sub) => {
-        sub.mainName = mains.find(
-          (main) => +main.id === +sub.adMainCategoryId
-        ).name;
-      });
-
-      res.render("info/categories", {
-        pageTitle: "Categories",
-        menuTitle: "업종 조회",
-        path: "/categories",
-        mains,
-        subs,
-      });
     });
-  });
+    subs.map((sub) => {
+      sub.mainName = mains.find(
+        (main) => +main.id === +sub.adMainCategoryId
+      ).name;
+    });
+
+    res.render("info/categories", {
+      pageTitle: "Categories",
+      menuTitle: "업종 조회",
+      path: "/categories",
+      mains,
+      subs,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.getMedia = (req, res, next) => {
-  Medium.findAll({ order: [["name", "ASC"]] })
-    .then((media) => {
-      res.render("info/media", {
-        pageTitle: "Media",
-        menuTitle: "매체 조회",
-        path: "/media",
-        media,
-      });
-    })
-    .catch((err) => {
-      return console.log(err);
+exports.getMedia = async (req, res, next) => {
+  try {
+    const media = await Medium.findAll({ order: [["name", "ASC"]] });
+
+    res.render("info/media", {
+      pageTitle: "Media",
+      menuTitle: "매체 조회",
+      path: "/media",
+      media,
     });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.getUsers = (req, res, next) => {
-  User.findAll({
+exports.getUsers = async (req, res, next) => {
+  const users = await User.findAll({
     order: [
       ["leader", "DESC"],
       ["name", "ASC"],
     ],
-  })
-    .then((users) => {
-      Team.findAll()
-        .then((teams) => {
-          teams = teams.map((team) => {
-            return {
-              ...team,
-              members: users.filter((user) => {
-                return +user.teamId === +team.id;
-              }),
-            };
-          });
+  });
 
-          const numberOfMembers = teams.map((team) => {
-            return team.members.length;
-          });
+  const teams = await Team.findAll();
 
-          const memberMax = Math.max(...numberOfMembers);
+  teams = teams.map((team) => {
+    return {
+      ...team,
+      members: users.filter((user) => {
+        return +user.teamId === +team.id;
+      }),
+    };
+  });
 
-          res.render("info/users", {
-            pageTitle: "Users",
-            menuTitle: "사용자 조회",
-            path: "/users",
-            teams,
-            memberMax,
-          });
-        })
-        .catch((err) => {
-          return console.log(err);
-        });
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
+  const numberOfMembers = teams.map((team) => {
+    return team.members.length;
+  });
+
+  const memberMax = Math.max(...numberOfMembers);
+
+  res.render("info/users", {
+    pageTitle: "Users",
+    menuTitle: "사용자 조회",
+    path: "/users",
+    teams,
+    memberMax,
+  });
 };

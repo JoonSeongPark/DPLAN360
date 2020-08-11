@@ -9,7 +9,7 @@ exports.getAddAgency = (req, res, next) => {
   });
 };
 
-exports.postAddAgency = (req, res, next) => {
+exports.postAddAgency = async (req, res, next) => {
   const name = req.body.name;
   const pay_condition = req.body.pay_condition;
   const deposit_type = req.body.deposit_type;
@@ -17,42 +17,42 @@ exports.postAddAgency = (req, res, next) => {
   const bill_publisher = req.body.bill_publisher;
   const memo = req.body.memo;
 
-  Agency.create({
-    name: name,
-    pay_condition: pay_condition,
-    deposit_type: deposit_type,
-    bill_type: bill_type,
-    bill_publisher: bill_publisher,
-    memo: memo,
-  })
-    .then((agency) => {
-      console.log("Agency Successfully Add!");
-      res.redirect("/agencies");
-    })
-    .catch((err) => {
-      return console.log(err);
+  try {
+    await Agency.create({
+      name: name,
+      pay_condition: pay_condition,
+      deposit_type: deposit_type,
+      bill_type: bill_type,
+      bill_publisher: bill_publisher,
+      memo: memo,
     });
+
+    console.log("Agency Successfully Add!");
+    res.redirect("/agencies");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.getEditAgency = (req, res, next) => {
+exports.getEditAgency = async (req, res, next) => {
   const agencyId = req.params.agencyId;
 
-  Agency.findByPk(agencyId)
-    .then((agency) => {
-      res.render("admin/edit-agency", {
-        pageTitle: "Edit Agency",
-        menuTitle: "대행사 수정",
-        path: "/agencies",
-        editing: req.query.edit,
-        agency: agency,
-      });
-    })
-    .catch((err) => {
-      return console.log(err);
+  try {
+    const agency = await Agency.findByPk(agencyId);
+
+    res.render("admin/edit-agency", {
+      pageTitle: "Edit Agency",
+      menuTitle: "대행사 수정",
+      path: "/agencies",
+      editing: req.query.edit,
+      agency: agency,
     });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postEditAgency = (req, res, next) => {
+exports.postEditAgency = async (req, res, next) => {
   const agencyId = req.body.agencyId;
   const updated_name = req.body.name;
   const updated_pay_condition = req.body.pay_condition;
@@ -61,38 +61,38 @@ exports.postEditAgency = (req, res, next) => {
   const updated_bill_publisher = req.body.bill_publisher;
   const updated_memo = req.body.memo;
 
-  Agency.findByPk(agencyId)
-    .then((agency) => {
-      agency.name = updated_name;
-      agency.pay_condition = updated_pay_condition;
-      agency.deposit_type = updated_deposit_type;
-      agency.bill_type = updated_bill_type;
-      agency.bill_publisher = updated_bill_publisher;
-      agency.memo = updated_memo;
-      return agency.save();
-    })
-    .then((result) => {
-      console.log("Agency Updated!");
-      res.redirect("/agencies");
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
+  try {
+    const agency = await Agency.findByPk(agencyId);
+
+    agency.name = updated_name;
+    agency.pay_condition = updated_pay_condition;
+    agency.deposit_type = updated_deposit_type;
+    agency.bill_type = updated_bill_type;
+    agency.bill_publisher = updated_bill_publisher;
+    agency.memo = updated_memo;
+
+    await agency.save();
+
+    console.log("Agency Updated!");
+    res.redirect("/agencies");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postDeleteAgency = (req, res, next) => {
+exports.postDeleteAgency = async (req, res, next) => {
   const agencyId = req.body.agencyId;
 
-  Agency.findByPk(agencyId)
-    .then((agency) => {
-      console.log("Delete Agency!");
-      return agency.destroy();
-    })
-    .then(() => {
-      console.log("Agency Destroyed!");
-      res.redirect("/agencies");
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
+  try {
+    const agency = await Agency.findByPk(agencyId);
+
+    console.log("Delete Agency!");
+
+    await agency.destroy();
+
+    console.log("Agency Destroyed!");
+    res.redirect("/agencies");
+  } catch (err) {
+    console.log(err);
+  }
 };

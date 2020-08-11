@@ -18,14 +18,15 @@ exports.getAddTeam = (req, res, next) => {
   });
 };
 
-exports.postAddTeam = (req, res, next) => {
+exports.postAddTeam = async (req, res, next) => {
   const name = req.body.name;
 
-  Team.findOne({
-    where: {
-      name,
-    },
-  }).then((team) => {
+  try {
+    const team = await Team.findOne({
+      where: {
+        name,
+      },
+    });
     // 같은 팀명이 존재
     if (team) {
       req.flash("error", "같은 팀 이름이 존재합니다.");
@@ -33,13 +34,12 @@ exports.postAddTeam = (req, res, next) => {
     }
 
     // 새로운 팀 생성
-    Team.create({ name })
-      .then((team) => {
-        req.flash("success", "팀이 성공적으로 생성되었습니다.");
-        return res.redirect("/admin/add-team");
-      })
-      .catch((err) => {
-        return console.log(err);
-      });
-  });
+    await Team.create({ name });
+
+    req.flash("success", "팀이 성공적으로 생성되었습니다.");
+    
+    return res.redirect("/admin/add-team");
+  } catch (err) {
+    console.log(err);
+  }
 };

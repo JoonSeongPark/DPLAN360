@@ -9,7 +9,7 @@ exports.getAddMedia = (req, res, next) => {
   });
 };
 
-exports.postAddMedia = (req, res, next) => {
+exports.postAddMedia = async (req, res, next) => {
   const name = req.body.name;
   const inter_type = req.body.inter_type;
   const inter_name = req.body.inter_name;
@@ -23,48 +23,48 @@ exports.postAddMedia = (req, res, next) => {
   const inter_fee_rate = req.body.inter_fee_rate;
   const memo = req.body.memo;
 
-  Medium.create({
-    name: name,
-    inter_type: inter_type,
-    inter_name: inter_name,
-    pay_condition: pay_condition,
-    bill_type: bill_type,
-    bill_publisher: bill_publisher,
-    provide_fee_rate: provide_fee_rate,
-    agency_fee_rate: agency_fee_rate,
-    media_fee_rate: media_fee_rate,
-    dplan_fee_rate: dplan_fee_rate,
-    inter_fee_rate: inter_fee_rate,
-    memo: memo,
-  })
-    .then(() => {
-      console.log("Media Successfully Add!");
-      res.redirect("/media");
-    })
-    .catch((err) => {
-      console.log(err);
+  try {
+    await Medium.create({
+      name: name,
+      inter_type: inter_type,
+      inter_name: inter_name,
+      pay_condition: pay_condition,
+      bill_type: bill_type,
+      bill_publisher: bill_publisher,
+      provide_fee_rate: provide_fee_rate,
+      agency_fee_rate: agency_fee_rate,
+      media_fee_rate: media_fee_rate,
+      dplan_fee_rate: dplan_fee_rate,
+      inter_fee_rate: inter_fee_rate,
+      memo: memo,
     });
+
+    console.log("Media Successfully Add!");
+    res.redirect("/media");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.getEditMedia = (req, res, next) => {
+exports.getEditMedia = async (req, res, next) => {
   const mediumId = req.params.mediumId;
 
-  Medium.findByPk(mediumId)
-    .then((medium) => {
-      res.render("admin/edit-media", {
-        pageTitle: "Edit Media",
-        menuTitle: "매체 수정",
-        path: "/media",
-        editing: req.query.edit,
-        medium: medium,
-      });
-    })
-    .catch((err) => {
-      return console.log(err);
+  try {
+    const medium = await Medium.findByPk(mediumId);
+
+    res.render("admin/edit-media", {
+      pageTitle: "Edit Media",
+      menuTitle: "매체 수정",
+      path: "/media",
+      editing: req.query.edit,
+      medium: medium,
     });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postEditMedia = (req, res, next) => {
+exports.postEditMedia = async (req, res, next) => {
   const mediumId = req.body.mediumId;
   const updated_name = req.body.name;
   const updated_inter_type = req.body.inter_type;
@@ -79,43 +79,42 @@ exports.postEditMedia = (req, res, next) => {
   const updated_inter_fee_rate = req.body.inter_fee_rate;
   const updated_memo = req.body.memo;
 
-  Medium.findByPk(mediumId)
-    .then((medium) => {
-      medium.name = updated_name;
-      medium.inter_type = updated_inter_type;
-      medium.inter_name = updated_inter_name;
-      medium.pay_condition = updated_pay_condition;
-      medium.bill_type = updated_bill_type;
-      medium.bill_publisher = updated_bill_publisher;
-      medium.provide_fee_rate = updated_provide_fee_rate;
-      medium.agency_fee_rate = updated_agency_fee_rate;
-      medium.media_fee_rate = updated_media_fee_rate;
-      medium.dplan_fee_rate = updated_dplan_fee_rate;
-      medium.inter_fee_rate = updated_inter_fee_rate;
-      medium.memo = updated_memo;
-      return medium.save();
-    })
-    .then((result) => {
-      console.log("Media Updated!");
-      res.redirect("/media");
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
+  try {
+    const medium = await Medium.findByPk(mediumId);
+
+    medium.name = updated_name;
+    medium.inter_type = updated_inter_type;
+    medium.inter_name = updated_inter_name;
+    medium.pay_condition = updated_pay_condition;
+    medium.bill_type = updated_bill_type;
+    medium.bill_publisher = updated_bill_publisher;
+    medium.provide_fee_rate = updated_provide_fee_rate;
+    medium.agency_fee_rate = updated_agency_fee_rate;
+    medium.media_fee_rate = updated_media_fee_rate;
+    medium.dplan_fee_rate = updated_dplan_fee_rate;
+    medium.inter_fee_rate = updated_inter_fee_rate;
+    medium.memo = updated_memo;
+
+    await medium.save();
+
+    console.log("Media Updated!");
+    res.redirect("/media");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.postDeleteMedia = (req, res, next) => {
+exports.postDeleteMedia = async (req, res, next) => {
   const mediumId = req.body.mediumId;
 
-  Medium.findByPk(mediumId)
-    .then((medium) => {
-      return medium.destroy();
-    })
-    .then(() => {
-      console.log("Media Destroyed!");
-      res.redirect("/media");
-    })
-    .catch((err) => {
-      return console.log(err);
-    });
+  try {
+    const medium = await Medium.findByPk(mediumId);
+
+    await medium.destroy();
+
+    console.log("Media Destroyed!");
+    res.redirect("/media");
+  } catch (err) {
+    console.log(err);
+  }
 };
