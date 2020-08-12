@@ -100,7 +100,7 @@
               <tr>
                 <td><%= mediaItem.teamName %> 팀</td>
                 <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.advertiserName %></div></td>
-                <td><div class="text-overflow" style="width: 162px;"><%= mediaItem.campaign.title %></div></td>
+                <td><div class="text-overflow" style="width: 162px;"><a href="/campaign/<%= mediaItem.campaign.id %>"><%= mediaItem.campaign.title %></a></div></td>
                 <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.agency.name %></div></td>
                 <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.media.name %></div></td>
                 <td><%= mediaItem.dataValues.inter_type %></td>
