@@ -110,9 +110,6 @@ Campaign.hasMany(MediaItem);
 MediaItem.belongsTo(Medium);
 Medium.hasMany(MediaItem);
 
-// Campaign.belongsToMany(Medium, { through: MediaItem });
-// Medium.belongsToMany(Campaign, { through: MediaItem });
-
 AdSubCategory.belongsTo(AdMainCategory);
 AdMainCategory.hasMany(AdSubCategory);
 
