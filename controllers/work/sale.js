@@ -90,11 +90,15 @@ exports.getSales = async (req, res, next) => {
 
   const whereCondition = {
     where: {
-      attribution_time: {
+      tax_date: {
         [Op.between]: [Date.parse(start_month), Date.parse(end_month)],
       },
     },
   };
+
+  if (team) whereCondition.where.teamId = team;
+  if (agency) whereCondition.where.agencyId = agency;
+  if (advertiser) whereCondition.where.advertiserId = advertiser;
 
   try {
     const teams = await Team.findAll();
@@ -103,44 +107,15 @@ exports.getSales = async (req, res, next) => {
 
     const advertisers = await Advertiser.findAll({ order: [["name", "ASC"]] });
 
-    let campaigns = await Campaign.findAll();
-
-    if (team !== "") {
-      campaigns = campaigns.filter((campaign) => {
-        return +campaign.teamId === +team;
-      });
-    }
-    if (agency !== "") {
-      campaigns = campaigns.filter((campaign) => {
-        return +campaign.agencyId === +agency;
-      });
-    }
-    if (advertiser !== "") {
-      campaigns = campaigns.filter((campaign) => {
-        return +campaign.advertiserId === +advertiser;
-      });
-    }
-    const targetCampaignIds = campaigns.map((campaign) => {
-      return campaign.id;
+    const campaigns = await Campaign.findAll({
+      ...whereCondition,
+      order: [
+        ["tax_date", "ASC"],
+        ["advertiserId", "ASC"],
+        ["title", "ASC"],
+      ],
     });
-    whereCondition.where.campaignId = targetCampaignIds;
 
-    let mediaItems = await MediaItem.findAll(whereCondition);
-
-    mediaItems = mediaItems.map((mediaItem) => {
-      return {
-        ...mediaItem,
-        campaign: campaigns.find(
-          (campaign) => +campaign.id === +mediaItem.campaignId
-        ),
-      };
-    });
-    mediaItems = mediaItems.map((mediaItem) => {
-      return {
-        ...mediaItem,
-        team: teams.find((team) => +team.id === +mediaItem.campaign.teamId),
-      };
-    });
     res.render("work/sales", {
       pageTitle: "Sales",
       menuTitle: "전체 매출조회",
@@ -155,7 +130,7 @@ exports.getSales = async (req, res, next) => {
       teams,
       agencies,
       advertisers,
-      mediaItems,
+      campaigns,
     });
   } catch (err) {
     console.log(err);
