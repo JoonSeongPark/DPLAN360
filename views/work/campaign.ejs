@@ -85,15 +85,19 @@
                 <td class="h-header">상태</td>
                 <td class="h-content">
                   <%= Date.now() >= campaign.period_end ? '[마감]' : (Date.now() >= campaign.period_begin ? '[진행중]' : '[예정]') %>
-
-                  
                 </td>
               </tr>
             </table>
-          </div>          
-          <div style="margin: 10px 7%">
-            <a href="/edit-campaign/<%= campaign.id %>?edit=true"><button type="submit">수정하기</button></a>
           </div>
+
+          <div style="margin: 10px 3%">
+            <a href="/edit-campaign/<%= campaign.id %>?edit=true"><button class="btn" type="button" style="font-size:13px; padding:2px 4px">수정하기</button></a>
+            <form action="/delete-campaign/<%= campaign.id %>" method="POST" style="display: inline;">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button class="btn alert-btn" type="button" id="delete-button" style="font-size:13px; padding:2px 4px">삭제하기</button>
+            </form>
+          </div>
+
           <div class="v-part">
             <table id="media-table">
               <tr>
