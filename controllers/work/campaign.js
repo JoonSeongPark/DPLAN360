@@ -356,3 +356,19 @@ exports.postEditCampaign = async (req, res, next) => {
     console.log(err);
   }
 };
+
+exports.postDeleteCampaign = async (req, res, next) => {
+  const { campaignId } = req.params;
+
+  const campaign = await Campaign.findByPk(campaignId);
+
+  const mediaItems = await campaign.getMediaItems();
+
+  for (let mediaItem of mediaItems) {
+    await mediaItem.destroy();
+  }
+
+  await campaign.destroy();
+
+  res.redirect("/");
+};

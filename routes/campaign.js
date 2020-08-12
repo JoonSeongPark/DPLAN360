@@ -34,4 +34,10 @@ router.post(
   campaignController.postEditCampaign
 );
 
+router.post(
+  "/delete-campaign/:campaignId",
+  authMiddleware.isAuth,
+  campaignController.postDeleteCampaign
+);
+
 module.exports = router;
