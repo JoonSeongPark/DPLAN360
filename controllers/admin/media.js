@@ -39,7 +39,6 @@ exports.postAddMedia = async (req, res, next) => {
       memo: memo,
     });
 
-    console.log("Media Successfully Add!");
     res.redirect("/media");
   } catch (err) {
     console.log(err);
@@ -97,7 +96,6 @@ exports.postEditMedia = async (req, res, next) => {
 
     await medium.save();
 
-    console.log("Media Updated!");
     res.redirect("/media");
   } catch (err) {
     console.log(err);
@@ -112,7 +110,6 @@ exports.postDeleteMedia = async (req, res, next) => {
 
     await medium.destroy();
 
-    console.log("Media Destroyed!");
     res.redirect("/media");
   } catch (err) {
     console.log(err);

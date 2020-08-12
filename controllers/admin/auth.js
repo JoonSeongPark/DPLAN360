@@ -40,30 +40,34 @@ exports.postLogin = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const user = await User.findOne({ where: { email: email } });
+  try {
+    const user = await User.findOne({ where: { email: email } });
 
-  if (!user) {
-    req.flash("error", "사용자가 존재하지 않습니다.");
-    return res.redirect("/login");
-  }
-  const doMatch = await bcrypt.compare(password, user.password);
-
-  if (doMatch) {
-    if (user.email === "admin@d-plan360.com") {
-      req.session.isAdmin = true;
+    if (!user) {
+      req.flash("error", "사용자가 존재하지 않습니다.");
+      return res.redirect("/login");
     }
-    req.session.user = user;
-    await req.session.save();
-    res.redirect("/");
+    const doMatch = await bcrypt.compare(password, user.password);
+
+    if (doMatch) {
+      if (user.email === "admin@d-plan360.com") {
+        req.session.isAdmin = true;
+      }
+      req.session.user = user;
+      await req.session.save();
+      res.redirect("/");
+    }
+    req.flash("error", "비밀번호가 일치하지 않습니다.");
+    res.redirect("/login");
+  } catch (err) {
+    console.log(err);
   }
-  req.flash("error", "비밀번호가 일치하지 않습니다.");
-  res.redirect("/login");
 };
 
 exports.postLogout = (req, res, next) => {
   req.session.destroy((err) => {
     console.log(err);
-    res.redirect("/login");
+    return res.redirect("/login");
   });
 };
 

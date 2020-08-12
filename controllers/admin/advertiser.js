@@ -33,7 +33,6 @@ exports.postAddAdvertiser = async (req, res, next) => {
       sub_category: sub.id,
     });
 
-    console.log("Advertiser Add!");
     res.redirect("/advertisers");
   } catch (err) {
     console.log(err);
@@ -77,7 +76,6 @@ exports.postEditAdvertiser = async (req, res, next) => {
 
     await advertiser.save();
 
-    console.log("Advertiser Updated!");
     res.redirect("/advertisers");
   } catch (err) {
     console.log(err);
@@ -92,7 +90,6 @@ exports.postDeleteAdvertiser = async (req, res, next) => {
 
     await advertiser.destroy();
 
-    console.log("Advertiser Destroyed!");
     res.redirect("/advertisers");
   } catch (err) {
     console.log(err);

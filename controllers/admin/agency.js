@@ -27,7 +27,6 @@ exports.postAddAgency = async (req, res, next) => {
       memo: memo,
     });
 
-    console.log("Agency Successfully Add!");
     res.redirect("/agencies");
   } catch (err) {
     console.log(err);
@@ -73,7 +72,6 @@ exports.postEditAgency = async (req, res, next) => {
 
     await agency.save();
 
-    console.log("Agency Updated!");
     res.redirect("/agencies");
   } catch (err) {
     console.log(err);
@@ -90,7 +88,6 @@ exports.postDeleteAgency = async (req, res, next) => {
 
     await agency.destroy();
 
-    console.log("Agency Destroyed!");
     res.redirect("/agencies");
   } catch (err) {
     console.log(err);

@@ -60,7 +60,6 @@ exports.postEditMain = async (req, res, next) => {
 
     await main.save();
 
-    console.log("Main-Category Updated!");
     res.redirect("/categories");
   } catch (err) {
     console.log(err);
@@ -75,7 +74,6 @@ exports.postDeleteMain = async (req, res, next) => {
 
     await main.destroy();
 
-    console.log("Main-Category Destroyed!");
     res.redirect("/categories");
   } catch (err) {
     console.log(err);
@@ -132,7 +130,6 @@ exports.postEditSub = async (req, res, next) => {
 
     await sub.save();
 
-    console.log("Sub-Category Updated!");
     res.redirect("/categories");
   } catch (err) {
     console.log(err);
@@ -147,7 +144,6 @@ exports.postDeleteSub = async (req, res, next) => {
 
     await sub.destroy();
 
-    console.log("Sub-Category Destroyed!");
     res.redirect("/categories");
   } catch (err) {
     console.log(err);
