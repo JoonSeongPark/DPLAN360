@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport(
 );
 
 exports.getLogin = (req, res, next) => {
-  let successMessage = req.flash("error");
+  let successMessage = req.flash("success");
   if (successMessage.length > 0) successMessage = successMessage[0];
   else successMessage = null;
   let errorMessage = req.flash("error");
@@ -163,8 +163,6 @@ exports.getNewPassword = async (req, res, next) => {
 exports.postNewPassword = async (req, res, next) => {
   const { userId, password, confirmPassword, passwordToken } = req.body;
 
-  let resetUser;
-
   if (password !== confirmPassword) {
     req.flash("error", "비밀번호가 일치하지 않습니다.");
     return res.redirect("/new-password");
@@ -179,14 +177,13 @@ exports.postNewPassword = async (req, res, next) => {
       },
     });
 
-    resetUser = user;
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    resetUser.password = hashedPassword;
-    resetUser.resetToken = undefined;
-    resetUser.resetTokenExpiration = undefined;
+    user.password = hashedPassword;
+    user.resetToken = undefined;
+    user.resetTokenExpiration = undefined;
 
-    await resetUser.save();
+    await user.save();
 
     req.flash("success", "비밀번호가 변경되었습니다.");
     res.redirect("/login");

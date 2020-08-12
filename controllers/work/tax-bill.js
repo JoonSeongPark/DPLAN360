@@ -35,7 +35,7 @@ exports.getTaxBill = async (req, res, next) => {
 
     const campaigns = await Campaign.findAll();
 
-    const mediaItems = await MediaItem.findAll({
+    let mediaItems = await MediaItem.findAll({
       where: {
         attribution_time: {
           [Op.between]: [Date.parse(agency_start), Date.parse(agency_end)],

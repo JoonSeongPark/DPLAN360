@@ -18,7 +18,7 @@ exports.getAdvertisers = async (req, res, next) => {
       ],
     });
 
-    advertisers.map((ad) => {
+    advertisers.forEach((ad) => {
       ad.mainName = mains.find((main) => +main.id === +ad.main_category).name;
       ad.subName = subs.find((sub) => +sub.id === +ad.sub_category).name;
     });
@@ -58,7 +58,7 @@ exports.getCategories = async (req, res, next) => {
         ["name", "ASC"],
       ],
     });
-    subs.map((sub) => {
+    subs.forEach((sub) => {
       sub.mainName = mains.find(
         (main) => +main.id === +sub.adMainCategoryId
       ).name;
@@ -99,7 +99,7 @@ exports.getUsers = async (req, res, next) => {
     ],
   });
 
-  const teams = await Team.findAll();
+  let teams = await Team.findAll();
 
   teams = teams.map((team) => {
     return {

@@ -12,7 +12,7 @@ exports.getIndex = async (req, res, next) => {
   try {
     const campaigns = await Campaign.findAll();
 
-    const mediaItems = await MediaItem.findAll({
+    let mediaItems = await MediaItem.findAll({
       where: {
         // 귀속시기 기준 현재 년도 정보 추출
         attribution_time: {
@@ -103,7 +103,7 @@ exports.getSales = async (req, res, next) => {
 
     const advertisers = await Advertiser.findAll({ order: [["name", "ASC"]] });
 
-    const campaigns = await Campaign.findAll();
+    let campaigns = await Campaign.findAll();
 
     if (team !== "") {
       campaigns = campaigns.filter((campaign) => {
@@ -125,7 +125,7 @@ exports.getSales = async (req, res, next) => {
     });
     whereCondition.where.campaignId = targetCampaignIds;
 
-    const mediaItems = await MediaItem.findAll(whereCondition);
+    let mediaItems = await MediaItem.findAll(whereCondition);
 
     mediaItems = mediaItems.map((mediaItem) => {
       return {
@@ -195,7 +195,7 @@ exports.getMediaSales = async (req, res, next) => {
 
     const media = await Medium.findAll();
 
-    const mediaItems = await MediaItem.findAll(whereCondition);
+    let mediaItems = await MediaItem.findAll(whereCondition);
 
     // 캠페인 Object, 매체명 추가
     mediaItems = mediaItems.map((mediaItem) => {
