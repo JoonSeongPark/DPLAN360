@@ -9,7 +9,7 @@ const Op = Sequelize.Op;
 
 exports.getIndex = async (req, res, next) => {
   let year = new Date().getFullYear();
-  
+
   if (Object.keys(req.query).length) year = +req.query.year;
 
   try {
@@ -157,7 +157,13 @@ exports.getMediaSales = async (req, res, next) => {
 
     const media = await Medium.findAll();
 
-    let mediaItems = await MediaItem.findAll(whereCondition);
+    let mediaItems = await MediaItem.findAll({
+      ...whereCondition,
+      order: [
+        ["mediumId", "ASC"],
+        ["campaignId", "ASC"],
+      ],
+    });
 
     // 캠페인 Object, 매체명 추가
     mediaItems = mediaItems.map((mediaItem) => {
