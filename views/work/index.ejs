@@ -9,6 +9,11 @@
 
       <%- include('../includes/menu-title.ejs') %>
       
+      <select style="margin: 6px 7%" id="year">
+        <% for (let i = 2019 ; i <= new Date().getFullYear() ; i++) { %>
+          <option value="<%= i %>" <%= year === i ? "selected" : "" %>><%= i %></option>
+        <% } %>
+      </select>
         <div class="index-table-container">
           <table class="home-table team-total-table">
             <tr>

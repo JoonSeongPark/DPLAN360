@@ -8,56 +8,42 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 exports.getIndex = async (req, res, next) => {
-  const thisYear = new Date().getFullYear();
-  try {
-    const campaigns = await Campaign.findAll();
+  let year = new Date().getFullYear();
+  
+  if (Object.keys(req.query).length) year = +req.query.year;
 
-    let mediaItems = await MediaItem.findAll({
+  try {
+    const campaigns = await Campaign.findAll({
       where: {
-        // 귀속시기 기준 현재 년도 정보 추출
-        attribution_time: {
-          [Op.between]: [
-            Date.parse(`${thisYear}-01`),
-            Date.parse(`${thisYear}-12`),
-          ],
+        tax_date: {
+          [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
         },
       },
     });
-
-    mediaItems = mediaItems.map((mediaItem) => {
-      return {
-        ...mediaItem,
-        teamId: campaigns.find(
-          (campaign) => campaign.id === mediaItem.campaignId
-        ).teamId,
-      };
-    });
-
     const teams = await Team.findAll();
 
     teams.forEach((team) => {
       team.month = new Array();
 
-      // 월별 계산
       new Array(12).fill(0).forEach((v, i) => {
-        const filteredMediaItems = mediaItems
-          .filter((mediaItem) => {
+        const filteredCampaigns = campaigns
+          .filter((campaign) => {
             return (
-              +mediaItem.dataValues.attribution_time.getMonth() === +i &&
-              +mediaItem.teamId === +team.id
+              +campaign.tax_date.getMonth() === +i &&
+              +campaign.teamId === +team.id
             );
           })
-          .map((mediaItem) => {
+          .map((campaign) => {
             return {
-              adFee: mediaItem.dataValues.ad_fee,
-              dplanFee: mediaItem.dataValues.dplan_fee,
+              adFee: campaign.ad_fee,
+              dplanFee: campaign.dplan_fee,
             };
           });
 
-        const adSum = filteredMediaItems.reduce((acc, cur, i) => {
+        const adSum = filteredCampaigns.reduce((acc, cur, i) => {
           return acc + cur.adFee;
         }, 0);
-        const dplanSum = filteredMediaItems.reduce((acc, cur, i) => {
+        const dplanSum = filteredCampaigns.reduce((acc, cur, i) => {
           return acc + cur.dplanFee;
         }, 0);
 
@@ -70,6 +56,7 @@ exports.getIndex = async (req, res, next) => {
       menuTitle: "Home",
       path: "/",
       teams,
+      year,
     });
   } catch (err) {
     console.log(err);

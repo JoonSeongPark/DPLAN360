@@ -59,3 +59,12 @@ function monthTotalSum() {
       adTotal === 0 ? "0 %" : `${((dplanTotal / adTotal) * 100).toFixed(2)} %`;
   });
 }
+
+const selectEl = document.getElementById("year");
+
+selectEl.addEventListener("change", (e) => {
+  const year = e.target.value;
+  const aTag = document.createElement("a");
+  aTag.href = `?year=${year}`;
+  aTag.click();
+});
