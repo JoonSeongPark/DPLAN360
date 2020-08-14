@@ -73,11 +73,11 @@
               </tr>
               <% mediaItems.forEach(mediaItem => { %>
                 <tr>
-                  <td><%= mediaItem.teamName %> 팀</td>
-                  <td><%= mediaItem.advertiserName %></td>
+                  <td><%= mediaItem.campaign.team.name %> 팀</td>
+                  <td><%= mediaItem.campaign.advertiser.name %></td>
                   <td><a href="/campaign/<%= mediaItem.campaign.id %>"><%= mediaItem.campaign.title %></a></td>
-                  <td><%= mediaItem.agencyName %></td>
-                  <td><%= mediaItem.mediaName %></td>
+                  <td><%= mediaItem.campaign.agency.name %></td>
+                  <td><%= mediaItem.medium.name %></td>
                   <td><%= mediaItem.dataValues.inter_type %></td>
                   <td><%= mediaItem.dataValues.inter_name %></td>
                   <td><%= mediaItem.dataValues.ad_fee %></td>

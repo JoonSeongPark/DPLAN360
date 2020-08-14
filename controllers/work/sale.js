@@ -1,3 +1,4 @@
+const User = require("../../models/user");
 const Team = require("../../models/team");
 const Agency = require("../../models/agency");
 const Advertiser = require("../../models/advertiser");
@@ -147,49 +148,21 @@ exports.getMediaSales = async (req, res, next) => {
   if (medium !== "") whereCondition.where.mediumId = medium;
 
   try {
-    const teams = await Team.findAll();
-
-    const advertisers = await Advertiser.findAll();
-
-    const campaigns = await Campaign.findAll();
-
-    const agencies = await Agency.findAll();
-
     const media = await Medium.findAll();
 
     let mediaItems = await MediaItem.findAll({
       ...whereCondition,
+      include: [
+        {
+          model: Campaign,
+          include: [{ model: Team }, { model: Advertiser }, { model: Agency }],
+        },
+        { model: Medium },
+      ],
       order: [
         ["mediumId", "ASC"],
         ["campaignId", "ASC"],
       ],
-    });
-
-    // 캠페인 Object, 매체명 추가
-    mediaItems = mediaItems.map((mediaItem) => {
-      return {
-        ...mediaItem,
-        campaign: campaigns.find(
-          (campaign) => +campaign.id === +mediaItem.campaignId
-        ),
-        mediaName: media.find((medium) => +medium.id === +mediaItem.mediumId)
-          .name,
-      };
-    });
-
-    // 팀, 광고주, 대행사 이름 추가
-    mediaItems = mediaItems.map((mediaItem) => {
-      return {
-        ...mediaItem,
-        teamName: teams.find((team) => +team.id === +mediaItem.campaign.teamId)
-          .name,
-        advertiserName: advertisers.find(
-          (advertiser) => +advertiser.id === +mediaItem.campaign.advertiserId
-        ).name,
-        agencyName: agencies.find(
-          (agency) => +agency.id === +mediaItem.campaign.agencyId
-        ).name,
-      };
     });
 
     res.render("work/media-sales", {
