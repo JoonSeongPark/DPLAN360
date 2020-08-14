@@ -12,15 +12,7 @@ exports.getAdvertisers = async (req, res, next) => {
 
   try {
     const advertisers = await Advertiser.findAll({
-      order: [
-        ["main_category", "ASC"],
-        ["sub_category", "ASC"],
-      ],
-    });
-
-    advertisers.forEach((ad) => {
-      ad.mainName = mains.find((main) => +main.id === +ad.main_category).name;
-      ad.subName = subs.find((sub) => +sub.id === +ad.sub_category).name;
+      include: { model: AdSubCategory, order: [["id", "ASC"]],include: { model: AdMainCategory,order: [["id", "ASC"]], } },
     });
 
     res.render("info/advertisers", {

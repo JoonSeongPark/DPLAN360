@@ -11,8 +11,8 @@ exports.getAddAdvertiser = async (req, res, next) => {
       pageTitle: "Add Advertiser",
       menuTitle: "광고주 등록",
       path: "/admin/add-advertiser",
-      mains: mains,
-      subs: subs,
+      mains,
+      subs,
       editing: false,
     });
   } catch (err) {
@@ -25,12 +25,9 @@ exports.postAddAdvertiser = async (req, res, next) => {
   const subId = req.body.sub_category;
   try {
     const sub = await AdSubCategory.findByPk(subId);
-    const main = await AdMainCategory.findByPk(sub.adMainCategoryId);
 
-    await Advertiser.create({
-      name: name,
-      main_category: main.id,
-      sub_category: sub.id,
+    await sub.createAdvertiser({
+      name,
     });
 
     res.redirect("/advertisers");
@@ -51,9 +48,9 @@ exports.getEditAdvertiser = async (req, res, next) => {
       pageTitle: "Edit Advertiser",
       menuTitle: "광고주 수정",
       path: "/advertisers",
-      advertiser: advertiser,
-      mains: mains,
-      subs: subs,
+      advertiser,
+      mains,
+      subs,
       editing: req.query.edit,
     });
   } catch (err) {
@@ -64,15 +61,13 @@ exports.getEditAdvertiser = async (req, res, next) => {
 exports.postEditAdvertiser = async (req, res, next) => {
   const advertiserId = req.body.advertiserId;
   const updated_name = req.body.name;
-  const updated_main_id = req.body.main_category;
   const updated_sub_id = req.body.sub_category;
 
   try {
     const advertiser = await Advertiser.findByPk(advertiserId);
 
     advertiser.name = updated_name;
-    advertiser.main_category = updated_main_id;
-    advertiser.sub_category = updated_sub_id;
+    advertiser.adSubCategoryId = updated_sub_id;
 
     await advertiser.save();
 

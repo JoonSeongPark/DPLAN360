@@ -15,14 +15,6 @@ const Advertiser = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    main_category: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    sub_category: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
   },
   {
     timestamps: false,

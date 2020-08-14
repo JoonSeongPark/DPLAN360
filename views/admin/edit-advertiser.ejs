@@ -19,10 +19,10 @@
                 </td>
                 <td class="h-header">업종대분류</td>
                 <td >
-                  <select name="main_category" id="main_category">
+                  <select id="main_category">
                     <option value="">업종선택</option>
                     <% mains.forEach(main => { %>
-                      <option value="<%= main.id %>" <%= editing && main.id === advertiser.main_category ? "selected" : "" %>><%= main.name %></option>
+                      <option value="<%= main.id %>" <%= editing && main.id === advertiser.adSubCategory.adMainCategory.id ? "selected" : "" %>><%= main.name %></option>
                     <% }) %>
                   </select>
                 </td>
@@ -31,7 +31,7 @@
                   <select name="sub_category" id="sub_category">
                     <option value="">업종선택</option>
                     <% subs.forEach(sub => { %>
-                        <option class=<%= editing && sub.id === advertiser.main_category ? '':'deactive' %> value="<%= sub.id %>" main="<%= sub.adMainCategoryId %>" <%= editing && sub.id === advertiser.sub_category ? "selected" : "" %>><%= sub.name %></option>
+                        <option class=<%= editing && sub.id === advertiser.adSubCategory.adMainCategory.id ? '':'deactive' %> value="<%= sub.id %>" main="<%= sub.adMainCategoryId %>" <%= editing && sub.id === advertiser.sub_category ? "selected" : "" %>><%= sub.name %></option>
                     <% }) %>
                   </select>
                 </td>

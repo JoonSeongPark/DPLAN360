@@ -25,8 +25,8 @@
               <% advertisers.forEach(advertiser => { %>
                 <tr>
                   <td><%= advertiser.name %></td>
-                  <td><%= advertiser.mainName %></td>
-                  <td><%= advertiser.subName %></td>
+                  <td><%= advertiser.adSubCategory.adMainCategory.name %></td>
+                  <td><%= advertiser.adSubCategory.name %></td>
                   <% if (isLeader) { %>
                   <td style="padding:0">
                     <a href="/admin/edit-advertiser/<%= advertiser.id %>?edit=true">
