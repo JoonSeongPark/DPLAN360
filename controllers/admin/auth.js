@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
       api_key:
-        "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",
+        "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",
     },
   })
 );
@@ -118,7 +118,7 @@ exports.postResetPassword = (req, res, next) => {
 
       transporter.sendMail({
         to: email,
-        from: "rytt@yonsei.ac.kr",
+        from: "leader@d-plan360.com",
         subject: "DPLAN 비밀번호 변경",
         html: `
             <p>비밀번호 변경을 요청하였습니다.</p>
