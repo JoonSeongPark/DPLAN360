@@ -1,4 +1,3 @@
-const User = require("../../models/user");
 const Team = require("../../models/team");
 const Agency = require("../../models/agency");
 const Advertiser = require("../../models/advertiser");
