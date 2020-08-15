@@ -24,7 +24,7 @@
               </tr>
               <tr>
                 <td>
-                  <select name="team" id="">
+                  <select name="team">
                     <option value="" <%= sortInfo.team === "" ? "selected" : "" %>>전체보기</option>
                     <% teams.forEach(team => { %>
                       <option value="<%= team.id %>" <%= sortInfo.team == team.id ? "selected" : "" %>><%= team.name %> 팀</option>  
@@ -39,11 +39,11 @@
                 </td>
                 <td>
                   <input type="hidden" name="agency" id="agency-id" value="<%= sortInfo.agency %>">
-                  <input type="text" id="agency-input" style="width:160px" value="<%= sortInfo.agency === '' ? '' : agencies.find(x => +x.id === +sortInfo.agency).name %>">
+                  <input type="text" id="agency-input" style="width:160px" value="<%= !sortInfo.agency ? '' : agencies.find(x => +x.id === +sortInfo.agency).name %>">
                 </td>
                 <td>
                   <input type="hidden" name="advertiser" id="advertiser-id" value="<%= sortInfo.advertiser %>">
-                  <input type="text" id="advertiser-input" style="width:140px" value="<%= sortInfo.advertiser === '' ? '' : advertisers.find(x => +x.id === +sortInfo.advertiser).name %>">
+                  <input type="text" id="advertiser-input" style="width:140px" value="<%= !sortInfo.advertiser ? '' : advertisers.find(x => +x.id === +sortInfo.advertiser).name %>">
                 </td>
               </tr>
             </table>

@@ -76,10 +76,22 @@ function sumTotal() {
 
 /////////////////////////////////////////////////////////////////////////
 
+const conditionTable = document.getElementById("condition-table");
+
+conditionTable.addEventListener("change", () => {
+  const submitInput = document.getElementById("submit-button");
+  // 기존 경고문 제거
+  conditionTable.nextSibling.remove();
+
+  submitInput.click();
+});
+
+/////////////////////////////////////////////////////////////////////////
+
 // excel download
 
 const excelDownloadEl = document.getElementById("excel-download");
-const file_name = "sample";
+const file_name = "세금계산서";
 
 function excelDownload() {
   const resultTable = document.getElementById("result-table");

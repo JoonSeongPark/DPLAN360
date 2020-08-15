@@ -147,7 +147,7 @@ conditionTable.addEventListener("change", (e) => {
 // excel download
 
 const excelDownloadEl = document.getElementById("excel-download");
-const file_name = "sample";
+const file_name = "전체매출조회";
 
 function excelDownload() {
   const resultTable = document.getElementById("result-table");

@@ -65,15 +65,10 @@ exports.getIndex = async (req, res, next) => {
 
 exports.getSales = async (req, res, next) => {
   const { team, agency, advertiser } = req.query;
-  let { start_month, end_month } = req.query;
-  const thisYear = new Date().getFullYear();
 
-  if (start_month === "") {
-    start_month = `${thisYear}-01`;
-  }
-  if (end_month === "") {
-    end_month = `${thisYear}-12`;
-  }
+  const thisYear = new Date().getFullYear();
+  const start_month = req.query.start_month || `${thisYear}-01`;
+  const end_month = req.query.end_month || `${thisYear}-12`;
 
   const whereCondition = {
     where: {
@@ -126,15 +121,10 @@ exports.getSales = async (req, res, next) => {
 
 exports.getMediaSales = async (req, res, next) => {
   const { medium } = req.query;
-  let { start_month, end_month } = req.query;
-  const thisYear = new Date().getFullYear();
 
-  if (start_month === "") {
-    start_month = `${thisYear}-01`;
-  }
-  if (end_month === "") {
-    end_month = `${thisYear}-12`;
-  }
+  const thisYear = new Date().getFullYear();
+  const start_month = req.query.start_month || `${thisYear}-01`;
+  const end_month = req.query.end_month || `${thisYear}-12`;
 
   const whereCondition = {
     where: {
@@ -144,12 +134,12 @@ exports.getMediaSales = async (req, res, next) => {
     },
   };
 
-  if (medium !== "") whereCondition.where.mediumId = medium;
+  if (medium) whereCondition.where.mediumId = medium;
 
   try {
     const media = await Medium.findAll();
 
-    let mediaItems = await MediaItem.findAll({
+    const mediaItems = await MediaItem.findAll({
       ...whereCondition,
       include: [
         {

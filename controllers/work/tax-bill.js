@@ -11,31 +11,13 @@ const Advertiser = require("../../models/advertiser");
 exports.getTaxBill = async (req, res, next) => {
   const thisYear = new Date().getFullYear();
 
-  for (let month in req.query) {
-    if (req.query[month] === "") {
-      if (`${month}`.includes("start")) {
-        req.query[month] = `${thisYear}-01`;
-      }
-      if (`${month}`.includes("end")) {
-        req.query[month] = `${thisYear}-12`;
-      }
-    }
-  }
-
-  const { agency_start, agency_end, media_start, media_end } = req.query;
+  const agency_start = req.query.agency_start || `${thisYear}-01`;
+  const agency_end = req.query.agency_end || `${thisYear}-12`;
+  const media_start = req.query.media_start || `${thisYear}-01`;
+  const media_end = req.query.media_end || `${thisYear}-12`;
 
   try {
-    const teams = await Team.findAll();
-
-    const advertisers = await Advertiser.findAll();
-
-    const agencies = await Agency.findAll();
-
-    const media = await Medium.findAll();
-
-    const campaigns = await Campaign.findAll();
-
-    let mediaItems = await MediaItem.findAll({
+    const mediaItems = await MediaItem.findAll({
       where: {
         attribution_time: {
           [Op.between]: [Date.parse(agency_start), Date.parse(agency_end)],
@@ -44,35 +26,13 @@ exports.getTaxBill = async (req, res, next) => {
           [Op.between]: [Date.parse(media_start), Date.parse(media_end)],
         },
       },
-    });
-
-    // media, campaign 추가
-    mediaItems = mediaItems.map((mediaItem) => {
-      return {
-        ...mediaItem,
-        media: media.find((medium) => {
-          return +medium.id === +mediaItem.mediumId;
-        }),
-        campaign: campaigns.find((campaign) => {
-          return +campaign.id === +mediaItem.campaignId;
-        }),
-      };
-    });
-
-    // agency, advertiserName, teamName 추가
-    mediaItems = mediaItems.map((mediaItem) => {
-      return {
-        ...mediaItem,
-        agency: agencies.find((agency) => {
-          return +agency.id === +mediaItem.campaign.agencyId;
-        }),
-        advertiserName: advertisers.find((advertiser) => {
-          return +advertiser.id === +mediaItem.campaign.advertiserId;
-        }).name,
-        teamName: teams.find((team) => {
-          return +team.id === +mediaItem.campaign.teamId;
-        }).name,
-      };
+      include: [
+        { model: Medium },
+        {
+          model: Campaign,
+          include: [{ model: Agency }, { model: Advertiser }, { model: Team }],
+        },
+      ],
     });
 
     res.render("work/tax-bill", {
