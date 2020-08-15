@@ -11,15 +11,25 @@ exports.getCampaign = async (req, res, next) => {
   const campaignId = req.params.campaignId;
 
   try {
-    const campaign = await Campaign.findByPk(campaignId);
-    const team = await Team.findByPk(campaign.teamId);
-    const advertiser = await Advertiser.findByPk(campaign.advertiserId);
-    const main = await AdMainCategory.findByPk(advertiser.main_category);
-    const sub = await AdSubCategory.findByPk(advertiser.sub_category);
-    const media = await Medium.findAll();
-    const agency = await Agency.findByPk(campaign.agencyId);
+    const campaign = await Campaign.findByPk(campaignId, {
+      include: [
+        {
+          model: Team,
+        },
+        {
+          model: Advertiser,
+          include: [
+            { model: AdSubCategory, include: { model: AdMainCategory } },
+          ],
+        },
+        {
+          model: Agency,
+        },
+      ],
+    });
     const mediaItems = await MediaItem.findAll({
       where: { campaignId: campaign.id },
+      include: { model: Medium },
     });
 
     res.render("work/campaign", {
@@ -27,12 +37,6 @@ exports.getCampaign = async (req, res, next) => {
       menuTitle: "캠페인 상세보기",
       path: "/campaign",
       campaign,
-      team,
-      advertiser,
-      main,
-      sub,
-      media,
-      agency,
       mediaItems,
     });
   } catch (err) {
@@ -192,16 +196,28 @@ exports.getEditCampaign = async (req, res, next) => {
   }
 
   try {
-    const campaign = await Campaign.findByPk(campaignId);
-    const team = await Team.findByPk(campaign.teamId);
-    const advertiser = await Advertiser.findByPk(campaign.advertiserId);
-    const main = await AdMainCategory.findByPk(advertiser.main_category);
-    const sub = await AdSubCategory.findByPk(advertiser.sub_category);
-    const agency = await Agency.findByPk(campaign.agencyId);
-    const media = await Medium.findAll();
+    const campaign = await Campaign.findByPk(campaignId, {
+      include: [
+        {
+          model: Team,
+        },
+        {
+          model: Advertiser,
+          include: [
+            { model: AdSubCategory, include: { model: AdMainCategory } },
+          ],
+        },
+        {
+          model: Agency,
+        },
+      ],
+    });
     const mediaItems = await MediaItem.findAll({
       where: { campaignId: campaign.id },
+      include: { model: Medium },
     });
+
+    const media = await Medium.findAll();
 
     res.render("work/edit-campaign", {
       pageTitle: "Edit Campaign",
@@ -209,13 +225,8 @@ exports.getEditCampaign = async (req, res, next) => {
       path: "/edit-campaign",
       user,
       campaign,
-      team,
-      advertiser,
-      agency,
-      media,
-      main,
-      sub,
       mediaItems,
+      media,
       blockCondition,
       editing: edit,
     });

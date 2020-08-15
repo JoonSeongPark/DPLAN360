@@ -29,8 +29,7 @@
                 </td>
                 <td class="h-header">담당팀</td>
                 <td class="h-content">
-                  <input type="hidden" name="team_name" value="<%= team.name %>"/>
-                  <input type="text" value="<%= team.name %> 팀" readonly/>
+                  <input type="text" name="team_name" value="<%= campaign.team.name %> 팀" readonly/>
                 </td>
                 <td class="h-header">담당자</td>
                 <td class="h-content">
@@ -43,15 +42,15 @@
                   <% if (!editing) { %> 
                   <input type="hidden" name="cam_advertiser_id" id="cam-advertiser-id"/>
                   <% } %>
-                  <input class="max-width" type="text" id="cam-advertiser" value="<%= editing ? advertiser.name : '' %>" <%= editing ? "readonly" : "" %>/>
+                  <input class="max-width" type="text" id="cam-advertiser" value="<%= editing ? campaign.advertiser.name : '' %>" <%= editing ? "readonly" : "" %>/>
                 </td>
                 <td class="h-header">업종(대분류)</td>
                 <td class="h-content">
-                  <input type="text" id="cam-main-cat" value="<%= editing ? main.name:'' %>" readonly/>
+                  <input type="text" id="cam-main-cat" value="<%= editing ? campaign.advertiser.adSubCategory.adMainCategory.name:'' %>" readonly/>
                 </td>
                 <td class="h-header">업종(소분류)</td>
                 <td class="h-content">
-                  <input type="text" id="cam-sub-cat" value="<%= editing ? sub.name:'' %>" readonly/>
+                  <input type="text" id="cam-sub-cat" value="<%= editing ? campaign.advertiser.adSubCategory.name:'' %>" readonly/>
                 </td>
               </tr>
               <tr>
@@ -64,7 +63,7 @@
                   <% if (!editing) { %> 
                   <input type="hidden" name="cam_agency_id" id="cam-agency-id" />
                   <% } %>
-                  <input class="max-width" type="text" id="cam-agency" value="<%= editing ? agency.name : '' %>" <%= editing ? "readonly" : "" %>/>
+                  <input class="max-width" type="text" id="cam-agency" value="<%= editing ? campaign.agency.name : '' %>" <%= editing ? "readonly" : "" %>/>
                 </td>
                 <td class="h-header">캠페인기간</td>
                 <td class="h-content">
@@ -174,9 +173,8 @@
                 <tr class="<%= Date.parse(mediaItem.issue_date) >= blockCondition ? '' : ( blockAuth ? 'blocked_but_auth' : 'blocked' ) %>" >
                   <input type="hidden" name="updated_mediaItem_id" value="<%= mediaItem.id %>" />
                   <td>
-                    <% mediaTarget = media.find(medium => medium.id === mediaItem.mediumId) %>
-                    <input type="hidden" name="media_id" value="<%= mediaTarget.id %>" />
-                    <input type="text" value="<%= mediaTarget.name %>" style="width:88px" readonly/>
+                    <input type="hidden" name="media_id" value="<%= mediaItem.mediumId %>" />
+                    <input type="text" value="<%= mediaItem.medium.name %>" style="width:88px" readonly/>
                   </td>
                   <td>
                     <input class="input-date" type="date" name="media_start"
@@ -393,8 +391,7 @@
         <ul>
           <li><%= advertiser.id %></li>
           <li><%= advertiser.name %></li>
-          <li><%= advertiser.main_category %></li>
-          <li><%= advertiser.sub_category %></li>
+          <li><%= advertiser.adSubCategoryId %></li>
         </ul>
       <% }) %>
       <% } %>
@@ -428,6 +425,7 @@
         <ul>
           <li><%= sub.id %></li>
           <li><%= sub.name %></li>
+          <li><%= sub.adMainCategoryId %></li>
         </ul>
       <% }) %>
       <% } %>

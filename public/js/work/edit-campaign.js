@@ -9,7 +9,11 @@ const mainList = Array.from(mainUl.children).map((x) => {
 // sub category list
 const subUl = document.getElementById("sub-ul");
 const subList = Array.from(subUl.children).map((x) => {
-  return { id: x.children[0].innerHTML, name: x.children[1].innerHTML };
+  return {
+    id: x.children[0].innerHTML,
+    name: x.children[1].innerHTML,
+    mainId: x.children[2].innerHTML,
+  };
 });
 
 // advertiser List
@@ -18,8 +22,7 @@ const adList = Array.from(advertiserUl.children).map((x) => {
   return {
     id: x.children[0].innerHTML,
     name: x.children[1].innerHTML,
-    main_id: x.children[2].innerHTML,
-    sub_id: x.children[3].innerHTML,
+    sub_id: x.children[2].innerHTML,
   };
 });
 
@@ -94,8 +97,9 @@ advertiserInput.addEventListener("focusout", (e) => {
   const advertiser_info = adList.find((x) => x.name === e.target.value);
   if (!advertiser_info) return;
   advertiserInputId.value = advertiser_info.id;
-  mainInput.value = mainList.find((x) => x.id == advertiser_info.main_id).name;
-  subInput.value = subList.find((x) => x.id == advertiser_info.sub_id).name;
+  subInput.value = subList.find((x) => +x.id === +advertiser_info.sub_id).name;
+  const mainId = subList.find((x) => +x.id === +advertiser_info.sub_id).mainId;
+  mainInput.value = mainList.find((x) => +x.id === +mainId).name;
 });
 
 /////////////////////////////////////////////////////////////////

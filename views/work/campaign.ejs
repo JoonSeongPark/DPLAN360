@@ -19,7 +19,7 @@
                 </td>
                 <td class="h-header">담당팀</td>
                 <td class="h-content">
-                  <%= team.name %> 팀
+                  <%= campaign.team.name %> 팀
                 </td>
                 <td class="h-header">담당자</td>
                 <td class="h-content">
@@ -29,15 +29,15 @@
               <tr>
                 <td class="h-header">광고주</td>
                 <td class="h-content">
-                  <%= advertiser.name %>
+                  <%= campaign.advertiser.name %>
                 </td>
                 <td class="h-header">업종(대분류)</td>
                 <td class="h-content">
-                  <%= main.name %>
+                  <%= campaign.advertiser.adSubCategory.adMainCategory.name %>
                 </td>
                 <td class="h-header">업종(소분류)</td>
                 <td class="h-content">
-                  <%= sub.name %>
+                  <%= campaign.advertiser.adSubCategory.name %>
                 </td>
               </tr>
               <tr>
@@ -47,7 +47,7 @@
                 </td>
                 <td class="h-header">대행사</td>
                 <td class="h-content">
-                  <%= agency.name %>
+                  <%= campaign.agency.name %>
                 </td>
                 <td class="h-header">캠페인기간</td>
                 <td class="h-content">
@@ -128,7 +128,7 @@
               </tr>
               <% mediaItems.forEach(mediaItem => { %>
                 <tr>
-                  <td><%= media.find(medium => medium.id === mediaItem.mediumId).name %></td> 
+                  <td><%= mediaItem.medium.name %></td> 
                   <td><%= mediaItem.media_start.getFullYear() %> 년 <%= mediaItem.media_start.getMonth()+1 %> 월 <%= mediaItem.media_start.getDate() %> 일</td>
                   <td><%= mediaItem.media_end.getFullYear() %> 년 <%= mediaItem.media_end.getMonth()+1 %> 월 <%= mediaItem.media_end.getDate() %> 일</td>
                   <td><%= mediaItem.inter_type %></td>
