@@ -13,10 +13,10 @@ const errorController = require("./controllers/error");
 const app = express();
 
 const store = new MySQLStore({
-  host: "localhost",
+  host: "dplan360.c4j9lg274esc.us-east-2.rds.amazonaws.com",
   port: "3306",
-  user: "root",
-  password: "Pjs895623!",
+  user: "admin",
+  password: "MBovd5g1Y7GlK2g1z0Zv",
   database: "dplan360",
   clearExpired: true,
 });
