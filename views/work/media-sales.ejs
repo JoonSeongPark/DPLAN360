@@ -25,10 +25,10 @@
                   <input type="text" id="media-input" value="<%= !sortInfo.medium ? '' : media.find(x => +x.id === +sortInfo.medium).name %>">
                 </td>
                 <td>
-                  <input type="month" name="start_month" value="<%= sortInfo.start_month %>">
+                  <input type="month" name="start_month" value="<%= sortInfo.start_month %>" id="start-date">
                 </td>
                 <td>
-                  <input type="month" name="end_month" value="<%= sortInfo.end_month %>">
+                  <input type="month" name="end_month" value="<%= sortInfo.end_month %>" id="end-date">
                 </td>
               </tr>
             </table>

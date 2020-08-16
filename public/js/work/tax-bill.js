@@ -79,6 +79,24 @@ function sumTotal() {
 const conditionTable = document.getElementById("condition-table");
 
 conditionTable.addEventListener("change", () => {
+  const agencyStartDate = new Date(
+    document.getElementById("agency-start-date").value
+  );
+  const agencyEndDate = new Date(
+    document.getElementById("agency-end-date").value
+  );
+  const mediaStartDate = new Date(
+    document.getElementById("media-start-date").value
+  );
+  const mediaEndDate = new Date(
+    document.getElementById("media-end-date").value
+  );
+
+  if (agencyStartDate > agencyEndDate || mediaStartDate > mediaEndDate) {
+    alert("시작일이 종료일을 넘을 수 없습니다.");
+    return;
+  }
+
   const submitInput = document.getElementById("submit-button");
   // 기존 경고문 제거
   conditionTable.nextSibling.remove();

@@ -108,6 +108,14 @@ const agencyId = document.getElementById("agency-id");
 const advertiserId = document.getElementById("advertiser-id");
 
 conditionTable.addEventListener("change", (e) => {
+  const startDate = new Date(document.getElementById("start-date").value);
+  const endDate = new Date(document.getElementById("end-date").value);
+
+  if (startDate > endDate) {
+    alert('시작일이 종료일을 넘을 수 없습니다.')
+    return;
+  }
+
   // 기존 경고문 제거
   conditionTable.nextSibling.remove();
 
@@ -125,7 +133,7 @@ conditionTable.addEventListener("change", (e) => {
       break;
     default:
       submitInput.click();
-      break
+      break;
   }
   if (targetList) {
     const searchedList = targetList.find((x) => x.name === e.target.value);

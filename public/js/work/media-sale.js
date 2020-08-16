@@ -78,6 +78,14 @@ const submitInput = document.getElementById("submit-button");
 const mediaId = document.getElementById("media-id");
 
 conditionTable.addEventListener("change", (e) => {
+  const startDate = new Date(document.getElementById("start-date").value);
+  const endDate = new Date(document.getElementById("end-date").value);
+
+  if (startDate > endDate) {
+    alert('시작일이 종료일을 넘을 수 없습니다.')
+    return;
+  }
+
   if (e.target.id === "media-input") {
     const searchedMedia = mediaList.find(
       (media) => media.name === e.target.value
