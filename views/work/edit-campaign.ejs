@@ -29,7 +29,7 @@
                 </td>
                 <td class="h-header">담당팀</td>
                 <td class="h-content">
-                  <input type="text" name="team_name" value="<%= campaign.team.name %> 팀" readonly/>
+                  <input type="text" name="team_name" value="<%= editing ? campaign.team.name : team.name %> 팀" readonly/>
                 </td>
                 <td class="h-header">담당자</td>
                 <td class="h-content">
