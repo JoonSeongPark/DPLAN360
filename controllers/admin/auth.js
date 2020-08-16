@@ -55,7 +55,7 @@ exports.postLogin = async (req, res, next) => {
       }
       req.session.user = user;
       await req.session.save();
-      res.redirect("/");
+      return res.redirect("/");
     }
     req.flash("error", "비밀번호가 일치하지 않습니다.");
     res.redirect("/login");
