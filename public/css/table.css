@@ -15,7 +15,6 @@ section {
 th,
 td {
   padding: 0 3px;
-  text-align: center;
   border-bottom: 1px solid #bbb;
 }
 
@@ -85,7 +84,6 @@ table textarea {
   min-width: 200px;
   height: 31px;
   padding: 3px 10px;
-  display: flex;
   align-items: center;
 }
 
@@ -93,8 +91,8 @@ input.max-width {
   width: 100%;
 }
 
-input.max-ninety-width {
-  width: 90%;
+input.max-sixty-width {
+  width: 60%;
 }
 
 .h-content input[type="month"],
