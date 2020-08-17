@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 
 const express = require("express");
 const session = require("express-session");
@@ -7,19 +8,23 @@ const MySQLStore = require("express-mysql-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const bcrypt = require("bcryptjs");
+const helmet = require("helmet");
+const compression = require("compression");
+const morgan = require("morgan");
 
 const errorController = require("./controllers/error");
 
 const app = express();
 
 const store = new MySQLStore({
-  host: "dplan360.c4j9lg274esc.us-east-2.rds.amazonaws.com",
-  port: "3306",
-  user: "admin",
-  password: "MBovd5g1Y7GlK2g1z0Zv",
-  database: "dplan360",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   clearExpired: true,
 });
+
 const csrfProtection = csrf();
 
 const sequelize = require("./util/database");
@@ -43,6 +48,14 @@ const campaignRoutes = require("./routes/campaign");
 const authRoutes = require("./routes/auth");
 const infoRoutes = require("./routes/info");
 const taxBillRoutes = require("./routes/tax-bill");
+
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
+app.use(helmet());
+app.use(compression());
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -143,8 +156,8 @@ sequelize
         return console.log(err);
       });
   })
-  .then((user) => {
-    app.listen(3000);
+  .then(() => {
+    app.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
     return console.log(err);
