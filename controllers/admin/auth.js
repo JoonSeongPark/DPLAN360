@@ -123,7 +123,7 @@ exports.postResetPassword = (req, res, next) => {
         html: `
             <p>비밀번호 변경을 요청하였습니다.</p>
             <p>클릭하여 변경화면으로 이동하세요.</p>
-            <a href="http://localhost:3000/new-password/${token}">비밀번호 재설정</a>
+            <a href="http://dplan360.c4j9lg274esc.us-east-2.rds.amazonaws.com:3000/new-password/${token}">비밀번호 재설정</a>
           `,
       });
     } catch (err) {
