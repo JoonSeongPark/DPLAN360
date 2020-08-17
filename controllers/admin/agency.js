@@ -84,8 +84,6 @@ exports.postDeleteAgency = async (req, res, next) => {
   try {
     const agency = await Agency.findByPk(agencyId);
 
-    console.log("Delete Agency!");
-
     await agency.destroy();
 
     res.redirect("/agencies");
