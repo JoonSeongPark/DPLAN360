@@ -50,7 +50,7 @@ exports.postLogin = async (req, res, next) => {
     const doMatch = await bcrypt.compare(password, user.password);
 
     if (doMatch) {
-      if (user.email === "admin@d-plan360.com") {
+      if (user.email === "leader@d-plan360.com") {
         req.session.isAdmin = true;
       }
       req.session.user = user;
