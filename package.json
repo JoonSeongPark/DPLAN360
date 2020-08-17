@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "DB_HOST=dplan360.c4j9lg274esc.us-east-2.rds.amazonaws.com DB_PORT=3306 DB_USER=admin DB_PASSWORD=MBovd5g1Y7GlK2g1z0Zv DB_NAME=dplan360 node app.js",
+    "start": "DB_HOST=dplan360.c4j9lg274esc.us-east-2.rds.amazonaws.com DB_PORT=3306 DB_USER=admin DB_PASSWORD=dplan3601 DB_NAME=dplan360 node app.js",
     "start:dev": "nodemon app.js"
   },
   "repository": {
