@@ -133,8 +133,8 @@ sequelize
   // .sync({ force: true })
   .sync()
   .then(async () => {
-    const email = "admin@d-plan360.com";
-    const hashedPassword = await bcrypt.hash("123", 12);
+    const email = "leader@d-plan360.com";
+    const hashedPassword = await bcrypt.hash("dplan3601", 12);
     User.findOne({
       where: {
         email,
