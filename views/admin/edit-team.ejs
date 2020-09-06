@@ -11,19 +11,23 @@
 
         <%- include('../includes/message.ejs') %>
 
-        <form class="auth-form" action="/admin/add-team" method="POST" autocomplete="off">
+        <form class="auth-form" action="/admin/<%= editing ? 'edit-team' : 'add-team' %>" method="POST" autocomplete="off">
           <div class="form-control auth-logo-container">
             <img src="/img/logo_black.png" alt="logo" width="100%">
           </div>
           <br>
           <br>
-          <div class="form-control">
+          <div class="form-control" style="position:relative">
               <label for="name">팀 이름</label>
-              <input type="name" name="name">
+              <input type="name" name="name" value="<%= editing ? team.name : '' %>">
+              <p style="position:absolute;right:5px;bottom:3px;font-size:12px">팀</p>
           </div>
           <br>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <button class="auth-btn" type="submit">팀 등록</button>
+          <% if (editing) { %>
+            <input type="hidden" name="teamId" value="<%= team.id %>">
+          <% } %>
+          <button class="auth-btn" type="submit">팀 <%= editing ? '수정' : '등록' %></button>
         </form>
       </main>
     </div>

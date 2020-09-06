@@ -151,6 +151,16 @@ router.post(
   authMiddleware.isLeader,
   adminTeamController.postAddTeam
 );
+router.get(
+  "/edit-team/:teamId",
+  authMiddleware.isLeader,
+  adminTeamController.getEditTeam
+);
+router.post(
+  "/edit-team",
+  authMiddleware.isLeader,
+  adminTeamController.postEditTeam
+);
 
 // admin user
 router.get(

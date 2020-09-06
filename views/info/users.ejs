@@ -14,12 +14,12 @@
           <div class="user-team-table">
             <table>
               <tr>
-                <th class="team-table-header"><%= team.dataValues.name %> 팀</th>
+                <th class="team-table-header"><a href="/admin/edit-team/<%= team.id %>?edit=true"><%= team.dataValues.name %> 팀</a></th>
               </tr>
               <% for (let i=0; i < memberMax; i++) { %>
                 <tr>
-                  <% if (i < team.members.length) { %>
-                    <td class="<%= team.members[i].leader ? 'user-cell leader' : 'user-cell' %>"><a href="/admin/edit-user/<%= team.members[i].id %>?edit=true"><div><%= team.members[i].name %></div></a></td>
+                  <% if (i < team.users.length) { %>
+                    <td class="<%= team.users[i].leader ? 'user-cell leader' : 'user-cell' %>"><a href="/admin/edit-user/<%= team.users[i].id %>?edit=true"><div><%= team.users[i].name %></div></a></td>
                   <% } else { %>
                     <td></td>
                   <% } %>
