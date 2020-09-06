@@ -9,7 +9,11 @@ const User = require("../../models/user");
 exports.getAdvertisers = async (req, res, next) => {
   try {
     const advertisers = await Advertiser.findAll({
-      include: { model: AdSubCategory, order: [["id", "ASC"]],include: { model: AdMainCategory,order: [["id", "ASC"]], } },
+      include: {
+        model: AdSubCategory,
+        order: [["id", "ASC"]],
+        include: { model: AdMainCategory, order: [["id", "ASC"]] },
+      },
     });
 
     res.render("info/advertisers", {
@@ -81,29 +85,22 @@ exports.getMedia = async (req, res, next) => {
 };
 
 exports.getUsers = async (req, res, next) => {
-  const users = await User.findAll({
+  const teams = await Team.findAll({
+    include: [
+      {
+        model: User,
+      },
+    ],
     order: [
-      ["leader", "DESC"],
       ["name", "ASC"],
+      [User, "leader", "DESC"],
+      [User, "name", "ASC"],
     ],
   });
-
-  let teams = await Team.findAll();
-
-  teams = teams.map((team) => {
-    return {
-      ...team,
-      members: users.filter((user) => {
-        return +user.teamId === +team.id;
-      }),
-    };
-  });
-
-  const numberOfMembers = teams.map((team) => {
-    return team.members.length;
-  });
-
-  const memberMax = Math.max(...numberOfMembers);
+  
+  const memberMax = teams.reduce((maxValue, team) => {
+    return Math.max(maxValue, team.users.length);
+  }, 0);
 
   res.render("info/users", {
     pageTitle: "Users",
