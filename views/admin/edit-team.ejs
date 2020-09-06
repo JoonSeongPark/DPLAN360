@@ -11,7 +11,7 @@
 
         <%- include('../includes/message.ejs') %>
 
-        <form class="auth-form" action="/admin/<%= editing ? 'edit-team' : 'add-team' %>" method="POST" autocomplete="off">
+        <form class="auth-form" <%= editing ? "style=padding-bottom:0;" : "" %> action="/admin/<%= editing ? 'edit-team' : 'add-team' %>" method="POST" autocomplete="off">
           <div class="form-control auth-logo-container">
             <img src="/img/logo_black.png" alt="logo" width="100%">
           </div>
@@ -29,6 +29,13 @@
           <% } %>
           <button class="auth-btn" type="submit">팀 <%= editing ? '수정' : '등록' %></button>
         </form>
+        <% if (editing) { %>
+          <form class="auth-form" style="padding-top:0" action="/admin/delete-team" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="teamId" value="<%= team.id %>">
+            <button class="auth-btn auth-alert-btn" type="submit">팀 삭제</button>
+          </form>
+        <% } %>
       </main>
     </div>
 

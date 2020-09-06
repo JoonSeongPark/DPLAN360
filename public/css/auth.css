@@ -52,3 +52,7 @@
   border: none;
   border-radius: 2px;
 }
+
+.auth-alert-btn {
+  background-color: var(--red);
+}

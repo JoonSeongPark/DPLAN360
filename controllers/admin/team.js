@@ -1,4 +1,6 @@
 const Team = require("../../models/team");
+const User = require("../../models/user");
+const Campaign = require("../../models/campaign");
 
 exports.getAddTeam = (req, res, next) => {
   let errorMessage = req.flash("error");
@@ -13,6 +15,7 @@ exports.getAddTeam = (req, res, next) => {
     pageTitle: "Add Team",
     menuTitle: "팀 추가",
     path: "/admin/add-team",
+    editing: false,
     successMessage,
     errorMessage,
   });
@@ -91,6 +94,32 @@ exports.postEditTeam = async (req, res, next) => {
     await team.save();
 
     return res.redirect("/users");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.postDeleteTeam = async (req, res, next) => {
+  const { teamId } = req.body;
+
+  try {
+    const team = await Team.findByPk(teamId, {
+      include: [{ model: User }, { model: Campaign }],
+    });
+
+    if (team.users.length) {
+      req.flash("error", "팀원이 존재하는 팀은 제거할 수 없습니다.");
+      return res.redirect(`/admin/edit-team/${teamId}?edit=true`);
+    }
+
+    if (team.campaigns.length) {
+      req.flash("error", "캠페인이 존재하는 팀은 제거할 수 없습니다.");
+      return res.redirect(`/admin/edit-team/${teamId}?edit=true`);
+    }
+
+    await team.destroy();
+
+    res.redirect("/users");
   } catch (err) {
     console.log(err);
   }

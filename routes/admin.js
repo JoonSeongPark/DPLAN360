@@ -161,6 +161,11 @@ router.post(
   authMiddleware.isLeader,
   adminTeamController.postEditTeam
 );
+router.post(
+  "/delete-team",
+  authMiddleware.isLeader,
+  adminTeamController.postDeleteTeam
+);
 
 // admin user
 router.get(
@@ -168,19 +173,16 @@ router.get(
   authMiddleware.isLeader,
   adminUserController.getUserSignup
 );
-
 router.post(
   "/user-signup",
   authMiddleware.isLeader,
   adminUserController.postUserSignup
 );
-
 router.get(
   "/edit-user/:userId",
   authMiddleware.isLeader,
   adminUserController.getEditUser
 );
-
 router.post(
   "/edit-user",
   authMiddleware.isLeader,
