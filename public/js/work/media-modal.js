@@ -123,7 +123,7 @@ function alertModal(e) {
         style="width:34px"
         type="text"
         name="lower_agency_fee_rate"
-        value="${media_agency_fee_rate}"
+        value="${(+media_agency_fee_rate).toFixed(2)}"
         value="0"
         required
       />
@@ -134,7 +134,7 @@ function alertModal(e) {
         style="width:34px"
         type="text"
         name="lower_media_fee_rate"
-        value="${media_fee_rate}"
+        value="${(+media_fee_rate).toFixed(2)}"
         value="0"
         required
       />
@@ -145,7 +145,7 @@ function alertModal(e) {
         style="width:34px"
         type="text"
         name="lower_dplan_fee_rate"
-        value="${media_dplan_fee_rate}"
+        value="${(+media_dplan_fee_rate).toFixed(2)}"
         value="0"
         required
       />
@@ -156,7 +156,7 @@ function alertModal(e) {
         style="width:34px"
         type="text"
         name="lower_inter_fee_rate"
-        value="${media_inter_fee_rate}"
+        value="${(+media_inter_fee_rate).toFixed(2)}"
         value="0"
         required
       />

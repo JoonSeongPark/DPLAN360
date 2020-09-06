@@ -397,7 +397,7 @@
           </div>
           <div class="submit-btns">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-            <button type="submit"><%= editing ? '수정' : '저장' %></button>
+            <button type="submit" id="submit-btn" disabled><%= editing ? '수정' : '저장' %></button>
             <a href="/" ><button>취소</button></a>
           </div>
           <input type='hidden' name="media_count" id="media-count" value="<%= editing ? mediaItems.length : '0' %>"/>
@@ -469,6 +469,7 @@
 
     <script src="/auto-complete/autocomplete.js"></script>
     <script src="/js/num-format.js"></script>
+    <script src="/js/work/auto-calculator.js"></script>
     <script src="/js/work/edit-campaign.js"></script>
     <script src="/js/work/media-modal.js"></script>
     

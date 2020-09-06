@@ -129,86 +129,6 @@ agencyInput.addEventListener("change", (e) => {
     (agency) => agency.name === e.target.value
   ).id;
 });
-////////////////////////////////////////////////////////////////////
-
-// 각 매체 자동 계산 함수
-function autoCalculate(e) {
-  // 숫자 부분만 함수적용
-  if (!e.target.classList.contains("input-num")) return;
-  if (e.target.getAttribute("name") === "google_cid") return;
-
-  const targetRow = e.target.closest("tr");
-  const agencyFeeRateInput = targetRow.cells[7].children[0];
-  const mediaFeeRateInput = targetRow.cells[8].children[0];
-  const dplanFeeRateInput = targetRow.cells[9].children[0];
-  const interFeeRateInput = targetRow.cells[10].children[0];
-  const totalFeeInput = targetRow.cells[11].children[0];
-  const agencyFeeInput = targetRow.cells[12].children[0];
-  const mediaFeeInput = targetRow.cells[13].children[0];
-  const dplanFeeInput = targetRow.cells[14].children[0];
-  const interFeeInput = targetRow.cells[15].children[0];
-
-  // input cases
-  if (
-    // 수수료율 & 광고수주액 부분 수정 경우
-    [
-      agencyFeeRateInput,
-      mediaFeeRateInput,
-      dplanFeeRateInput,
-      interFeeRateInput,
-      totalFeeInput,
-    ].includes(e.target)
-  ) {
-    agencyFeeInput.value = (
-      +totalFeeInput.value *
-      (+agencyFeeRateInput.value / 100)
-    ).toFixed();
-    mediaFeeInput.value = (
-      +totalFeeInput.value *
-      (+mediaFeeRateInput.value / 100)
-    ).toFixed();
-    dplanFeeInput.value = (
-      +totalFeeInput.value *
-      (+dplanFeeRateInput.value / 100)
-    ).toFixed();
-    interFeeInput.value = (
-      +totalFeeInput.value *
-      (+interFeeRateInput.value / 100)
-    ).toFixed();
-  } else {
-    // 수익배분액 부분 수정 경우
-    agencyFeeRateInput.value = (
-      (+agencyFeeInput.value / +totalFeeInput.value) *
-      100
-    ).toFixed(2);
-    mediaFeeRateInput.value = (
-      (+mediaFeeInput.value / +totalFeeInput.value) *
-      100
-    ).toFixed(2);
-    dplanFeeRateInput.value = (
-      (+dplanFeeInput.value / +totalFeeInput.value) *
-      100
-    ).toFixed(2);
-    interFeeRateInput.value = (
-      (+interFeeInput.value / +totalFeeInput.value) *
-      100
-    ).toFixed(2);
-
-    if (
-      +totalFeeInput.value !==
-      +agencyFeeInput.value +
-        +mediaFeeInput.value +
-        +dplanFeeInput.value +
-        +interFeeInput.value
-    ) {
-      totalFeeInput.classList.add("error-border");
-    } else {
-      totalFeeInput.classList.remove("error-border");
-    }
-  }
-
-  autoTotalCaculate();
-}
 
 /////////////////////////////////////////////////////////////////////
 
@@ -259,25 +179,27 @@ function autoTotalCaculate() {
   lowerInterFeeSum.innerHTML = nf(interFeeSum);
 
   // media total
-  if (adFeeSum != 0) {
-    lowerAgencyFeeRateSum.innerHTML = ((agencyFeeSum / adFeeSum) * 100).toFixed(
-      2
-    );
-    lowerMediaFeeRateSum.innerHTML = ((mediaFeeSum / adFeeSum) * 100).toFixed(
-      2
-    );
-    lowerDplanFeeRateSum.innerHTML = ((dplanFeeSum / adFeeSum) * 100).toFixed(
-      2
-    );
-    lowerInterFeeRateSum.innerHTML = ((interFeeSum / adFeeSum) * 100).toFixed(
-      2
-    );
+  if (adFeeSum !== 0) {
+    lowerAgencyFeeRateSum.innerHTML = agencyFeeSum
+      ? ((agencyFeeSum / adFeeSum) * 100).toFixed(2)
+      : 0;
+    lowerMediaFeeRateSum.innerHTML = mediaFeeSum
+      ? ((mediaFeeSum / adFeeSum) * 100).toFixed(2)
+      : 0;
+    lowerDplanFeeRateSum.innerHTML = dplanFeeSum
+      ? ((dplanFeeSum / adFeeSum) * 100).toFixed(2)
+      : 0;
+    lowerInterFeeRateSum.innerHTML = interFeeSum
+      ? ((interFeeSum / adFeeSum) * 100).toFixed(2)
+      : 0;
   }
 
   if (!block) {
     camAdTotal.value = adFeeSum;
     if (adFeeSum != 0)
-      camAgencyFeeRate.value = ((agencyFeeSum / adFeeSum) * 100).toFixed(2);
+      camAgencyFeeRate.value = agencyFeeSum
+        ? ((agencyFeeSum / adFeeSum) * 100).toFixed(2)
+        : 0;
     camAgencyFee.value = agencyFeeSum;
     camMediaFee.value = mediaFeeSum;
     camDpalnFee.value = dplanFeeSum;
@@ -286,14 +208,26 @@ function autoTotalCaculate() {
 }
 ////////////////////////////////////////////////////////////////////////
 
+const submitBtn = document.getElementById("submit-btn");
+
 // event delegation
 mediaTable.addEventListener("change", autoCalculate);
+mediaTable.addEventListener("change", function () {
+  const rows = this.rows;
+
+  for (let i = 2; i < rows.length - 1; i++) {
+    if (rows[i].cells[7].childNodes[1].classList.contains("error-border")) {
+      return submitBtn.setAttribute("disabled", "disabled");
+    }
+  }
+  submitBtn.removeAttribute("disabled");
+});
 mediaTable.addEventListener("click", (e) => {
   if (e.target.classList.contains("alert-btn")) {
     mediaCount.value = +mediaCount.value - 1;
     e.target.closest("tr").remove();
+    autoTotalCaculate();
   }
-  autoTotalCaculate();
 });
 
 const startDate = document.getElementById("cam-start-date");
