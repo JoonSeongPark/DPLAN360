@@ -51,9 +51,9 @@
                 </td>
                 <td class="h-header">캠페인기간</td>
                 <td class="h-content">
-                  <%= campaign.period_begin.getFullYear() %> 년 <%= campaign.period_begin.getMonth()+1 %> 월 <%= campaign.period_begin.getDate() %> 일
+                  <%= campaign.period_begin.getFullYear() %>년 <%= campaign.period_begin.getMonth()+1 %>월 <%= campaign.period_begin.getDate() %>일
                   &nbsp~&nbsp
-                  <%= campaign.period_end.getFullYear() %> 년 <%= campaign.period_end.getMonth()+1 %> 월 <%= campaign.period_end.getDate() %> 일
+                  <%= campaign.period_end.getFullYear() %>년 <%= campaign.period_end.getMonth()+1 %>월 <%= campaign.period_end.getDate() %>일
                 </td>
               </tr>
               <tr>
@@ -69,18 +69,18 @@
                 </td>
                 <td class="h-header">대행사 세금계산서 발행월</td>
                 <td class="h-content">
-                  <%= campaign.tax_date.getFullYear() %> 년 <%= campaign.tax_date.getMonth()+1 %> 월
+                  <%= campaign.tax_date.getFullYear() %>년 <%= campaign.tax_date.getMonth()+1 %>월
                   (<%= campaign.issue_type %>)
                 </td>
               </tr>
               <tr>
                 <td class="h-header">등록일</td>
                 <td class="h-content">
-                  <%= campaign.createdAt.getFullYear() %> 년 <%= campaign.createdAt.getMonth()+1 %> 월 <%= campaign.createdAt.getDate() %> 일 (<%= campaign.pic %>)
+                  <%= campaign.createdAt.getFullYear() %>년 <%= campaign.createdAt.getMonth()+1 %>월 <%= campaign.createdAt.getDate() %>일 (<%= campaign.pic %>)
                 </td>
                 <td class="h-header">수정일</td>
                 <td class="h-content">
-                  <%= campaign.updatedAt.getFullYear() %> 년 <%= campaign.updatedAt.getMonth()+1 %> 월 <%= campaign.updatedAt.getDate() %> 일 (<%= campaign.writer %>)
+                  <%= campaign.updatedAt.getFullYear() %>년 <%= campaign.updatedAt.getMonth()+1 %>월 <%= campaign.updatedAt.getDate() %>일 (<%= campaign.writer %>)
                 </td>
                 <td class="h-header">상태</td>
                 <td class="h-content">
@@ -101,10 +101,10 @@
           <div class="v-part">
             <table id="media-table">
               <tr>
-                <th class="v-header" rowspan="2" style="width: 160px;">매체명</th>
+                <th class="v-header" rowspan="2" style="width: 140px;">매체명</th>
                 <th class="v-header" colspan="2">기간</th>
                 <th class="v-header" colspan="2">인터랩</th>
-                <th class="v-header" rowspan="2" style="width: 100px;">매체발행월</th>
+                <th class="v-header" rowspan="2" style="width: 110px;">매체발행월</th>
                 <th class="v-header" rowspan="2" style="width: 80px;">귀속시기</th>
                 <th class="v-header" colspan="4">수수료율 (%)</th>
                 <th class="v-header" rowspan="2" style="width: 94px">광고수주액</th>
@@ -113,10 +113,10 @@
                 <th class="v-header" rowspan="2" style="width: 84px">비고</th>
               </tr>
               <tr>
-                <th class="v-header" style="width:100px">시작일</th>
-                <th class="v-header" style="width:100px">종료일</th>
+                <th class="v-header" style="width:110px">시작일</th>
+                <th class="v-header" style="width:110px">종료일</th>
                 <th class="v-header" style="width:45px">구분</th>
-                <th class="v-header" style="width:120px">인터랩</th>
+                <th class="v-header" style="width:110px">인터랩</th>
                 <th class="v-header" style="width:41px">대행사</th>
                 <th class="v-header" style="width:41px">매체</th>
                 <th class="v-header" style="width:41px">디플랜</th>
@@ -129,12 +129,12 @@
               <% mediaItems.forEach(mediaItem => { %>
                 <tr>
                   <td><%= mediaItem.medium.name %></td> 
-                  <td><%= mediaItem.media_start.getFullYear() %> 년 <%= mediaItem.media_start.getMonth()+1 %> 월 <%= mediaItem.media_start.getDate() %> 일</td>
-                  <td><%= mediaItem.media_end.getFullYear() %> 년 <%= mediaItem.media_end.getMonth()+1 %> 월 <%= mediaItem.media_end.getDate() %> 일</td>
+                  <td><%= mediaItem.media_start.getFullYear() %>년 <%= mediaItem.media_start.getMonth()+1 %>월 <%= mediaItem.media_start.getDate() %>일</td>
+                  <td><%= mediaItem.media_end.getFullYear() %>년 <%= mediaItem.media_end.getMonth()+1 %>월 <%= mediaItem.media_end.getDate() %>일</td>
                   <td><%= mediaItem.inter_type %></td>
                   <td><%= mediaItem.inter_name %></td>
-                  <td><%= mediaItem.issue_date.getFullYear() %> 년 <%= mediaItem.issue_date.getMonth()+1 %> 월 (<%= mediaItem.issue_type %>)</td>
-                  <td><%= mediaItem.attribution_time.getFullYear() %> 년 <%= mediaItem.attribution_time.getMonth()+1 %> 월</td>
+                  <td><%= mediaItem.issue_date.getFullYear() %>년 <%= mediaItem.issue_date.getMonth()+1 %>월 (<%= mediaItem.issue_type %>)</td>
+                  <td><%= mediaItem.attribution_time.getFullYear() %>년 <%= mediaItem.attribution_time.getMonth()+1 %>월</td>
                   <td><%= (mediaItem.agency_fee / mediaItem.ad_fee * 100).toFixed(2) %></td>
                   <td><%= (mediaItem.media_fee / mediaItem.ad_fee * 100).toFixed(2) %></td>
                   <td><%= (mediaItem.dplan_fee / mediaItem.ad_fee * 100).toFixed(2) %></td>

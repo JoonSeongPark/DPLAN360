@@ -1,7 +1,7 @@
 table {
   border-top: 1px solid #bbb;
   border-collapse: collapse;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 table.max-width {
@@ -22,7 +22,7 @@ td {
 table input,
 table select {
   height: 16px;
-  font-size: 10px;
+  font-size: 12px;
   border: 1px solid rgba(59, 59, 59);
   border-radius: 2px;
 }
@@ -48,7 +48,7 @@ table textarea {
 .home-table th,
 .home-table td {
   border: thin solid #bbb;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .home-table-team-container {
