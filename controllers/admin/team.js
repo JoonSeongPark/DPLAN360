@@ -23,6 +23,7 @@ exports.getAddTeam = (req, res, next) => {
 
 exports.postAddTeam = async (req, res, next) => {
   const name = req.body.name;
+  const normal = req.body.normal;
 
   try {
     const team = await Team.findOne({
@@ -37,7 +38,7 @@ exports.postAddTeam = async (req, res, next) => {
     }
 
     // 새로운 팀 생성
-    await Team.create({ name });
+    await Team.create({ name, normal });
 
     req.flash("success", "팀이 성공적으로 생성되었습니다.");
 
@@ -75,6 +76,7 @@ exports.postEditTeam = async (req, res, next) => {
   const { teamId } = req.body;
 
   const updatedName = req.body.name;
+  const updatedNormal = req.body.normal;
 
   try {
     const teamMatch = await Team.findOne({
@@ -90,6 +92,7 @@ exports.postEditTeam = async (req, res, next) => {
     const team = await Team.findByPk(teamId);
 
     team.name = updatedName;
+    team.normal = updatedNormal;
 
     await team.save();
 

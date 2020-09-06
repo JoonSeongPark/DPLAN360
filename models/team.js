@@ -15,6 +15,10 @@ const Team = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    normal: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
   },
   {
     timestamps: false,

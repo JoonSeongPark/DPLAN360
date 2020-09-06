@@ -15,7 +15,7 @@
       >
     </li>
   </ul>
-  <% if (!isAdmin) { %>
+  <% if (isNormal) { %>
   <div class="nav-header">캠페인등록</div>
   <ul>
     <li class="<%= path === '/add-campaign' ? 'active' : '' %>">

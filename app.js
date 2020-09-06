@@ -79,7 +79,7 @@ app.use((req, res, next) => {
       next();
     })
     .catch((err) => {
-      return console.log(err);
+      console.log(err);
     });
 });
 
@@ -88,6 +88,7 @@ app.use((req, res, next) => {
     res.locals.isLeader = req.user.leader;
     res.locals.blockAuth = req.user.block_auth;
     res.locals.isLoggedIn = true;
+    res.locals.isNormal = req.session.isNormal;
   }
   res.locals.csrfToken = req.csrfToken();
   res.locals.isAdmin = req.session.isAdmin;
@@ -153,12 +154,12 @@ sequelize
         }
       })
       .catch((err) => {
-        return console.log(err);
+        console.log(err);
       });
   })
   .then(() => {
     app.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
-    return console.log(err);
+    console.log(err);
   });

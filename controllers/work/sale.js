@@ -20,7 +20,7 @@ exports.getIndex = async (req, res, next) => {
         },
       },
     });
-    const teams = await Team.findAll();
+    const teams = await Team.findAll({ where: { normal: 1 } });
 
     teams.forEach((team) => {
       team.month = new Array();

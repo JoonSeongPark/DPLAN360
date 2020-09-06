@@ -7,13 +7,13 @@ const sendgridTransport = require("nodemailer-sendgrid-transport");
 const User = require("../../models/user");
 
 const Sequelize = require("sequelize");
+const Team = require("../../models/team");
 const Op = Sequelize.Op;
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key:
-        process.env.SENDGRID_KEY,
+      api_key: process.env.SENDGRID_KEY,
     },
   })
 );
@@ -41,7 +41,10 @@ exports.postLogin = async (req, res, next) => {
   const password = req.body.password;
 
   try {
-    const user = await User.findOne({ where: { email: email } });
+    const user = await User.findOne({
+      where: { email: email },
+      include: [{ model: Team }],
+    });
 
     if (!user) {
       req.flash("error", "사용자가 존재하지 않습니다.");
@@ -50,8 +53,8 @@ exports.postLogin = async (req, res, next) => {
     const doMatch = await bcrypt.compare(password, user.password);
 
     if (doMatch) {
-      if (user.email === "leader@d-plan360.com") {
-        req.session.isAdmin = true;
+      if (user.team && user.team.normal) {
+        req.session.isNormal = true;
       }
       req.session.user = user;
       await req.session.save();

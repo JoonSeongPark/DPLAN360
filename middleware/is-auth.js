@@ -22,9 +22,9 @@ exports.isLogin = (req, res, next) => {
   next();
 };
 
-// 관리자 계정일 경우, 관리자 탭 메뉴만 이용 가능
-exports.isAdmin = (req, res, next) => {
-  if (req.session.isAdmin) {
+// 일반 팀이 아닐 경우, 캠페인 신규 등록 이용 불가
+exports.isNotNormal = (req, res, next) => {
+  if (!req.session.isNormal) {
     return res.redirect("/");
   }
   next();

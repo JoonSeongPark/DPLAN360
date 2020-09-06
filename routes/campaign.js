@@ -14,11 +14,13 @@ router.get(
 router.get(
   "/add-campaign",
   authMiddleware.isAuth,
+  authMiddleware.isNotNormal,
   campaignController.getAddCampaign
 );
 router.post(
   "/add-campaign",
   authMiddleware.isAuth,
+  authMiddleware.isNotNormal,
   campaignController.postAddCampaign
 );
 
