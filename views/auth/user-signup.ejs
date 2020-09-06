@@ -41,7 +41,7 @@
           <% if (editing) { %>
             <input type="hidden" name="userId" value="<%= user.id %>">
             <div class="form-control">
-                <label for="blockAuth">시스템 블록해체</label>
+                <label for="blockAuth">시스템 블록해제</label>
                 <select name="blockAuth">
                   <option value="1" <%= user.block_auth == '1' ? 'selected' : '' %>>허가</option>
                   <option value="0" <%= user.block_auth == '0' ? 'selected' : '' %>>차단</option>
