@@ -7,9 +7,6 @@ const Team = require("../../models/team");
 const User = require("../../models/user");
 
 exports.getAdvertisers = async (req, res, next) => {
-  const mains = await AdMainCategory.findAll();
-  const subs = await AdSubCategory.findAll();
-
   try {
     const advertisers = await Advertiser.findAll({
       include: { model: AdSubCategory, order: [["id", "ASC"]],include: { model: AdMainCategory,order: [["id", "ASC"]], } },
