@@ -17,11 +17,11 @@
           </div>
           <div class="form-control">
               <label for="name">이름</label>
-              <input type="name" name="name" value="<%= editing ? user.name : '' %>">
+              <input type="name" name="name" value="<%= editing ? user.name : '' %>" required>
           </div>
           <div class="form-control">
               <label for="email">이메일</label>
-              <input type="email" name="email" value="<%= editing ? user.email : '' %>">
+              <input type="email" name="email" value="<%= editing ? user.email : '' %>" required>
           </div>
           <div class="form-control">
               <label for="team">담당팀</label>

@@ -13,13 +13,13 @@
           <div class="h-part">
             <table id="cam-table" style="margin: auto">
               <tr>
-                <td class="h-header">*업체명</td>
+                <td class="h-header">업체명</td>
                 <td>
-                  <input type="text" name="name" value="<%= editing ? agency.name : '' %>" autofocus>
+                  <input type="text" name="name" value="<%= editing ? agency.name : '' %>" autofocus required>
                 </td>
                 <td class="h-header">결제조건</td>
                 <td >
-                  <input type="text" name="pay_condition" value="<%= editing ? agency.pay_condition : '' %>" size="8">
+                  <input type="text" name="pay_condition" value="<%= editing ? agency.pay_condition : '' %>" size="8" required>
                 </td>
                 <td class="h-header">입금형태</td>
                 <td>

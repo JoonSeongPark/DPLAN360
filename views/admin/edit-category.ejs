@@ -19,7 +19,7 @@
                   <tr>
                     <td class="h-header">대분류</td>
                     <td>
-                      <input type="text" name="name" value="<%= editing ? main.name : '' %>">
+                      <input type="text" name="name" value="<%= editing ? main.name : '' %>" required>
                     </td>
                   </tr>
                 </table>
@@ -52,7 +52,7 @@
                 <tr>
                   <td class="h-header">소분류</td>
                   <td>
-                    <input type="text" name="name" value="<%= editing ? sub.name : '' %>">
+                    <input type="text" name="name" value="<%= editing ? sub.name : '' %>" required>
                   </td>
                 </tr>
               </table>

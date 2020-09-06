@@ -29,11 +29,11 @@
                 </td>
                 <td class="h-header">담당팀</td>
                 <td class="h-content">
-                  <input type="text" name="team_name" value="<%= editing ? campaign.team.name : team.name %> 팀" readonly/>
+                  <input type="text" name="team_name" value="<%= editing ? campaign.team.name : team.name %> 팀" required readonly/>
                 </td>
                 <td class="h-header">담당자</td>
                 <td class="h-content">
-                  <input type="text" name="user_name" value="<%= editing ? campaign.pic : user.name %>" readonly/>
+                  <input type="text" name="user_name" value="<%= editing ? campaign.pic : user.name %>" required readonly/>
                 </td>
               </tr>
               <tr>
@@ -42,28 +42,28 @@
                   <% if (!editing) { %> 
                   <input type="hidden" name="cam_advertiser_id" id="cam-advertiser-id"/>
                   <% } %>
-                  <input class="max-width" type="text" id="cam-advertiser" value="<%= editing ? campaign.advertiser.name : '' %>" <%= editing ? "readonly" : "" %>/>
+                  <input class="max-width" type="text" id="cam-advertiser" value="<%= editing ? campaign.advertiser.name : '' %>" required <%= editing ? "readonly" : "" %> />
                 </td>
                 <td class="h-header">업종(대분류)</td>
                 <td class="h-content">
-                  <input type="text" id="cam-main-cat" value="<%= editing ? campaign.advertiser.adSubCategory.adMainCategory.name:'' %>" readonly/>
+                  <input type="text" id="cam-main-cat" value="<%= editing ? campaign.advertiser.adSubCategory.adMainCategory.name:'' %>" required readonly/>
                 </td>
                 <td class="h-header">업종(소분류)</td>
                 <td class="h-content">
-                  <input type="text" id="cam-sub-cat" value="<%= editing ? campaign.advertiser.adSubCategory.name:'' %>" readonly/>
+                  <input type="text" id="cam-sub-cat" value="<%= editing ? campaign.advertiser.adSubCategory.name:'' %>" required readonly/>
                 </td>
               </tr>
               <tr>
                 <td class="h-header">캠페인명</td>
                 <td class="h-content">
-                  <input class="max-width" type="text" name="cam_title" id="cam-title" value="<%= editing ? campaign.title : '' %>"/>
+                  <input class="max-width" type="text" name="cam_title" id="cam-title" value="<%= editing ? campaign.title : '' %>" required/>
                 </td>
                 <td class="h-header">대행사</td>
                 <td class="h-content">
                   <% if (!editing) { %> 
                   <input type="hidden" name="cam_agency_id" id="cam-agency-id" />
                   <% } %>
-                  <input class="max-width" type="text" id="cam-agency" value="<%= editing ? campaign.agency.name : '' %>" <%= editing ? "readonly" : "" %>/>
+                  <input class="max-width" type="text" id="cam-agency" value="<%= editing ? campaign.agency.name : '' %>" required <%= editing ? "readonly" : "" %>/>
                 </td>
                 <td class="h-header">캠페인기간</td>
                 <td class="h-content">
@@ -73,6 +73,7 @@
                     name="cam_start_date"
                     id="cam-start-date"
                     value="<%= editing ? `${campaign.period_begin.getFullYear()}-${(campaign.period_begin.getMonth()+1).toString().padStart(2,'0')}-${campaign.period_begin.getDate().toString().padStart(2,'0')}` : ''%>"
+                    required
                   />
                   &nbsp~&nbsp
                   <input
@@ -81,6 +82,7 @@
                     name="cam_end_date"
                     id="cam-end-date"
                     value="<%= editing ? `${campaign.period_end.getFullYear()}-${(campaign.period_end.getMonth()+1).toString().padStart(2,'0')}-${campaign.period_end.getDate().toString().padStart(2,'0')}` : ''%>"
+                    required
                   />
                   &nbsp&nbsp
                   <button style="font-size: 10px; padding: 1px 2px;" type="button" id="set-date">맞춤</button>
@@ -96,6 +98,7 @@
                     value="<%= editing ? campaign.ad_fee : 0 %> "
                     readonly
                     id="cam-ad-total"
+                    required
                   />&nbsp&nbsp원
                 </td>
                 <td class="h-header">대행사 수수료</td>
@@ -107,6 +110,7 @@
                     readonly
                     id="cam-agency-fee-rate"
                     size="4"
+                    required
                   />&nbsp&nbsp%&nbsp&nbsp&nbsp&nbsp
                   <input
                     class="input-num max-sixty-width"
@@ -116,6 +120,7 @@
                     readonly
                     id="cam-agency-fee"
                     size="12"
+                    required
                   />&nbsp&nbsp원
                   <input type="hidden" name="cam_media_fee" id="cam-media-fee" value="<%= editing ? campaign.media_fee : 0 %> ">
                   <input type="hidden" name="cam_dplan_fee" id="cam-dplan-fee" value="<%= editing ? campaign.dplan_fee : 0 %> ">
@@ -124,7 +129,7 @@
                 <td class="h-header">대행사 세금계산서 발행월</td>
                 <td class="h-content">
                   <input class="input-date" type="month" name="cam_tax_month" id="cam-tax-month"
-                  value="<%= editing ? `${campaign.tax_date.getFullYear()}-${(campaign.tax_date.getMonth()+1).toString().padStart(2,'0')}` : '' %>"/>
+                  value="<%= editing ? `${campaign.tax_date.getFullYear()}-${(campaign.tax_date.getMonth()+1).toString().padStart(2,'0')}` : '' %>" required/>
                   &nbsp&nbsp
                   <select name="media_issue_type" id="media-issue-type">
                     <option value="전액" <%= editing && campaign.issue_type === '전액' ? 'selected' : '' %>>전액</option>
@@ -171,19 +176,21 @@
                 <% mediaItems.forEach(mediaItem => { %>
                 <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
                 <tr class="<%= Date.parse(mediaItem.issue_date) >= blockCondition ? '' : ( blockAuth ? 'blocked_but_auth' : 'blocked' ) %>" >
-                  <input type="hidden" name="updated_mediaItem_id" value="<%= mediaItem.id %>" />
+                  <input type="hidden" name="updated_mediaItem_id" value="<%= mediaItem.id %>"/>
                   <td>
                     <input type="hidden" name="media_id" value="<%= mediaItem.mediumId %>" />
-                    <input type="text" value="<%= mediaItem.medium.name %>" style="width:88px" readonly/>
+                    <input type="text" value="<%= mediaItem.medium.name %>" style="width:88px" required readonly/>
                   </td>
                   <td>
                     <input class="input-date" type="date" name="media_start"
                     value="<%=`${mediaItem.media_start.getFullYear()}-${(mediaItem.media_start.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.media_start.getDate().toString().padStart(2,'0')}`%>"
+                    required
                     <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
                   </td>
                   <td>
                     <input class="input-date" type="date" name="media_end"
                     value="<%=`${mediaItem.media_end.getFullYear()}-${(mediaItem.media_end.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.media_end.getDate().toString().padStart(2,'0')}`%>"
+                    required
                     <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
                   </td>
                   <td>
@@ -202,9 +209,9 @@
                   <td >
                     <input
                       name="lower_inter_name"
-                      value="<%= mediaItem.inter_name %>"
-                      type="text"
                       style="width:54px"
+                      type="text"
+                      value="<%= mediaItem.inter_name %>"
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>
@@ -212,6 +219,7 @@
                     <div style="display:flex;align-items:center;justify-content:center;">
                       <input class="input-date" type="month" name="lower_issue_date"
                       value="<%= `${mediaItem.issue_date.getFullYear()}-${(mediaItem.issue_date.getMonth()+1).toString().padStart(2,'0')}`%>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                       />
                       <select name="lower_issue_type">
@@ -227,9 +235,11 @@
                   <td>
                     <input
                       name="lower_attribution_time"
-                      value="<%=`${mediaItem.attribution_time.getFullYear()}-${(mediaItem.attribution_time.getMonth()+1).toString().padStart(2,'0')}`%>"
                       type="month"
+                      value="<%=`${mediaItem.attribution_time.getFullYear()}-${(mediaItem.attribution_time.getMonth()+1).toString().padStart(2,'0')}`%>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      
                     />
                   </td>
                   <td>
@@ -239,6 +249,7 @@
                       type="text"
                       name="lower_agency_fee_rate"
                       value="<%= (mediaItem.agency_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>
@@ -249,6 +260,7 @@
                       type="text"
                       name="lower_media_fee_rate"
                       value="<%= (mediaItem.media_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>
@@ -259,6 +271,7 @@
                       type="text"
                       name="lower_dplan_fee_rate"
                       value="<%= (mediaItem.dplan_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>
@@ -269,6 +282,7 @@
                       type="text"
                       name="lower_inter_fee_rate"
                       value="<%= (mediaItem.inter_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>
@@ -279,6 +293,7 @@
                       type="text"
                       name="lower_ad_fee"
                       value="<%= mediaItem.ad_fee %>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>
@@ -289,6 +304,7 @@
                       type="text"
                       name="lower_agency_fee"
                       value="<%= mediaItem.agency_fee %>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>
@@ -299,6 +315,7 @@
                       type="text"
                       name="lower_media_fee"
                       value="<%= mediaItem.media_fee %>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>
@@ -309,6 +326,7 @@
                       type="text"
                       name="lower_dplan_fee"
                       value="<%= mediaItem.dplan_fee %>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>
@@ -319,6 +337,7 @@
                       type="text"
                       name="lower_inter_fee"
                       value="<%= mediaItem.inter_fee %>"
+                      required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                     />
                   </td>

@@ -82,7 +82,7 @@
               </tr>
               <% campaigns.forEach(campaign => { %>
                 <tr>
-                  <td><%= teams.find(team => +team.id === +campaign.teamId).name %> 팀</td>
+                  <td><%= teams.find(team => +team.id === +campaign.teamId) && teams.find(team => +team.id === +campaign.teamId).name %> 팀</td>
                   <td><%= campaign.tax_date.getFullYear() %> 년</td>
                   <td><%= campaign.tax_date.getMonth()+1 %> 월</td>
                   <td><%= advertisers.find(advertiser => advertiser.id === campaign.advertiserId).name %></td>
