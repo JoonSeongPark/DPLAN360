@@ -73,13 +73,13 @@ function alertModal(e) {
     const newRowContent = `
     <td>
       <input type="hidden" name="media_id" value="${media_id}" />
-      <input type="text" value="${media_name}" style="width:88px" readonly/>
+      <input type="text" value="${media_name}" style="width:88px" required readonly/>
     </td>
     <td>
-      <input class="input-date" type="date" name="media_start" />
+      <input class="input-date" type="date" name="media_start" required/>
     </td>
     <td>
-      <input class="input-date" type="date" name="media_end" />
+      <input class="input-date" type="date" name="media_end" required/>
     </td>
     <td>
       <select name="lower_inter_type">
@@ -102,7 +102,7 @@ function alertModal(e) {
     </td>
     <td>
     <div style="display:flex;align-items:center;justify-content:center;">
-      <input class="input-date" type="month" name="lower_issue_date"/>
+      <input class="input-date" type="month" name="lower_issue_date" required/>
       <select name="lower_issue_type">
         <option value="전액">전액</option>
         <option value="순액">순액</option>
@@ -114,6 +114,7 @@ function alertModal(e) {
         name="lower_attribution_time"
         value="${attribution_time}"
         type="month"
+        required
       />
     </td>
     <td>
@@ -124,6 +125,7 @@ function alertModal(e) {
         name="lower_agency_fee_rate"
         value="${media_agency_fee_rate}"
         value="0"
+        required
       />
     </td>
     <td>
@@ -134,6 +136,7 @@ function alertModal(e) {
         name="lower_media_fee_rate"
         value="${media_fee_rate}"
         value="0"
+        required
       />
     </td>
     <td>
@@ -144,6 +147,7 @@ function alertModal(e) {
         name="lower_dplan_fee_rate"
         value="${media_dplan_fee_rate}"
         value="0"
+        required
       />
     </td>
     <td>
@@ -154,6 +158,7 @@ function alertModal(e) {
         name="lower_inter_fee_rate"
         value="${media_inter_fee_rate}"
         value="0"
+        required
       />
     </td>
     <td>
@@ -163,6 +168,7 @@ function alertModal(e) {
         type="text"
         name="lower_ad_fee"
         value="0"
+        required
       />
     </td>
     <td>
@@ -172,6 +178,7 @@ function alertModal(e) {
         type="text"
         name="lower_agency_fee"
         value="0"
+        required
       />
     </td>
     <td>
@@ -181,6 +188,7 @@ function alertModal(e) {
         type="text"
         name="lower_media_fee"
         value="0"
+        required
       />
     </td>
     <td>
@@ -190,6 +198,7 @@ function alertModal(e) {
         type="text"
         name="lower_dplan_fee"
         value="0"
+        required
       />
     </td>
     <td>
@@ -199,6 +208,7 @@ function alertModal(e) {
         type="text"
         name="lower_inter_fee"
         value="0"
+        required
       />
     </td>
     <td>
