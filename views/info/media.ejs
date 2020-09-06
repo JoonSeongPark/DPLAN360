@@ -59,6 +59,7 @@
                   <td style="padding:0">
                     <form action="/admin/delete-media" method="POST">
                       <input type="hidden" value="<%= medium.id %>" name="mediumId">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                       <button class="btn alert-btn" type="button">삭제</button>
                     </form>
                    </td>

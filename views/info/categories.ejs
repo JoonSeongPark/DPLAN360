@@ -36,6 +36,7 @@
                    <td style="padding:0">
                     <form action="/admin/delete-main-category" method="POST" id="main-delete-form">
                       <input type="hidden" value="<%= main.id %>" name="mainId">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                       <button class="btn alert-btn" type="button" id="delete-main-button">삭제</button>
                     </form>
                    </td>

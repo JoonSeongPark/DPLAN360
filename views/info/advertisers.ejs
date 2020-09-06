@@ -38,6 +38,7 @@
                    <td style="padding:0">
                     <form action="/admin/delete-advertiser" method="POST">
                       <input type="hidden" value="<%= advertiser.id %>" name="advertiserId">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                       <button class="btn alert-btn" type="button">삭제</button>
                     </form>
                    </td>

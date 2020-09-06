@@ -44,6 +44,7 @@
                    <td style="padding:0">
                     <form action="/admin/delete-agency" method="POST">
                       <input type="hidden" value="<%= agency.id %>" name="agencyId">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                       <button class="btn alert-btn" type="button">삭제</button>
                     </form>
                    </td>
