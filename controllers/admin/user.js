@@ -96,6 +96,13 @@ exports.postEditUser = async (req, res, next) => {
   const updatedBlockAuth = req.body.blockAuth;
 
   try {
+    const userMatch = await User.findOne({ where: { email: updatedEmail } });
+
+    if (userMatch) {
+      req.flash("error", "이메일이 이미 존재합니다.");
+      return res.redirect(`/admin/edit-user/${userId}?edit=true`);
+    }
+
     const user = await User.findByPk(userId);
 
     user.name = updatedName;
