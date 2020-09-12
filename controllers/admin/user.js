@@ -96,14 +96,15 @@ exports.postEditUser = async (req, res, next) => {
   const updatedBlockAuth = req.body.blockAuth;
 
   try {
-    const userMatch = await User.findOne({ where: { email: updatedEmail } });
-
-    if (userMatch) {
-      req.flash("error", "이메일이 이미 존재합니다.");
-      return res.redirect(`/admin/edit-user/${userId}?edit=true`);
-    }
-
     const user = await User.findByPk(userId);
+
+    if (user.email !== updatedEmail) {
+      const userMatch = await User.findOne({ where: { email: updatedEmail } });
+      if (userMatch) {
+        req.flash("error", "이메일이 이미 존재합니다.");
+        return res.redirect(`/admin/edit-user/${userId}?edit=true`);
+      }
+    }
 
     user.name = updatedName;
     user.email = updatedEmail;
@@ -113,6 +114,19 @@ exports.postEditUser = async (req, res, next) => {
 
     await user.save();
 
+    res.redirect("/users");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.postDeleteUser = async (req, res, next) => {
+  const { userId } = req.body;
+
+  try {
+    const user = await User.findByPk(userId);
+
+    await user.destroy();
     res.redirect("/users");
   } catch (err) {
     console.log(err);

@@ -118,7 +118,7 @@ exports.postResetPassword = (req, res, next) => {
 
       req.flash("success", `${email} 으로 메일이 발송되었습니다.`);
       res.redirect("/login");
-
+      
       transporter.sendMail({
         to: email,
         from: "leader@d-plan360.com",
@@ -126,7 +126,7 @@ exports.postResetPassword = (req, res, next) => {
         html: `
             <p>비밀번호 변경을 요청하였습니다.</p>
             <p>클릭하여 변경화면으로 이동하세요.</p>
-            <a href="http://dplan360.c4j9lg274esc.us-east-2.rds.amazonaws.com:3000/new-password/${token}">비밀번호 재설정</a>
+            <a href="http://${req.host}:3000/new-password/${token}">비밀번호 재설정</a>
           `,
       });
     } catch (err) {

@@ -188,5 +188,10 @@ router.post(
   authMiddleware.isLeader,
   adminUserController.postEditUser
 );
+router.post(
+  "/delete-user",
+  authMiddleware.isLeader,
+  adminUserController.postDeleteUser
+);
 
 module.exports = router;
