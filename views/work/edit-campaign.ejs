@@ -135,6 +135,7 @@
                     <option value="전액" <%= editing && campaign.issue_type === '전액' ? 'selected' : '' %>>전액</option>
                     <option value="순액" <%= editing && campaign.issue_type === '순액' ? 'selected' : '' %>>순액</option>
                   </select>
+                  <input type="hidden" id="agency-pay-condition" value="<%= editing ? campaign.agency_fee : '' %> ">
                 </td>
               </tr>
             </table>
@@ -142,14 +143,16 @@
           
           <button style="margin: 0 1.1vw;" type="button" id="media-modal-btn">매체추가</button>
           
-          <div class="v-part">
+          <div class="v-part scrollable">
             <table id="media-table">
               <tr>
                 <th class="v-header" rowspan="2" style="width: 94px;">매체명</th>
                 <th class="v-header" colspan="2">기간</th>
                 <th class="v-header" colspan="2">인터랩</th>
                 <th class="v-header" rowspan="2" style="width: 174px;">매체발행월</th>
+                <th class="v-header" rowspan="2" style="width: 120px;">매체입금일</th>
                 <th class="v-header" rowspan="2" style="width: 120px;">귀속시기</th>
+                <th class="v-header" rowspan="2" style="width: 120px;">대행사입금일</th>
                 <th class="v-header" colspan="4">수수료율 (%)</th>
                 <th class="v-header" rowspan="2" style="width: 94px">광고수주액</th>
                 <th class="v-header" colspan="4">수익배분액</th>
@@ -374,6 +377,8 @@
                 <th class="v-total"></th>
                 <th class="v-total"></th>
                 <th class="v-total"></th>
+                <th class="v-total"></th>
+                <th class="v-total"></th>
                 <th class="v-total input-num" id="lower-agency-fee-rate-sum">
                   0
                 </th>
@@ -470,6 +475,7 @@
     <script src="/auto-complete/autocomplete.js"></script>
     <script src="/js/num-format.js"></script>
     <script src="/js/work/auto-calculator.js"></script>
+    <script src="/js/deposit-calculator.js"></script>
     <script src="/js/work/edit-campaign.js"></script>
     <script src="/js/work/media-modal.js"></script>
     

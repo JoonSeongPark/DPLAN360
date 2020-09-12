@@ -61,6 +61,7 @@ function alertModal(e) {
 
     const media_id = media_info.id;
     const media_name = media_info.name;
+    const media_pay_condition = media_info.pay_condition;
     const media_inter_type = media_info.inter_type;
     const media_inter_name = media_info.inter_name;
     const attribution_time = document.getElementById("cam-tax-month").value;
@@ -110,12 +111,19 @@ function alertModal(e) {
       </div>
     </td>
     <td>
+      <input class="input-date" type="date" name="media_deposit_date"required/>
+    </td>
+    <td>
       <input
         name="lower_attribution_time"
         value="${attribution_time}"
         type="month"
+        id="agency-issue-date"
         required
       />
+    </td>
+    <td>
+      <input class="input-date" type="date" name="agency_deposit_date" required/>
     </td>
     <td>
       <input
@@ -227,7 +235,11 @@ function alertModal(e) {
     </td>
     <td>
       <button type="button" class="btn alert-btn">삭제</button>
-    </td>`;
+    </td>
+    <td hidden>
+      <input type="hidden" value="${media_pay_condition}"/>
+    </td>
+    `;
 
     const len = mediaTable.rows.length;
     const row = mediaTable.insertRow(len - 1);

@@ -1,3 +1,42 @@
+function autoDepositCalculator(e) {
+  const targetRow = e.target.closest("tr");
+  const beginDate = targetRow.cells[1].children[0].value;
+  const endDate = targetRow.cells[2].children[0].value;
+
+  if (e.target.name === "lower_issue_date") {
+    const mediaIssueDate = e.target.value.split("-");
+
+    if (!beginDate) return alert("시작일을 입력하세요.");
+    if (!endDate) return alert("시작일을 입력하세요.");
+
+    const mediaPayCondition = targetRow.cells[21].children[0].value;
+    targetRow.cells[6].children[0].value = depositCalculator(
+      beginDate,
+      endDate,
+      mediaIssueDate[0],
+      mediaIssueDate[1],
+      mediaPayCondition
+    );
+  }
+  if (e.target.name === "lower_attribution_time") {
+    const agencyIssueDate = e.target.value.split("-");
+
+    if (!beginDate) return alert("시작일을 입력하세요.");
+    if (!endDate) return alert("시작일을 입력하세요.");
+
+    const agencyPayCondition = document.getElementById("agency-pay-condition")
+      .value;
+    if (!agencyPayCondition) return alert("대행사를 입력하세요");
+    targetRow.cells[8].children[0].value = depositCalculator(
+      beginDate,
+      endDate,
+      agencyIssueDate[0],
+      agencyIssueDate[1],
+      agencyPayCondition
+    );
+  }
+}
+
 function depositCalculator(begin, end, year, month, loan) {
   const lastDay = new Date(year, month, 0);
 
@@ -35,11 +74,10 @@ function depositCalculator(begin, end, year, month, loan) {
     }
   }
 
-  result = `
-    ${depositDay.getFullYear()} 년
-    ${depositDay.getMonth() + 1} 월
-    ${depositDay.getDate()} 일
-    `;
+  result = `${depositDay.getFullYear()}-${(
+    "" +
+    (depositDay.getMonth() + 1)
+  ).padStart(2, "0")}-${("" + depositDay.getDate()).padStart(2, "0")}`;
 
   return result;
 }
