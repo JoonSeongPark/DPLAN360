@@ -53,9 +53,8 @@
               <th class="v-header" rowspan="2" style="width: 80px;">광고수주액</th>
               <th class="v-header" colspan="4">수익배분액</th>
               <th class="v-header" rowspan="2" style="width: 70px;">귀속시기</th>
-              <th class="v-header" colspan="3">대행사</th>
-              <th class="v-header" colspan="3">매체</th>
-              <th class="v-header" colspan="2" hidden>기간</th>
+              <th class="v-header" colspan="2">대행사</th>
+              <th class="v-header" colspan="2">매체</th>
             </tr>
             <tr>
               <th class="v-header" style="width: 30px">구분</th>
@@ -65,13 +64,9 @@
               <th class="v-header" style="width: 80px;">순매출</th>
               <th class="v-header" style="width: 80px;">인터랩수수료</th>
               <th class="v-header" style="width: 100px;">발행월</th>
-              <th class="v-header" style="width: 60px;">여신</th>
               <th class="v-header" style="width: 100px;">입금일</th>
               <th class="v-header" style="width: 100px;">발행월</th>
-              <th class="v-header" style="width: 60px;">여신</th>
               <th class="v-header" style="width: 100px;">입금일</th>
-              <th class="v-header" style="width: 100px;" hidden>시작일</th>
-              <th class="v-header" style="width: 100px;" hidden>종료일</th>
             </tr>
             <tr>
               <th class="v-total">Total</th>
@@ -91,10 +86,6 @@
               <th class="v-total"></th>
               <th class="v-total"></th>
               <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total" hidden></th>
-              <th class="v-total" hidden></th>
             </tr>
             <% mediaItems.forEach(mediaItem => { %>
               <tr>
@@ -110,15 +101,11 @@
                 <td><%= mediaItem.media_fee %></td>
                 <td><%= mediaItem.dplan_fee %></td>
                 <td><%= mediaItem.inter_fee %></td>
-                <td><%= mediaItem.attribution_time.getFullYear() %> 년 <%= mediaItem.attribution_time.getMonth()+1 %> 월</td>
-                <td><%= mediaItem.attribution_time.getFullYear() %> 년 <%= mediaItem.attribution_time.getMonth()+1 %> 월</td>
-                <td><%= mediaItem.campaign.agency.pay_condition %></td>
-                <td>대행사입금일</td>
-                <td><%= mediaItem.issue_date.getFullYear() %> 년 <%= mediaItem.issue_date.getMonth()+1 %> 월</td>
-                <td><%= mediaItem.medium.pay_condition %></td>
-                <td>매체입금일</td>
-                <td hidden><%= mediaItem.media_start %></td>
-                <td hidden><%= mediaItem.media_end %></td>
+                <td><%= mediaItem.attribution_time.getFullYear() %>년 <%= mediaItem.attribution_time.getMonth()+1 %>월</td>
+                <td><%= mediaItem.attribution_time.getFullYear() %>년 <%= mediaItem.attribution_time.getMonth()+1 %>월</td>
+                <td><%= mediaItem.agency_deposit_date.getFullYear() %>년 <%= mediaItem.agency_deposit_date.getMonth()+1 %>월 <%= mediaItem.agency_deposit_date.getDate() %>일</td>
+                <td><%= mediaItem.issue_date.getFullYear() %>년 <%= mediaItem.issue_date.getMonth()+1 %>월</td>
+                <td><%= mediaItem.media_deposit_date.getFullYear() %>년 <%= mediaItem.media_deposit_date.getMonth()+1 %>월 <%= mediaItem.media_deposit_date.getDate() %>일</td>
               </tr>
             <% }) %>
           </table>
@@ -126,7 +113,6 @@
       </main>
     </div>
 
-    <script src="/js/deposit-calculator.js"></script>
     <script src="/js/num-format.js"></script>
     <script src="/js/work/tax-bill.js"></script>
   <%- include('../includes/end-part.ejs') %>

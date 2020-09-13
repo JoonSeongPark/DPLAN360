@@ -36,39 +36,6 @@ function sumTotal() {
     resultTable.rows[i].cells[11].innerHTML = nf(
       +resultTable.rows[i].cells[11].innerHTML
     );
-
-    // 입금일 계산
-    const mediaBegin = new Date(resultTable.rows[i].cells[19].innerHTML);
-    const mediaEnd = new Date(resultTable.rows[i].cells[20].innerHTML);
-
-    // 대행사
-    const agencyIssue = resultTable.rows[i].cells[13].innerHTML
-      .replace(/[^0-9\s]/g, "")
-      .split(" ");
-
-    const agencyLoan = resultTable.rows[i].cells[14].innerHTML;
-
-    resultTable.rows[i].cells[15].innerHTML = depositCalculator(
-      mediaBegin,
-      mediaEnd,
-      agencyIssue[0],
-      agencyIssue[1],
-      agencyLoan
-    );
-
-    // 매체
-    const mediaIssue = resultTable.rows[i].cells[16].innerHTML
-      .replace(/[^0-9\s]/g, "")
-      .split(" ");
-    const mediaLoan = resultTable.rows[i].cells[17].innerHTML;
-
-    resultTable.rows[i].cells[18].innerHTML = depositCalculator(
-      mediaBegin,
-      mediaEnd,
-      mediaIssue[0],
-      mediaIssue[1],
-      mediaLoan
-    );
   }
 
   adTotalCell.innerHTML = nf(agencySum + mediaSum + dplanSum + interSum);
