@@ -90,7 +90,6 @@ exports.postAddCampaign = async (req, res, next) => {
     cam_inter_fee,
     cam_tax_month,
     media_issue_type,
-    _csrf,
     media_count,
   } = req.body;
   // 매체 정보
@@ -245,56 +244,85 @@ exports.postEditCampaign = async (req, res, next) => {
   const user = req.user;
 
   // 캠페인 정보
-  const { campaign_id, mediaItem_id, updated_mediaItem_id, _csrf } = req.body;
+  const { campaign_id, mediaItem_id, updated_mediaItem_id } = req.body;
 
-  const updated_cam_type = req.body.cam_type,
-    updated_cam_title = req.body.cam_title,
-    updated_cam_start_date = req.body.cam_start_date,
-    updated_cam_end_date = req.body.cam_end_date,
-    updated_cam_ad_total = req.body.cam_ad_total,
-    updated_cam_agency_fee = req.body.cam_agency_fee,
-    updated_cam_media_fee = req.body.cam_media_fee,
-    updated_cam_dplan_fee = req.body.cam_dplan_fee,
-    updated_cam_inter_fee = req.body.cam_inter_fee,
-    updated_cam_tax_month = req.body.cam_tax_month,
-    updated_media_issue_type = req.body.media_issue_type,
-    updated_media_count = req.body.media_count;
+  const {
+    cam_type,
+    cam_title,
+    cam_start_date,
+    cam_end_date,
+    cam_ad_total,
+    cam_agency_fee,
+    cam_media_fee,
+    cam_dplan_fee,
+    cam_inter_fee,
+    cam_tax_month,
+    media_issue_type,
+    media_count,
+    media_id,
+    media_start,
+    media_end,
+    lower_inter_type,
+    lower_inter_name,
+    lower_issue_date,
+    lower_issue_type,
+    media_deposit_date,
+    lower_attribution_time,
+    agency_deposit_date,
+    lower_ad_fee,
+    lower_agency_fee,
+    lower_media_fee,
+    lower_dplan_fee,
+    lower_inter_fee,
+    google_cid,
+    lower_memo,
+  } = req.body;
 
+  const updated_cam_type = cam_type,
+    updated_cam_title = cam_title,
+    updated_cam_start_date = cam_start_date,
+    updated_cam_end_date = cam_end_date,
+    updated_cam_ad_total = cam_ad_total,
+    updated_cam_agency_fee = cam_agency_fee,
+    updated_cam_media_fee = cam_media_fee,
+    updated_cam_dplan_fee = cam_dplan_fee,
+    updated_cam_inter_fee = cam_inter_fee,
+    updated_cam_tax_month = cam_tax_month,
+    updated_media_issue_type = media_issue_type,
+    updated_media_count = media_count;
+  console.log();
   // 매체 정보
-  let updated_media_id = req.body.media_id,
-    updated_media_start = req.body.media_start,
-    updated_media_end = req.body.media_end,
-    updated_lower_inter_type = req.body.lower_inter_type,
-    updated_lower_inter_name = req.body.lower_inter_name,
-    updated_lower_issue_date = req.body.lower_issue_date,
-    updated_lower_issue_type = req.body.lower_issue_type,
-    updated_lower_attribution_time = req.body.lower_attribution_time,
-    updated_lower_ad_fee = req.body.lower_ad_fee,
-    updated_lower_agency_fee = req.body.lower_agency_fee,
-    updated_lower_media_fee = req.body.lower_media_fee,
-    updated_lower_dplan_fee = req.body.lower_dplan_fee,
-    updated_lower_inter_fee = req.body.lower_inter_fee,
-    updated_google_cid = req.body.google_cid,
-    updated_lower_memo = req.body.lower_memo;
-
-  // for loop 위해서 array화 시키기
-  if (updated_media_count < 2) {
-    updated_media_id = [updated_media_id];
-    updated_media_start = [updated_media_start];
-    updated_media_end = [updated_media_end];
-    updated_lower_inter_type = [updated_lower_inter_type];
-    updated_lower_inter_name = [updated_lower_inter_name];
-    updated_lower_issue_date = [updated_lower_issue_date];
-    updated_lower_issue_type = [updated_lower_issue_type];
-    updated_lower_attribution_time = [updated_lower_attribution_time];
-    updated_lower_ad_fee = [updated_lower_ad_fee];
-    updated_lower_agency_fee = [updated_lower_agency_fee];
-    updated_lower_media_fee = [updated_lower_media_fee];
-    updated_lower_dplan_fee = [updated_lower_dplan_fee];
-    updated_lower_inter_fee = [updated_lower_inter_fee];
-    updated_google_cid = [updated_google_cid];
-    updated_lower_memo = [updated_lower_memo];
-  }
+  let updated_media_id = updated_media_count < 2 ? [media_id] : media_id,
+    updated_media_start = updated_media_count < 2 ? [media_start] : media_start,
+    updated_media_end = updated_media_count < 2 ? [media_end] : media_end,
+    updated_lower_inter_type =
+      updated_media_count < 2 ? [lower_inter_type] : lower_inter_type,
+    updated_lower_inter_name =
+      updated_media_count < 2 ? [lower_inter_name] : lower_inter_name,
+    updated_lower_issue_date =
+      updated_media_count < 2 ? [lower_issue_date] : lower_issue_date,
+    updated_lower_issue_type =
+      updated_media_count < 2 ? [lower_issue_type] : lower_issue_type,
+    updated_media_deposit_date =
+      updated_media_count < 2 ? [media_deposit_date] : media_deposit_date,
+    updated_lower_attribution_time =
+      updated_media_count < 2
+        ? [lower_attribution_time]
+        : lower_attribution_time,
+    updated_agency_deposit_date =
+      updated_media_count < 2 ? [agency_deposit_date] : agency_deposit_date,
+    updated_lower_ad_fee =
+      updated_media_count < 2 ? [lower_ad_fee] : lower_ad_fee,
+    updated_lower_agency_fee =
+      updated_media_count < 2 ? [lower_agency_fee] : lower_agency_fee,
+    updated_lower_media_fee =
+      updated_media_count < 2 ? [lower_media_fee] : lower_media_fee,
+    updated_lower_dplan_fee =
+      updated_media_count < 2 ? [lower_dplan_fee] : lower_dplan_fee,
+    updated_lower_inter_fee =
+      updated_media_count < 2 ? [lower_inter_fee] : lower_inter_fee,
+    updated_google_cid = updated_media_count < 2 ? [google_cid] : google_cid,
+    updated_lower_memo = updated_media_count < 2 ? [lower_memo] : lower_memo;
 
   // 삭제 Item DB Update
   try {
@@ -334,7 +362,9 @@ exports.postEditCampaign = async (req, res, next) => {
           inter_name: updated_lower_inter_name[i],
           issue_date: updated_lower_issue_date[i],
           issue_type: updated_lower_issue_type[i],
+          media_deposit_date: updated_media_deposit_date[i],
           attribution_time: updated_lower_attribution_time[i],
+          agency_deposit_date: updated_agency_deposit_date[i],
           ad_fee: updated_lower_ad_fee[i],
           agency_fee: updated_lower_agency_fee[i],
           media_fee: updated_lower_media_fee[i],
@@ -354,7 +384,9 @@ exports.postEditCampaign = async (req, res, next) => {
         item.inter_name = updated_lower_inter_name[i];
         item.issue_date = updated_lower_issue_date[i];
         item.issue_type = updated_lower_issue_type[i];
+        item.media_deposit_date = updated_media_deposit_date[i];
         item.attribution_time = updated_lower_attribution_time[i];
+        item.agency_deposit_date = updated_agency_deposit_date[i];
         item.ad_fee = updated_lower_ad_fee[i];
         item.agency_fee = updated_lower_agency_fee[i];
         item.media_fee = updated_lower_media_fee[i];

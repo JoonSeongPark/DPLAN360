@@ -135,7 +135,7 @@
                     <option value="전액" <%= editing && campaign.issue_type === '전액' ? 'selected' : '' %>>전액</option>
                     <option value="순액" <%= editing && campaign.issue_type === '순액' ? 'selected' : '' %>>순액</option>
                   </select>
-                  <input type="hidden" id="agency-pay-condition" value="<%= editing ? campaign.agency_fee : '' %> ">
+                  <input type="hidden" id="agency-pay-condition" value="<%= editing ? campaign.agency.pay_condition : '' %> ">
                 </td>
               </tr>
             </table>
@@ -236,14 +236,25 @@
                     </div>
                   </td>
                   <td>
+                    <input class="input-date" type="date" name="media_deposit_date"
+                    value="<%=`${mediaItem.media_deposit_date.getFullYear()}-${(mediaItem.media_deposit_date.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.media_deposit_date.getDate().toString().padStart(2,'0')}`%>"
+                    required
+                    <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
+                  </td>
+                  <td>
                     <input
                       name="lower_attribution_time"
                       type="month"
                       value="<%=`${mediaItem.attribution_time.getFullYear()}-${(mediaItem.attribution_time.getMonth()+1).toString().padStart(2,'0')}`%>"
                       required
                       <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
-                      
                     />
+                  </td>
+                  <td>
+                    <input class="input-date" type="date" name="agency_deposit_date"
+                    value="<%=`${mediaItem.agency_deposit_date.getFullYear()}-${(mediaItem.agency_deposit_date.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.agency_deposit_date.getDate().toString().padStart(2,'0')}`%>"
+                    required
+                    <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
                   </td>
                   <td>
                     <input
@@ -364,6 +375,9 @@
                   </td>
                   <td>
                     <button type="button" class="btn alert-btn" <%= ( Date.parse(mediaItem.issue_date) < blockCondition || !blockAuth ) ? "disabled" : "" %>>삭제</button>
+                  </td>
+                  <td hidden>
+                    <input type="hidden" value="<%= mediaItem.medium.pay_condition %>" />
                   </td>
                 </tr>
                 <% }) %>
