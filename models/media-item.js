@@ -31,7 +31,15 @@ const MediaItem = sequelize.define("mediaItem", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  media_deposit_date: {
+    type: Sequelize.DATE,
+    allowNull: false,
+  },
   attribution_time: {
+    type: Sequelize.DATE,
+    allowNull: false,
+  },
+  agency_deposit_date: {
     type: Sequelize.DATE,
     allowNull: false,
   },
