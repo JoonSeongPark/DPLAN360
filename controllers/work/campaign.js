@@ -102,7 +102,9 @@ exports.postAddCampaign = async (req, res, next) => {
     lower_inter_name,
     lower_issue_date,
     lower_issue_type,
+    media_deposit_date,
     lower_attribution_time,
+    agency_deposit_date,
     lower_ad_fee,
     lower_agency_fee,
     lower_media_fee,
@@ -121,7 +123,9 @@ exports.postAddCampaign = async (req, res, next) => {
     lower_inter_name = [lower_inter_name];
     lower_issue_date = [lower_issue_date];
     lower_issue_type = [lower_issue_type];
+    media_deposit_date = [media_deposit_date];
     lower_attribution_time = [lower_attribution_time];
+    agency_deposit_date = [agency_deposit_date];
     lower_ad_fee = [lower_ad_fee];
     lower_agency_fee = [lower_agency_fee];
     lower_media_fee = [lower_media_fee];
@@ -161,7 +165,9 @@ exports.postAddCampaign = async (req, res, next) => {
         inter_name: lower_inter_name[i],
         issue_date: lower_issue_date[i],
         issue_type: lower_issue_type[i],
+        media_deposit_date: media_deposit_date[i],
         attribution_time: lower_attribution_time[i],
+        agency_deposit_date: agency_deposit_date[i],
         ad_fee: lower_ad_fee[i],
         agency_fee: lower_agency_fee[i],
         media_fee: lower_media_fee[i],
