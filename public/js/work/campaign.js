@@ -20,17 +20,11 @@ function totalCalculate() {
     interSum = 0;
 
   for (let i = 2; i < mediaTable.rows.length - 1; i++) {
-    adSum += +mediaTable.rows[i].cells[11].innerHTML;
-    agencySum += +mediaTable.rows[i].cells[12].innerHTML;
-    mediaSum += +mediaTable.rows[i].cells[13].innerHTML;
-    dplanSum += +mediaTable.rows[i].cells[14].innerHTML;
-    interSum += +mediaTable.rows[i].cells[15].innerHTML;
-    mediaTable.rows[i].cells[11].innerHTML = nf(
-      +mediaTable.rows[i].cells[11].innerHTML
-    );
-    mediaTable.rows[i].cells[12].innerHTML = nf(
-      +mediaTable.rows[i].cells[12].innerHTML
-    );
+    adSum += +mediaTable.rows[i].cells[13].innerHTML;
+    agencySum += +mediaTable.rows[i].cells[14].innerHTML;
+    mediaSum += +mediaTable.rows[i].cells[15].innerHTML;
+    dplanSum += +mediaTable.rows[i].cells[16].innerHTML;
+    interSum += +mediaTable.rows[i].cells[17].innerHTML;
     mediaTable.rows[i].cells[13].innerHTML = nf(
       +mediaTable.rows[i].cells[13].innerHTML
     );
@@ -39,6 +33,12 @@ function totalCalculate() {
     );
     mediaTable.rows[i].cells[15].innerHTML = nf(
       +mediaTable.rows[i].cells[15].innerHTML
+    );
+    mediaTable.rows[i].cells[16].innerHTML = nf(
+      +mediaTable.rows[i].cells[16].innerHTML
+    );
+    mediaTable.rows[i].cells[17].innerHTML = nf(
+      +mediaTable.rows[i].cells[17].innerHTML
     );
   }
 
@@ -57,7 +57,6 @@ function totalCalculate() {
 const deleteBtn = document.getElementById("delete-button");
 
 function alertModal(e) {
-
   const formEl = e.target.closest("form");
 
   const modalContainer = document.createElement("div");
