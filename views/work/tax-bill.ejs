@@ -2,6 +2,7 @@
     <link rel="stylesheet" href="/css/table.css" />
   </head>
   <body>
+    <div class="wrapper">
     <%- include('../includes/header.ejs') %>
 
     <div class="container">
@@ -14,15 +15,15 @@
           <div class="v-part sort-part">
             <table id="condition-table">
               <tr>
-                <th class="h-header" style="height:22px" colspan="2">대행사 발행월</th>
-                <th class="h-header" style="height:22px" colspan="2">매체 발행월</th>
+                <th class="h-header" style="height:1.4rem" colspan="2">대행사 발행월</th>
+                <th class="h-header" style="height:1.4rem" colspan="2">매체 발행월</th>
                 <th class="h-header" rowspan="3"><p class="excel-download" id="excel-download">엑셀다운로드</p></th>
               </tr>
               <tr>
-                <th class="h-header" style="height:22px">시작월</th>
-                <th class="h-header" style="height:22px">종료월</th>
-                <th class="h-header" style="height:22px">시작월</th>
-                <th class="h-header" style="height:22px">종료월</th>
+                <th class="h-header" style="height:1.4rem">시작월</th>
+                <th class="h-header" style="height:1.4rem">종료월</th>
+                <th class="h-header" style="height:1.4rem">시작월</th>
+                <th class="h-header" style="height:1.4rem">종료월</th>
               </tr>
               <tr>
                 <td>
@@ -111,6 +112,7 @@
           </table>
        </div>        
       </main>
+    </div>
     </div>
 
     <script src="/js/num-format.js"></script>

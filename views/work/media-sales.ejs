@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="/css/table.css" />
   </head>
   <body>
+    <div class="wrapper">
     <%- include('../includes/header.ejs') %>
 
     <div class="container">
@@ -85,13 +86,14 @@
                   <td><%= mediaItem.dataValues.media_fee %></td>
                   <td><%= mediaItem.dataValues.dplan_fee %></td>
                   <td><%= mediaItem.dataValues.inter_fee %></td>
-                  <td><%= mediaItem.dataValues.issue_date.getFullYear() %> 년 <%= mediaItem.dataValues.issue_date.getMonth()+1 %> 월</td>
+                  <td><%= mediaItem.dataValues.issue_date.getFullYear() %>년 <%= mediaItem.dataValues.issue_date.getMonth()+1 %>월</td>
                 </tr>
               <% }) %>
             </table>
           </div>
         </form>
       </main>
+    </div>
     </div>
     <div id="media-ul" hidden>
       <% media.forEach(medium =>{ %>

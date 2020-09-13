@@ -98,7 +98,7 @@ function alertModal(e) {
         name="lower_inter_name"
         value="${media_inter_name}"
         type="text"
-        style="width:54px"
+        style="width:6rem"
       />
     </td>
     <td>
@@ -128,7 +128,7 @@ function alertModal(e) {
     <td>
       <input
         class="input-num"
-        style="width:34px"
+        style="width:2.5rem"
         type="text"
         name="lower_agency_fee_rate"
         value="${(+media_agency_fee_rate).toFixed(2)}"
@@ -139,7 +139,7 @@ function alertModal(e) {
     <td>
       <input
         class="input-num"
-        style="width:34px"
+        style="width:2.5rem"
         type="text"
         name="lower_media_fee_rate"
         value="${(+media_fee_rate).toFixed(2)}"
@@ -150,7 +150,7 @@ function alertModal(e) {
     <td>
       <input
         class="input-num"
-        style="width:34px"
+        style="width:2.5rem"
         type="text"
         name="lower_dplan_fee_rate"
         value="${(+media_dplan_fee_rate).toFixed(2)}"
@@ -161,7 +161,7 @@ function alertModal(e) {
     <td>
       <input
         class="input-num"
-        style="width:34px"
+        style="width:2.5rem"
         type="text"
         name="lower_inter_fee_rate"
         value="${(+media_inter_fee_rate).toFixed(2)}"
@@ -222,7 +222,7 @@ function alertModal(e) {
     <td>
       <input
         class="input-num"
-        style="width:54px"
+        style="width:6rem"
         type="text"
         name="google_cid"
       />

@@ -14,25 +14,26 @@ section {
 
 th,
 td {
-  padding: 0 3px;
+  padding: 0 0.2rem;
   text-align: center;
   border-bottom: 1px solid #bbb;
 }
 
 table input,
 table select {
-  height: 16px;
+  margin: 0.1rem;
+  height: 1.3rem;
   font-size: 12px;
   border: 1px solid rgba(59, 59, 59);
   border-radius: 2px;
 }
 
 table textarea {
-  margin: 0 5px;
+  margin: 0 0.3rem;
 }
 
 .index-table-container {
-  margin-top: 14px;
+  margin-top: 0.9rem;
   display: flex;
   justify-content: center;
 }
@@ -42,7 +43,7 @@ table textarea {
 }
 
 .home-table tr {
-  height: 30px;
+  height: 1.9rem;
 }
 
 .home-table th,
@@ -60,7 +61,7 @@ table textarea {
 }
 
 .home-table-team {
-  height: 30px;
+  height: 1.9rem;
   background-color: var(--dplan-yellow);
 }
 
@@ -76,16 +77,14 @@ table textarea {
 .h-header {
   font-weight: bold;
   text-align: center;
-  width: 130px;
-  height: 31px;
+  width: 10rem;
   background-color: var(--light-blue);
 }
 
 .h-content {
-  min-width: 200px;
-  height: 31px;
+  min-width: 16rem;
   text-align: left;
-  padding: 3px 10px;
+  padding: 0.2rem 0.6rem;
 }
 
 input.max-width {
@@ -102,66 +101,68 @@ input.max-sixty-width {
 }
 
 .h-part {
-  margin-top: 20px;
+  margin-top: 1.2rem;
 }
 
 .h-part input[type="radio"] {
-  width: 10px;
-  height: 10px;
+  width: 0.6rem;
+  height: 0.6rem;
 }
 
 table .input-num {
   text-align: right;
+  padding: 0.2rem;
 }
 
 .v-part {
-  margin-top: 20px;
+  margin: 1.2rem;
   text-align: center;
 }
 
 .v-part th {
   border: 1px solid #999;
+  padding: 0.2rem;
 }
 
 .v-part td {
-  padding: 3px;
+  padding: 0.2rem 0.5rem;
   text-align: center;
   border: 1px solid #999;
 }
 
 .v-header {
-  padding: 3px 1px;
+  padding: 0.2rem;
   font-weight: bold;
   background-color: var(--light-green);
 }
 
 .v-total {
   background-color: #ddd;
-  padding: 4px 6px;
+  padding: 0.2rem 0.4rem;
 }
 
 .submit-btns button {
-  margin-right: 5px;
+  margin-right: 0.3rem;
 }
 
 th.xs {
-  width: 50px;
+  width: 3.1rem;
 }
 
 th.s {
-  width: 75px;
+  width: 4.7rem;
 }
 
 th.m {
-  width: 100px;
+  width: 6.3rem;
 }
 
 th.xl {
-  width: 130px;
+  width: 8.2rem;
 }
 
 th.xxl {
-  width: 180px;
+  width: 11.3rem;
 }
 
 .sort-part {
@@ -170,18 +171,18 @@ th.xxl {
 
 .result-part {
   display: inline-block;
-  height: 75vh;
   overflow: auto;
   margin: 0 1.1vw 1.3vw;
-  padding-right: 11px;
+  padding-right: 0.7rem;
+  height: calc(100% - 3rem);
 }
 
 .scrollable {
   overflow-x: auto;
   overflow-y: auto;
-  width: 85vw;
+  width: calc(100% - 2.8rem);
   white-space: nowrap;
-  padding-bottom: 10px;
+  padding-bottom: 0.6rem;
 }
 
 .text-overflow {
@@ -207,12 +208,12 @@ th.xxl {
 
 .user-table-container {
   text-align: center;
-  margin: 10px 20px;
+  margin: 0.6rem 1.2rem;
 }
 
 .user-team-table {
   display: inline-block;
-  margin: 20px;
+  margin: 1.2rem;
 }
 
 .user-team-table table {
@@ -220,13 +221,13 @@ th.xxl {
 }
 
 .team-table-header {
-  height: 30px;
+  height: 1.9rem;
   background-color: var(--dplan-yellow);
-  padding: 0 50px;
+  padding: 0 3.1rem;
 }
 
 .user-team-table tr {
-  height: 30px;
+  height: 1.9rem;
 }
 
 .user-team-table th,

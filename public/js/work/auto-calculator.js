@@ -16,7 +16,9 @@ function autoCalculate(e) {
   const dplanFeeInput = targetRow.cells[16].children[0];
   const interFeeInput = targetRow.cells[17].children[0];
 
-  const totalFeeInput = targetRow.cells[12].children[0];
+  const totalFeeInput = targetRow.cells[13].children[0];
+
+  let agencyPercent, mediaPercent, dplanPercent, interPercent;
 
   switch (e.target) {
     case agencyFeeRateInput:
@@ -45,55 +47,48 @@ function autoCalculate(e) {
       break;
 
     case agencyFeeInput:
-      agencyFeeRateInput.value = (
-        (+agencyFeeInput.value / +totalFeeInput.value) *
-        100
-      ).toFixed(2);
+      agencyPercent = (+agencyFeeInput.value / +totalFeeInput.value) * 100;
+      agencyFeeRateInput.value =
+        agencyPercent === 100 ? agencyPercent : agencyPercent.toFixed(2);
 
       dplanFeeInput.value =
         +totalFeeInput.value -
         (+agencyFeeInput.value + +mediaFeeInput.value + +interFeeInput.value);
 
-      dplanFeeRateInput.value = (
-        (+dplanFeeInput.value / +totalFeeInput.value) *
-        100
-      ).toFixed(2);
+      dplanPercent = (+dplanFeeInput.value / +totalFeeInput.value) * 100;
+      dplanFeeRateInput.value =
+        dplanPercent === 100 ? dplanPercent : dplanPercent.toFixed(2);
       break;
     case mediaFeeInput:
-      mediaFeeRateInput.value = (
-        (+mediaFeeInput.value / +totalFeeInput.value) *
-        100
-      ).toFixed(2);
+      mediaPercent = (+mediaFeeInput.value / +totalFeeInput.value) * 100;
+      mediaFeeRateInput.value =
+        mediaPercent === 100 ? mediaPercent : mediaPercent.toFixed(2);
 
       dplanFeeInput.value =
         +totalFeeInput.value -
         (+agencyFeeInput.value + +mediaFeeInput.value + +interFeeInput.value);
 
-      dplanFeeRateInput.value = (
-        (+dplanFeeInput.value / +totalFeeInput.value) *
-        100
-      ).toFixed(2);
+      dplanPercent = (+dplanFeeInput.value / +totalFeeInput.value) * 100;
+      dplanFeeRateInput.value =
+        dplanPercent === 100 ? dplanPercent : dplanPercent.toFixed(2);
       break;
     case dplanFeeInput:
-      dplanFeeRateInput.value = (
-        (+dplanFeeInput.value / +totalFeeInput.value) *
-        100
-      ).toFixed(2);
+      dplanPercent = (+dplanFeeInput.value / +totalFeeInput.value) * 100;
+      dplanFeeRateInput.value =
+        dplanPercent === 100 ? dplanPercent : dplanPercent.toFixed(2);
       break;
     case interFeeInput:
-      interFeeRateInput.value = (
-        (+interFeeInput.value / +totalFeeInput.value) *
-        100
-      ).toFixed(2);
+      interPercent = (+interFeeInput.value / +totalFeeInput.value) * 100;
+      interFeeRateInput.value =
+        interPercent === 100 ? interPercent : interPercent.toFixed(2);
 
       dplanFeeInput.value =
         +totalFeeInput.value -
         (+agencyFeeInput.value + +mediaFeeInput.value + +interFeeInput.value);
 
-      dplanFeeRateInput.value = (
-        (+dplanFeeInput.value / +totalFeeInput.value) *
-        100
-      ).toFixed(2);
+      dplanPercent = (+dplanFeeInput.value / +totalFeeInput.value) * 100;
+      dplanFeeRateInput.value =
+        dplanPercent === 100 ? dplanPercent : dplanPercent.toFixed(2);
       break;
     case totalFeeInput:
       agencyFeeInput.value = (

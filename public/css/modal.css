@@ -15,7 +15,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 10px;
+  border-radius: 0.6rem;
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -27,15 +27,15 @@
 }
 
 .alert-modal {
-  width: 400px;
-  height: 350px;
-  padding: 90px 20px;
+  width: 25rem;
+  height: 21.9rem;
+  padding: 5.6rem 1.3rem;
 }
 
 .media-modal {
-  width: 400px;
-  height: 350px;
-  padding: 40px 50px;
+  width: 25rem;
+  height: 21.9rem;
+  padding: 2.5rem 3.2rem;
 }
 
 .modal .btns {
@@ -47,5 +47,5 @@
 
 .modal .btns button {
   width: 28%;
-  height: 30px;
+  height: 1.9rem;
 }

@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="/auto-complete/autocomplete.css">
   </head>
   <body>
+    <div class="wrapper">
     <%- include('../includes/header.ejs') %>
 
     <div class="container">
@@ -11,7 +12,7 @@
 
       <%- include('../includes/menu-title.ejs') %>
       
-          <div class="h-part">
+          <div class="h-part sort-part">
             <table id="cam-table">
                 <td class="h-header">캠페인구분</td>
                 <td class="h-content">
@@ -101,32 +102,32 @@
           <div class="v-part scrollable">
             <table id="media-table">
               <tr>
-                <th class="v-header" rowspan="2" style="width: 140px;">매체명</th>
+                <th class="v-header" rowspan="2" style="width: 7rem;">매체명</th>
                 <th class="v-header" colspan="2">기간</th>
                 <th class="v-header" colspan="2">인터랩</th>
-                <th class="v-header" rowspan="2" style="width: 110px;">매체발행월</th>
-                <th class="v-header" rowspan="2" style="width: 80px;">매체입금일</th>
-                <th class="v-header" rowspan="2" style="width: 80px;">귀속시기</th>
-                <th class="v-header" rowspan="2" style="width: 80px;">대행사입금일</th>
+                <th class="v-header" rowspan="2" style="width: 8.8rem;">매체발행월</th>
+                <th class="v-header" rowspan="2" style="width: 8.8rem;">매체입금일</th>
+                <th class="v-header" rowspan="2" style="width: 8.8rem;">귀속시기</th>
+                <th class="v-header" rowspan="2" style="width: 8.8rem;">대행사입금일</th>
                 <th class="v-header" colspan="4">수수료율 (%)</th>
-                <th class="v-header" rowspan="2" style="width: 94px">광고수주액</th>
+                <th class="v-header" rowspan="2" style="width: 6.9rem">광고수주액</th>
                 <th class="v-header" colspan="4">수익배분액</th>
-                <th class="v-header" rowspan="2" style="width: 84px">구글CID</th>
-                <th class="v-header" rowspan="2" style="width: 84px">비고</th>
+                <th class="v-header" rowspan="2" style="width: 4.7rem">구글CID</th>
+                <th class="v-header" rowspan="2" style="width: 5.9rem">비고</th>
               </tr>
               <tr>
-                <th class="v-header" style="width:110px">시작일</th>
-                <th class="v-header" style="width:110px">종료일</th>
-                <th class="v-header" style="width:45px">구분</th>
-                <th class="v-header" style="width:110px">인터랩</th>
-                <th class="v-header" style="width:41px">대행사</th>
-                <th class="v-header" style="width:41px">매체</th>
-                <th class="v-header" style="width:41px">디플랜</th>
-                <th class="v-header" style="width:41px">인터렙</th>
-                <th class="v-header" style="width:94px">대행사수수료</th>
-                <th class="v-header" style="width:94px">매체수수료</th>
-                <th class="v-header" style="width:94px">순매출</th>
-                <th class="v-header" style="width:94px">인터렙수수료</th>
+                <th class="v-header" style="width:8.8rem">시작일</th>
+                <th class="v-header" style="width:8.8rem">종료일</th>
+                <th class="v-header" style="width:4rem">구분</th>
+                <th class="v-header" style="width:8.8rem">인터랩</th>
+                <th class="v-header" style="width:3.9rem">대행사</th>
+                <th class="v-header" style="width:3.9rem">매체</th>
+                <th class="v-header" style="width:3.9rem">디플랜</th>
+                <th class="v-header" style="width:3.9rem">인터렙</th>
+                <th class="v-header" style="width:6.9rem">대행사수수료</th>
+                <th class="v-header" style="width:6.9rem">매체수수료</th>
+                <th class="v-header" style="width:6.9rem">순매출</th>
+                <th class="v-header" style="width:6.9rem">인터렙수수료</th>
               </tr>
               <% mediaItems.forEach(mediaItem => { %>
                 <tr>
@@ -177,6 +178,7 @@
             </table>
           </div>
         </main>
+      </div>
       </div>
 
       <script src="/js/num-format.js"></script>
