@@ -290,7 +290,7 @@ exports.postEditCampaign = async (req, res, next) => {
     updated_cam_tax_month = cam_tax_month,
     updated_media_issue_type = media_issue_type,
     updated_media_count = media_count;
-  console.log();
+  
   // 매체 정보
   let updated_media_id = updated_media_count < 2 ? [media_id] : media_id,
     updated_media_start = updated_media_count < 2 ? [media_start] : media_start,

@@ -287,7 +287,6 @@ setDate.addEventListener("click", () => {
     const endDate = targetRow.cells[2].children[0].value;
 
     if (beginDate && endDate) {
-      console.log(targetRow.cells[7].children[0]);
       const agencyIssueDate = targetRow.cells[7].children[0].value.split("-");
 
       const agencyPayCondition = document.getElementById("agency-pay-condition")
