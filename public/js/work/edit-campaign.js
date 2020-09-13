@@ -214,35 +214,14 @@ function autoTotalCaculate() {
 
 const submitBtn = document.getElementById("submit-btn");
 
+const startDate = document.getElementById("cam-start-date");
+const endDate = document.getElementById("cam-end-date");
+
+const setDate = document.getElementById("set-date");
+
 // event delegation
 mediaTable.addEventListener("change", autoCalculate);
 mediaTable.addEventListener("change", autoDepositCalculator);
-mediaTable.addEventListener("change", (e) => {
-  if (e.target.name !== "media_start" && e.target.name !== "media_end") return;
-
-  const targetRow = e.target.closest("tr");
-
-  const beginDate = targetRow.cells[1].children[0].value;
-  const endDate = targetRow.cells[2].children[0].value;
-
-  if (beginDate && endDate) {
-    const agencyIssueDate = e.target.value.split("-");
-
-    if (!beginDate) return alert("시작일을 입력하세요.");
-    if (!endDate) return alert("시작일을 입력하세요.");
-
-    const agencyPayCondition = document.getElementById("agency-pay-condition")
-      .value;
-    if (!agencyPayCondition) return alert("대행사를 입력하세요");
-    targetRow.cells[8].children[0].value = depositCalculator(
-      beginDate,
-      endDate,
-      agencyIssueDate[0],
-      agencyIssueDate[1],
-      agencyPayCondition
-    );
-  }
-});
 mediaTable.addEventListener("change", function () {
   const rows = this.rows;
 
@@ -260,11 +239,6 @@ mediaTable.addEventListener("click", (e) => {
     autoTotalCaculate();
   }
 });
-
-const startDate = document.getElementById("cam-start-date");
-const endDate = document.getElementById("cam-end-date");
-
-const setDate = document.getElementById("set-date");
 
 // 날짜 맞춤 버튼
 function autoSetDate() {
@@ -286,20 +260,30 @@ setDate.addEventListener("click", () => {
     const beginDate = targetRow.cells[1].children[0].value;
     const endDate = targetRow.cells[2].children[0].value;
 
-    if (beginDate && endDate) {
-      const agencyIssueDate = targetRow.cells[7].children[0].value.split("-");
-
-      const agencyPayCondition = document.getElementById("agency-pay-condition")
-        .value;
-
-      if (!agencyPayCondition) return alert("대행사를 입력하세요");
-      targetRow.cells[8].children[0].value = depositCalculator(
+    const mediaIssueDate = targetRow.cells[5].childNodes[0];
+    if (mediaIssueDate.value) {
+      const mediaIssueDateArr = mediaIssueDate.value.split("-");
+      const mediaPayCondition = targetRow.cells[21].children[0].value;
+      targetRow.cells[6].children[0].value = depositCalculator(
         beginDate,
         endDate,
-        agencyIssueDate[0],
-        agencyIssueDate[1],
-        agencyPayCondition
+        mediaIssueDateArr[0],
+        mediaIssueDateArr[1],
+        mediaPayCondition
       );
     }
+    const agencyIssueDateArr = targetRow.cells[7].children[0].value.split("-");
+
+    const agencyPayCondition = document.getElementById("agency-pay-condition")
+      .value;
+
+    if (!agencyPayCondition) return alert("대행사를 입력하세요");
+    targetRow.cells[8].children[0].value = depositCalculator(
+      beginDate,
+      endDate,
+      agencyIssueDateArr[0],
+      agencyIssueDateArr[1],
+      agencyPayCondition
+    );
   }
 });

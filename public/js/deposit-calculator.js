@@ -1,28 +1,31 @@
 function autoDepositCalculator(e) {
+
+  if (!e.target.classList.contains("input-date")) return;
+
   const targetRow = e.target.closest("tr");
   const beginDate = targetRow.cells[1].children[0].value;
   const endDate = targetRow.cells[2].children[0].value;
 
   if (e.target.name === "lower_issue_date") {
-    const mediaIssueDate = e.target.value.split("-");
+    const mediaIssueDateArr = e.target.value.split("-");
 
     if (!beginDate) return alert("시작일을 입력하세요.");
-    if (!endDate) return alert("시작일을 입력하세요.");
+    if (!endDate) return alert("종료일을 입력하세요.");
 
     const mediaPayCondition = targetRow.cells[21].children[0].value;
     targetRow.cells[6].children[0].value = depositCalculator(
       beginDate,
       endDate,
-      mediaIssueDate[0],
-      mediaIssueDate[1],
+      mediaIssueDateArr[0],
+      mediaIssueDateArr[1],
       mediaPayCondition
     );
   }
   if (e.target.name === "lower_attribution_time") {
-    const agencyIssueDate = e.target.value.split("-");
+    const agencyIssueDateArr = e.target.value.split("-");
 
     if (!beginDate) return alert("시작일을 입력하세요.");
-    if (!endDate) return alert("시작일을 입력하세요.");
+    if (!endDate) return alert("종료일을 입력하세요.");
 
     const agencyPayCondition = document.getElementById("agency-pay-condition")
       .value;
@@ -30,8 +33,8 @@ function autoDepositCalculator(e) {
     targetRow.cells[8].children[0].value = depositCalculator(
       beginDate,
       endDate,
-      agencyIssueDate[0],
-      agencyIssueDate[1],
+      agencyIssueDateArr[0],
+      agencyIssueDateArr[1],
       agencyPayCondition
     );
   }

@@ -1,6 +1,23 @@
 const mediaModalBtn = document.getElementById("media-modal-btn");
 
 function alertModal(e) {
+  const agencyTaxDate = document.getElementById("cam-tax-month");
+
+  if (!startDate.value || !endDate.value) {
+    alert("캠페인 기간을 입력하세요.");
+    return;
+  }
+
+  if (!agencyInput.value) {
+    alert("대행사를 입력하세요.");
+    return;
+  }
+
+  if (!agencyTaxDate.value) {
+    alert("대행사 세금계산서 발행월을 입력하세요.");
+    return;
+  }
+
   const formEl = e.target.closest("form");
 
   const modalContainer = document.createElement("div");
@@ -64,7 +81,7 @@ function alertModal(e) {
     const media_pay_condition = media_info.pay_condition;
     const media_inter_type = media_info.inter_type;
     const media_inter_name = media_info.inter_name;
-    const attribution_time = document.getElementById("cam-tax-month").value;
+    const attribution_time = agencyTaxDate.value;
     const media_agency_fee_rate = media_info.agency_fee_rate;
     const media_fee_rate = media_info.media_fee_rate;
     const media_dplan_fee_rate = media_info.dplan_fee_rate;
