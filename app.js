@@ -84,6 +84,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+  res.locals.isLoggedIn = false;
   if (req.user) {
     res.locals.isLeader = req.user.leader;
     res.locals.blockAuth = req.user.block_auth;
