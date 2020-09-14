@@ -6,17 +6,17 @@ function autoCalculate(e) {
 
   const targetRow = e.target.closest("tr");
 
-  const agencyFeeRateInput = targetRow.cells[9].children[0];
-  const mediaFeeRateInput = targetRow.cells[10].children[0];
-  const dplanFeeRateInput = targetRow.cells[11].children[0];
-  const interFeeRateInput = targetRow.cells[12].children[0];
+  const agencyFeeRateInput = targetRow.cells[5].children[0];
+  const mediaFeeRateInput = targetRow.cells[6].children[0];
+  const dplanFeeRateInput = targetRow.cells[7].children[0];
+  const interFeeRateInput = targetRow.cells[8].children[0];
 
-  const agencyFeeInput = targetRow.cells[14].children[0];
-  const mediaFeeInput = targetRow.cells[15].children[0];
-  const dplanFeeInput = targetRow.cells[16].children[0];
-  const interFeeInput = targetRow.cells[17].children[0];
+  const agencyFeeInput = targetRow.cells[10].children[0];
+  const mediaFeeInput = targetRow.cells[11].children[0];
+  const dplanFeeInput = targetRow.cells[12].children[0];
+  const interFeeInput = targetRow.cells[13].children[0];
 
-  const totalFeeInput = targetRow.cells[13].children[0];
+  const totalFeeInput = targetRow.cells[9].children[0];
 
   let agencyPercent, mediaPercent, dplanPercent, interPercent;
 

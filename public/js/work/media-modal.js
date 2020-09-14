@@ -119,30 +119,6 @@ function alertModal(e) {
       />
     </td>
     <td>
-    <div style="display:flex;align-items:center;justify-content:center;">
-      <input class="input-date" type="month" name="lower_issue_date" required/>
-      <select name="lower_issue_type">
-        <option value="전액">전액</option>
-        <option value="순액">순액</option>
-      </select>
-      </div>
-    </td>
-    <td>
-      <input class="input-date" type="date" name="media_deposit_date"required/>
-    </td>
-    <td>
-      <input
-        name="lower_attribution_time"
-        value="${attribution_time}"
-        type="month"
-        id="agency-issue-date"
-        required
-      />
-    </td>
-    <td>
-      <input class="input-date" type="date" name="agency_deposit_date" required/>
-    </td>
-    <td>
       <input
         class="input-num"
         style="width:2.5rem"
@@ -235,6 +211,30 @@ function alertModal(e) {
         value="0"
         required
       />
+    </td>
+    <td>
+      <input
+        name="lower_attribution_time"
+        value="${attribution_time}"
+        type="month"
+        id="agency-issue-date"
+        required
+      />
+    </td>
+    <td>
+      <input class="input-date" type="date" name="agency_deposit_date" required/>
+    </td>
+    <td>
+    <div style="display:flex;align-items:center;justify-content:center;">
+      <input class="input-date" type="month" name="lower_issue_date" required/>
+      <select name="lower_issue_type">
+        <option value="전액">전액</option>
+        <option value="순액">순액</option>
+      </select>
+      </div>
+    </td>
+    <td>
+      <input class="input-date" type="date" name="media_deposit_date"required/>
     </td>
     <td>
       <input

@@ -170,11 +170,11 @@ function autoTotalCaculate() {
 
   for (let i = 2; i < len - 1; i++) {
     targetRow = mediaTable.rows[i];
-    adFeeSum += +targetRow.cells[13].children[0].value;
-    agencyFeeSum += +targetRow.cells[14].children[0].value;
-    mediaFeeSum += +targetRow.cells[15].children[0].value;
-    dplanFeeSum += +targetRow.cells[16].children[0].value;
-    interFeeSum += +targetRow.cells[17].children[0].value;
+    adFeeSum += +targetRow.cells[9].children[0].value;
+    agencyFeeSum += +targetRow.cells[10].children[0].value;
+    mediaFeeSum += +targetRow.cells[11].children[0].value;
+    dplanFeeSum += +targetRow.cells[12].children[0].value;
+    interFeeSum += +targetRow.cells[13].children[0].value;
   }
   lowerAdFeeSum.innerHTML = nf(adFeeSum);
   lowerAgencyFeeSum.innerHTML = nf(agencyFeeSum);
@@ -260,11 +260,11 @@ setDate.addEventListener("click", () => {
     const beginDate = targetRow.cells[1].children[0].value;
     const endDate = targetRow.cells[2].children[0].value;
 
-    const mediaIssueDate = targetRow.cells[5].childNodes[0];
+    const mediaIssueDate = targetRow.cells[16].childNodes[0];
     if (mediaIssueDate.value) {
       const mediaIssueDateArr = mediaIssueDate.value.split("-");
       const mediaPayCondition = targetRow.cells[21].children[0].value;
-      targetRow.cells[6].children[0].value = depositCalculator(
+      targetRow.cells[17].children[0].value = depositCalculator(
         beginDate,
         endDate,
         mediaIssueDateArr[0],
@@ -272,13 +272,13 @@ setDate.addEventListener("click", () => {
         mediaPayCondition
       );
     }
-    const agencyIssueDateArr = targetRow.cells[7].children[0].value.split("-");
+    const agencyIssueDateArr = targetRow.cells[14].children[0].value.split("-");
 
     const agencyPayCondition = document.getElementById("agency-pay-condition")
       .value;
 
     if (!agencyPayCondition) return alert("대행사를 입력하세요");
-    targetRow.cells[8].children[0].value = depositCalculator(
+    targetRow.cells[15].children[0].value = depositCalculator(
       beginDate,
       endDate,
       agencyIssueDateArr[0],

@@ -20,25 +20,25 @@ function totalCalculate() {
     interSum = 0;
 
   for (let i = 2; i < mediaTable.rows.length - 1; i++) {
-    adSum += +mediaTable.rows[i].cells[13].innerHTML;
-    agencySum += +mediaTable.rows[i].cells[14].innerHTML;
-    mediaSum += +mediaTable.rows[i].cells[15].innerHTML;
-    dplanSum += +mediaTable.rows[i].cells[16].innerHTML;
-    interSum += +mediaTable.rows[i].cells[17].innerHTML;
+    adSum += +mediaTable.rows[i].cells[9].innerHTML;
+    agencySum += +mediaTable.rows[i].cells[10].innerHTML;
+    mediaSum += +mediaTable.rows[i].cells[11].innerHTML;
+    dplanSum += +mediaTable.rows[i].cells[12].innerHTML;
+    interSum += +mediaTable.rows[i].cells[13].innerHTML;
+    mediaTable.rows[i].cells[9].innerHTML = nf(
+      +mediaTable.rows[i].cells[9].innerHTML
+    );
+    mediaTable.rows[i].cells[10].innerHTML = nf(
+      +mediaTable.rows[i].cells[10].innerHTML
+    );
+    mediaTable.rows[i].cells[11].innerHTML = nf(
+      +mediaTable.rows[i].cells[11].innerHTML
+    );
+    mediaTable.rows[i].cells[12].innerHTML = nf(
+      +mediaTable.rows[i].cells[12].innerHTML
+    );
     mediaTable.rows[i].cells[13].innerHTML = nf(
       +mediaTable.rows[i].cells[13].innerHTML
-    );
-    mediaTable.rows[i].cells[14].innerHTML = nf(
-      +mediaTable.rows[i].cells[14].innerHTML
-    );
-    mediaTable.rows[i].cells[15].innerHTML = nf(
-      +mediaTable.rows[i].cells[15].innerHTML
-    );
-    mediaTable.rows[i].cells[16].innerHTML = nf(
-      +mediaTable.rows[i].cells[16].innerHTML
-    );
-    mediaTable.rows[i].cells[17].innerHTML = nf(
-      +mediaTable.rows[i].cells[17].innerHTML
     );
   }
 

@@ -13,7 +13,7 @@ function autoDepositCalculator(e) {
     if (!endDate) return alert("종료일을 입력하세요.");
 
     const mediaPayCondition = targetRow.cells[21].children[0].value;
-    targetRow.cells[6].children[0].value = depositCalculator(
+    targetRow.cells[17].children[0].value = depositCalculator(
       beginDate,
       endDate,
       mediaIssueDateArr[0],
@@ -30,7 +30,7 @@ function autoDepositCalculator(e) {
     const agencyPayCondition = document.getElementById("agency-pay-condition")
       .value;
     if (!agencyPayCondition) return alert("대행사를 입력하세요");
-    targetRow.cells[8].children[0].value = depositCalculator(
+    targetRow.cells[15].children[0].value = depositCalculator(
       beginDate,
       endDate,
       agencyIssueDateArr[0],
