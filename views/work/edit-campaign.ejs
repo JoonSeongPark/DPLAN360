@@ -418,7 +418,7 @@
           <div class="submit-btns">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <button type="submit" id="submit-btn" disabled><%= editing ? '수정' : '저장' %></button>
-            <a href="/" ><button>취소</button></a>
+            <a href="/" ><button type="button">취소</button></a>
           </div>
           <input type='hidden' name="media_count" id="media-count" value="<%= editing ? mediaItems.length : '0' %>"/>
         </form>
