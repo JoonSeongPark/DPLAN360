@@ -375,7 +375,7 @@
                     <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                   </td>
                   <td>
-                    <button type="button" class="btn alert-btn" <%= ( Date.parse(mediaItem.issue_date) < blockCondition || !blockAuth ) ? "disabled" : "" %>>삭제</button>
+                    <button type="button" class="btn alert-btn" <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || !blockAuth ) ? "" : "disabled" %>>삭제</button>
                   </td>
                   <td hidden>
                     <input type="hidden" value="<%= mediaItem.medium.pay_condition %>" />
