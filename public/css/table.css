@@ -67,7 +67,7 @@ table textarea {
 
 .home-table-header {
   background-color: #81807f;
-  color: #fff;
+  color: #f8f8ff;
 }
 
 .team-total-table {
@@ -78,7 +78,7 @@ table textarea {
   font-weight: bold;
   text-align: center;
   width: 10rem;
-  background-color: var(--light-blue);
+  background-color: #fff385;
 }
 
 .h-content {
@@ -115,8 +115,7 @@ table .input-num {
 }
 
 .v-part {
-  margin: 1.2rem;
-  text-align: center;
+  margin: 1.2rem auto 0.4rem;
 }
 
 .v-part th {
@@ -132,8 +131,8 @@ table .input-num {
 
 .v-header {
   padding: 0.2rem;
-  font-weight: bold;
-  background-color: var(--light-green);
+  color: #f8f8ff;
+  background-color: #595959;
 }
 
 .v-total {
@@ -166,7 +165,7 @@ th.xxl {
 }
 
 .sort-part {
-  margin: 1.3vw 1.1vw;
+  margin: 1.3vw 1.1vw 0.4rem;
 }
 
 .result-part {
@@ -197,9 +196,14 @@ th.xxl {
 }
 
 .excel-download {
-  font-size: 12px;
+  display: inline;
+  padding: 0.1rem 0.2rem;
+  margin: 0.8rem 0 0.4rem;
+  border: 1px solid #999;
+  border-radius: 0.2rem;
+  font-size: 10px;
   cursor: pointer;
-  color: blue;
+  color: var(--dark-blue);
 }
 
 .excel-download:hover {
@@ -249,8 +253,4 @@ th.xxl {
 
 .blocked {
   background-color: #ccc;
-}
-
-.blocked_but_auth {
-  background-color: var(--dark-blue);
 }

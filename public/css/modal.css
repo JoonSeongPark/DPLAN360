@@ -16,7 +16,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 0.6rem;
-  background-color: #fff;
+  background-color: #f8f8ff;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
