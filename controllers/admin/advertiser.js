@@ -42,7 +42,13 @@ exports.getEditAdvertiser = async (req, res, next) => {
 
     const mains = await AdMainCategory.findAll();
     const subs = await AdSubCategory.findAll();
-    const advertiser = await Advertiser.findByPk(advertiserId);
+    const advertiser = await Advertiser.findByPk(advertiserId, {
+      include: [
+        {
+          model: AdSubCategory,
+        },
+      ],
+    });
 
     res.render("admin/edit-advertiser", {
       pageTitle: "Edit Advertiser",
