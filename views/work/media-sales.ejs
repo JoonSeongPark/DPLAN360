@@ -11,7 +11,7 @@
 
       <%- include('../includes/menu-title.ejs') %>
       
-        <form action="/media-sales" method="GET" onkeydown="return event.key != 'Enter';">
+        <form action="/media-sales" method="GET" onkeydown="return event.key != 'Enter';" style="height: 100%;">
           <input type="submit" id="submit-button" hidden>
           <div class="v-part sort-part">
             <table id="condition-table">
@@ -36,7 +36,7 @@
           </div>
 
 
-          <div class="v-part result-part">
+          <div class="v-part result-part scrollable" style="height: calc(100% - 7.5rem);">
             <table id="result-table">
               <tr>
                 <th class="v-header" rowspan="2" style="width: 3rem;">담당팀</th>
