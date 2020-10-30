@@ -226,7 +226,7 @@ mediaTable.addEventListener("change", function () {
   const rows = this.rows;
 
   for (let i = 2; i < rows.length - 1; i++) {
-    if (rows[i].cells[7].childNodes[1].classList.contains("error-border")) {
+    if (rows[i].cells[10].childNodes[1].classList.contains("error-border")) {
       return submitBtn.setAttribute("disabled", "disabled");
     }
   }
