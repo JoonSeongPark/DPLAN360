@@ -111,14 +111,6 @@ function autoCalculate(e) {
   }
 
   errorCheck(
-    100,
-    agencyFeeRateInput,
-    mediaFeeRateInput,
-    dplanFeeRateInput,
-    interFeeRateInput
-  );
-
-  errorCheck(
     totalFeeInput.value,
     agencyFeeInput,
     mediaFeeInput,
@@ -130,11 +122,9 @@ function autoCalculate(e) {
 }
 
 function errorCheck(total, ...args) {
-  const percentSum = args.reduce((acc, cur) => {
-    return acc + +cur.value;
-  }, 0);
+  const sum = args.reduce((acc, cur) => acc + +cur.value, 0);
 
-  if (+total !== percentSum) {
+  if (+total !== sum) {
     args.forEach((element) => {
       element.classList.add("error-border");
     });
