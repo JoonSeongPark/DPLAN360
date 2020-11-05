@@ -198,7 +198,7 @@ function autoTotalCaculate() {
       : 0;
   }
 
-  if (!block) {
+//  if (!block) {
     camAdTotal.value = adFeeSum;
     if (adFeeSum != 0)
       camAgencyFeeRate.value = agencyFeeSum
@@ -208,7 +208,7 @@ function autoTotalCaculate() {
     camMediaFee.value = mediaFeeSum;
     camDpalnFee.value = dplanFeeSum;
     camInterFee.value = interFeeSum;
-  }
+ // }
 }
 ////////////////////////////////////////////////////////////////////////
 

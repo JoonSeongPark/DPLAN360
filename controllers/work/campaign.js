@@ -244,7 +244,7 @@ exports.postEditCampaign = async (req, res, next) => {
   const user = req.user;
 
   // 캠페인 정보
-  const { campaign_id, mediaItem_id, updated_mediaItem_id } = req.body;
+  const { campaign_id, mediaItem_id, realupdated_mediaItem_id } = req.body;
 
   const {
     cam_type,
@@ -290,9 +290,13 @@ exports.postEditCampaign = async (req, res, next) => {
     updated_cam_tax_month = cam_tax_month,
     updated_media_issue_type = media_issue_type,
     updated_media_count = media_count;
-  
+
   // 매체 정보
   let updated_media_id = updated_media_count < 2 ? [media_id] : media_id,
+    updated_mediaItem_id =
+      updated_media_count < 2
+        ? [realupdated_mediaItem_id]
+        : realupdated_mediaItem_id,
     updated_media_start = updated_media_count < 2 ? [media_start] : media_start,
     updated_media_end = updated_media_count < 2 ? [media_end] : media_end,
     updated_lower_inter_type =
@@ -326,7 +330,8 @@ exports.postEditCampaign = async (req, res, next) => {
 
   // 삭제 Item DB Update
   try {
-    for (let itemId of mediaItem_id) {
+    const temp = updated_media_count < 2 ? [mediaItem_id] : mediaItem_id;
+    for (let itemId of temp) {
       if (!updated_mediaItem_id.includes(itemId)) {
         const item = await MediaItem.findByPk(itemId);
 
