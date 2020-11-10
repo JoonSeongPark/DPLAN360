@@ -18,6 +18,13 @@ function autoCalculate(e) {
 
   const totalFeeInput = targetRow.cells[9].children[0];
 
+  agencyFeeInput.value = agencyFeeInput.value.replace(/,/gi, "");
+  mediaFeeInput.value = mediaFeeInput.value.replace(/,/gi, "");
+  dplanFeeInput.value = dplanFeeInput.value.replace(/,/gi, "");
+  interFeeInput.value = interFeeInput.value.replace(/,/gi, "");
+
+  totalFeeInput.value = totalFeeInput.value.replace(/,/gi, "");
+
   let agencyPercent, mediaPercent, dplanPercent, interPercent;
 
   switch (e.target) {
