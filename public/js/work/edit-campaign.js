@@ -125,13 +125,18 @@ new autoComplete({
 
 const agencyIdInput = document.getElementById("cam-agency-id");
 const agencyPayCondition = document.getElementById("agency-pay-condition");
+const agencyIssueType = document.getElementById("media-issue-type");
 agencyInput.addEventListener("change", (e) => {
-  agencyIdInput.value = agencyList.find(
+  const targetAgency = agencyList.find(
     (agency) => agency.name === e.target.value
-  ).id;
-  agencyPayCondition.value = agencyList.find(
-    (agency) => agency.name === e.target.value
-  ).pay_condition;
+  );
+  agencyIdInput.value = targetAgency.id;
+  agencyPayCondition.value = targetAgency.pay_condition;
+  if (targetAgency.bill_type === "전액") {
+    agencyIssueType.children[1].selected = true;
+  } else if (targetAgency.bill_type === "순액") {
+    agencyIssueType.children[2].selected = true;
+  }
 });
 
 /////////////////////////////////////////////////////////////////////
@@ -198,17 +203,17 @@ function autoTotalCaculate() {
       : 0;
   }
 
-//  if (!block) {
-    camAdTotal.value = adFeeSum;
-    if (adFeeSum != 0)
-      camAgencyFeeRate.value = agencyFeeSum
-        ? ((agencyFeeSum / adFeeSum) * 100).toFixed(2)
-        : 0;
-    camAgencyFee.value = agencyFeeSum;
-    camMediaFee.value = mediaFeeSum;
-    camDpalnFee.value = dplanFeeSum;
-    camInterFee.value = interFeeSum;
- // }
+  //  if (!block) {
+  camAdTotal.value = adFeeSum;
+  if (adFeeSum != 0)
+    camAgencyFeeRate.value = agencyFeeSum
+      ? ((agencyFeeSum / adFeeSum) * 100).toFixed(2)
+      : 0;
+  camAgencyFee.value = agencyFeeSum;
+  camMediaFee.value = mediaFeeSum;
+  camDpalnFee.value = dplanFeeSum;
+  camInterFee.value = interFeeSum;
+  // }
 }
 ////////////////////////////////////////////////////////////////////////
 
