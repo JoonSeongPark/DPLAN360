@@ -27,9 +27,9 @@ function alertModal(e) {
 
   modal.innerHTML = `
   <div>
-    <h3>➣ 매체명 검색</h3>
+    <h3>매체 검색</h3>
     <br>
-    <input type='text' style='width:100%' id='add-media' placeholder='매체명' spellcheck="false"/>
+    <input type='text' style='width:100%' id='add-media' placeholder='매체이름' spellcheck="false"/>
     <p class="error-p" id="error-p"></p>
   </div>
   `;
@@ -81,6 +81,7 @@ function alertModal(e) {
     const media_pay_condition = media_info.pay_condition;
     const media_inter_type = media_info.inter_type;
     const media_inter_name = media_info.inter_name;
+    const media_bill_type = media_info.bill_type;
     const attribution_time = agencyTaxDate.value;
     const media_agency_fee_rate = media_info.agency_fee_rate;
     const media_fee_rate = media_info.media_fee_rate;
@@ -228,8 +229,9 @@ function alertModal(e) {
     <div style="display:flex;align-items:center;justify-content:center;">
       <input class="input-date" type="month" name="lower_issue_date" required/>
       <select name="lower_issue_type">
-        <option value="전액">전액</option>
-        <option value="순액">순액</option>
+        <option value="">선택</option>
+        <option value="전액" ${media_bill_type === "전액" ? "selected" : ""}>전액</option>
+        <option value="순액" ${media_bill_type === "순액" ? "selected" : ""}>순액</option>
       </select>
       </div>
     </td>
