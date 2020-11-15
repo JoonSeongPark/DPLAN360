@@ -90,6 +90,7 @@ function alertModal(e) {
 
     // table row for adding media
     const newRowContent = `
+    <input type="hidden" name="mediaItem_id" value=""/>
     <td>
       <input type="hidden" name="media_id" value="${media_id}" />
       <input type="text" value="${media_name}" style="width:88px" required readonly/>

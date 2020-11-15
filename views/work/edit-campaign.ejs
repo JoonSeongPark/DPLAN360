@@ -178,10 +178,14 @@
               </tr>
 
               <% if (editing) { %>
+                <% mediaItemIds.forEach(mediaItemId => { %>
+                  <input type="hidden" name="prior_mediaItem_id" value="<%= mediaItemId %>"/>
+                  <% }) %>
+                  <input type="hidden" name="prior_mediaItem_count" value="<%= mediaItemIds.length %>"/>
                 <% mediaItems.forEach(mediaItem => { %>
-                <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
-                <tr class="<%= Date.parse(mediaItem.issue_date) >= blockCondition ? '' : 'blocked' %>" >
-                  <input type="hidden" name="realupdated_mediaItem_id" value="<%= mediaItem.id %>"/>
+                  <tr class="<%= Date.parse(mediaItem.issue_date) >= blockCondition ? '' : 'blocked' %>" >
+                    <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
+                  
                   <td>
                     <input type="hidden" name="media_id" value="<%= mediaItem.mediumId %>" />
                     <input type="text" value="<%= mediaItem.medium.name %>" style="width:88px" required readonly/>
@@ -321,6 +325,7 @@
                   </td>
                   <td>
                     <input
+                      class="input-date"
                       name="lower_attribution_time"
                       type="month"
                       value="<%=`${mediaItem.attribution_time.getFullYear()}-${(mediaItem.attribution_time.getMonth()+1).toString().padStart(2,'0')}`%>"
@@ -376,7 +381,7 @@
                     <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
                   </td>
                   <td>
-                    <button type="button" class="btn alert-btn" <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || !blockAuth ) ? "" : "disabled" %>>삭제</button>
+                    <button type="button" class="btn alert-btn" <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "disabled" %>>삭제</button>
                   </td>
                   <td hidden>
                     <input type="hidden" value="<%= mediaItem.medium.pay_condition %>" />
