@@ -10,33 +10,37 @@ exports.getAddMedia = (req, res, next) => {
 };
 
 exports.postAddMedia = async (req, res, next) => {
-  const name = req.body.name;
-  const inter_type = req.body.inter_type;
-  const inter_name = req.body.inter_name;
-  const pay_condition = req.body.pay_condition;
-  const bill_type = req.body.bill_type;
-  const bill_publisher = req.body.bill_publisher;
-  const provide_fee_rate = req.body.provide_fee_rate;
-  const agency_fee_rate = req.body.agency_fee_rate;
-  const media_fee_rate = req.body.media_fee_rate;
-  const dplan_fee_rate = req.body.dplan_fee_rate;
-  const inter_fee_rate = req.body.inter_fee_rate;
-  const memo = req.body.memo;
+  const {
+    name,
+    biz_name,
+    inter_type,
+    inter_name,
+    pay_condition,
+    bill_type,
+    bill_publisher,
+    provide_fee_rate,
+    agency_fee_rate,
+    media_fee_rate,
+    dplan_fee_rate,
+    inter_fee_rate,
+    memo,
+  } = req.body;
 
   try {
     await Medium.create({
-      name: name,
-      inter_type: inter_type,
-      inter_name: inter_name,
-      pay_condition: pay_condition,
-      bill_type: bill_type,
-      bill_publisher: bill_publisher,
-      provide_fee_rate: provide_fee_rate,
-      agency_fee_rate: agency_fee_rate,
-      media_fee_rate: media_fee_rate,
-      dplan_fee_rate: dplan_fee_rate,
-      inter_fee_rate: inter_fee_rate,
-      memo: memo,
+      name,
+      biz_name,
+      inter_type,
+      inter_name,
+      pay_condition,
+      bill_type,
+      bill_publisher,
+      provide_fee_rate,
+      agency_fee_rate,
+      media_fee_rate,
+      dplan_fee_rate,
+      inter_fee_rate,
+      memo,
     });
 
     res.redirect("/media");
@@ -46,7 +50,7 @@ exports.postAddMedia = async (req, res, next) => {
 };
 
 exports.getEditMedia = async (req, res, next) => {
-  const mediumId = req.params.mediumId;
+  const { mediumId } = req.params;
 
   try {
     const medium = await Medium.findByPk(mediumId);
@@ -56,7 +60,7 @@ exports.getEditMedia = async (req, res, next) => {
       menuTitle: "매체 수정",
       path: "/media",
       editing: req.query.edit,
-      medium: medium,
+      medium,
     });
   } catch (err) {
     console.log(err);
@@ -64,8 +68,9 @@ exports.getEditMedia = async (req, res, next) => {
 };
 
 exports.postEditMedia = async (req, res, next) => {
-  const mediumId = req.body.mediumId;
+  const { mediumId } = req.body;
   const updated_name = req.body.name;
+  const updated_biz_name = req.body.biz_name;
   const updated_inter_type = req.body.inter_type;
   const updated_inter_name = req.body.inter_name;
   const updated_pay_condition = req.body.pay_condition;
@@ -82,6 +87,7 @@ exports.postEditMedia = async (req, res, next) => {
     const medium = await Medium.findByPk(mediumId);
 
     medium.name = updated_name;
+    medium.biz_name = updated_biz_name;
     medium.inter_type = updated_inter_type;
     medium.inter_name = updated_inter_name;
     medium.pay_condition = updated_pay_condition;
@@ -103,7 +109,7 @@ exports.postEditMedia = async (req, res, next) => {
 };
 
 exports.postDeleteMedia = async (req, res, next) => {
-  const mediumId = req.body.mediumId;
+  const { mediumId } = req.body;
 
   try {
     const medium = await Medium.findByPk(mediumId);

@@ -10,21 +10,25 @@ exports.getAddAgency = (req, res, next) => {
 };
 
 exports.postAddAgency = async (req, res, next) => {
-  const name = req.body.name;
-  const pay_condition = req.body.pay_condition;
-  const deposit_type = req.body.deposit_type;
-  const bill_type = req.body.bill_type;
-  const bill_publisher = req.body.bill_publisher;
-  const memo = req.body.memo;
+  const {
+    name,
+    biz_name,
+    pay_condition,
+    deposit_type,
+    bill_type,
+    bill_publisher,
+    memo,
+  } = req.body;
 
   try {
     await Agency.create({
-      name: name,
-      pay_condition: pay_condition,
-      deposit_type: deposit_type,
-      bill_type: bill_type,
-      bill_publisher: bill_publisher,
-      memo: memo,
+      name,
+      biz_name,
+      pay_condition,
+      deposit_type,
+      bill_type,
+      bill_publisher,
+      memo,
     });
 
     res.redirect("/agencies");
@@ -34,7 +38,7 @@ exports.postAddAgency = async (req, res, next) => {
 };
 
 exports.getEditAgency = async (req, res, next) => {
-  const agencyId = req.params.agencyId;
+  const { agencyId } = req.params;
 
   try {
     const agency = await Agency.findByPk(agencyId);
@@ -44,7 +48,7 @@ exports.getEditAgency = async (req, res, next) => {
       menuTitle: "대행사 수정",
       path: "/agencies",
       editing: req.query.edit,
-      agency: agency,
+      agency,
     });
   } catch (err) {
     console.log(err);
@@ -52,8 +56,9 @@ exports.getEditAgency = async (req, res, next) => {
 };
 
 exports.postEditAgency = async (req, res, next) => {
-  const agencyId = req.body.agencyId;
+  const { agencyId } = req.body;
   const updated_name = req.body.name;
+  const updated_biz_name = req.body.biz_name;
   const updated_pay_condition = req.body.pay_condition;
   const updated_deposit_type = req.body.deposit_type;
   const updated_bill_type = req.body.bill_type;
@@ -64,6 +69,7 @@ exports.postEditAgency = async (req, res, next) => {
     const agency = await Agency.findByPk(agencyId);
 
     agency.name = updated_name;
+    agency.biz_name = updated_biz_name;
     agency.pay_condition = updated_pay_condition;
     agency.deposit_type = updated_deposit_type;
     agency.bill_type = updated_bill_type;
@@ -79,7 +85,7 @@ exports.postEditAgency = async (req, res, next) => {
 };
 
 exports.postDeleteAgency = async (req, res, next) => {
-  const agencyId = req.body.agencyId;
+  const { agencyId } = req.body;
 
   try {
     const agency = await Agency.findByPk(agencyId);

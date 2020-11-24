@@ -34,8 +34,12 @@
                 </td>
               </tr>
               <tr>
+                <td class="h-header">사업자등록증명칭</td>
+                <td>
+                  <input type="text" name="biz_name" value="<%= editing ? agency.biz_name : '' %>" >
+                </td>
                 <td class="h-header">계산서 발행</td>
-                <td colspan="5">
+                <td colspan="3">
                   구분:
                   <select name="bill_type">
                     <option value="" <%= editing && agency.bill_type === "" ? "selected" : "" %>>해당없음</option>
@@ -50,7 +54,7 @@
               <tr>
                 <td class="h-header">비고</td>
                 <td colspan="5">
-                  <input style="width: 98%;" type="text" name="memo" value="<%= editing ? agency.memo : '' %>">
+                  <input style="width: 100%;" type="text" name="memo" value="<%= editing ? agency.memo : '' %>">
                 </td>
               </tr>
             </table>
