@@ -15,6 +15,7 @@
             <table>
               <tr>
                 <th class="v-header xl" rowspan="2">매체사</th>
+                <th class="v-header xl" rowspan="2">사업자등록증명칭</th>
                 <th class="v-header s" rowspan="2">디플랜<br>결제조건</th>
                 <th class="v-header xs" rowspan="2">계산서<br>발행</th>
                 <th class="v-header s" rowspan="2">매체 제공<br>수수료율</th>
@@ -38,6 +39,7 @@
               <% media.forEach(medium => { %>
                 <tr>
                   <td><%= medium.name %></td>
+                  <td><%= medium.biz_name %></td>
                   <td><%= medium.pay_condition %></td>
                   <td><%= medium.bill_type %></td>
                   <td><%= medium.provide_fee_rate %></td>
