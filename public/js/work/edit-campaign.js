@@ -198,17 +198,17 @@ function autoTotalCaculate() {
       : 0;
   }
 
-//  if (!block) {
-    camAdTotal.value = adFeeSum;
-    if (adFeeSum != 0)
-      camAgencyFeeRate.value = agencyFeeSum
-        ? ((agencyFeeSum / adFeeSum) * 100).toFixed(2)
-        : 0;
-    camAgencyFee.value = agencyFeeSum;
-    camMediaFee.value = mediaFeeSum;
-    camDpalnFee.value = dplanFeeSum;
-    camInterFee.value = interFeeSum;
- // }
+  //  if (!block) {
+  camAdTotal.value = adFeeSum;
+  if (adFeeSum != 0)
+    camAgencyFeeRate.value = agencyFeeSum
+      ? ((agencyFeeSum / adFeeSum) * 100).toFixed(2)
+      : 0;
+  camAgencyFee.value = agencyFeeSum;
+  camMediaFee.value = mediaFeeSum;
+  camDpalnFee.value = dplanFeeSum;
+  camInterFee.value = interFeeSum;
+  // }
 }
 ////////////////////////////////////////////////////////////////////////
 
@@ -259,12 +259,12 @@ setDate.addEventListener("click", () => {
 
     const beginDate = targetRow.cells[1].children[0].value;
     const endDate = targetRow.cells[2].children[0].value;
-
-    const mediaIssueDate = targetRow.cells[16].childNodes[0];
+    
+    const mediaIssueDate = targetRow.cells[15].childNodes[0];
     if (mediaIssueDate.value) {
       const mediaIssueDateArr = mediaIssueDate.value.split("-");
-      const mediaPayCondition = targetRow.cells[21].children[0].value;
-      targetRow.cells[17].children[0].value = depositCalculator(
+      const mediaPayCondition = targetRow.cells[20].children[0].value;
+      targetRow.cells[16].children[0].value = depositCalculator(
         beginDate,
         endDate,
         mediaIssueDateArr[0],
@@ -272,13 +272,15 @@ setDate.addEventListener("click", () => {
         mediaPayCondition
       );
     }
-    const agencyIssueDateArr = targetRow.cells[14].children[0].value.split("-");
+    const agencyIssueDateArr = document
+      .getElementById("cam-tax-month")
+      .value.split("-");
 
     const agencyPayCondition = document.getElementById("agency-pay-condition")
       .value;
 
     if (!agencyPayCondition) return alert("대행사를 입력하세요");
-    targetRow.cells[15].children[0].value = depositCalculator(
+    targetRow.cells[14].children[0].value = depositCalculator(
       beginDate,
       endDate,
       agencyIssueDateArr[0],

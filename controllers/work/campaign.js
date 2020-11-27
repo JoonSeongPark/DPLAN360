@@ -102,7 +102,6 @@ exports.postAddCampaign = async (req, res, next) => {
     lower_issue_date,
     lower_issue_type,
     media_deposit_date,
-    lower_attribution_time,
     agency_deposit_date,
     lower_ad_fee,
     lower_agency_fee,
@@ -123,7 +122,6 @@ exports.postAddCampaign = async (req, res, next) => {
     lower_issue_date = [lower_issue_date];
     lower_issue_type = [lower_issue_type];
     media_deposit_date = [media_deposit_date];
-    lower_attribution_time = [lower_attribution_time];
     agency_deposit_date = [agency_deposit_date];
     lower_ad_fee = [lower_ad_fee];
     lower_agency_fee = [lower_agency_fee];
@@ -165,7 +163,10 @@ exports.postAddCampaign = async (req, res, next) => {
         issue_date: lower_issue_date[i],
         issue_type: lower_issue_type[i],
         media_deposit_date: media_deposit_date[i],
-        attribution_time: lower_attribution_time[i],
+        attribution_time: new Date(
+          Math.min(Date.parse(cam_tax_month), Date.parse(lower_issue_date[i]))
+        ),
+        tax_date: cam_tax_month,
         agency_deposit_date: agency_deposit_date[i],
         ad_fee: lower_ad_fee[i],
         agency_fee: lower_agency_fee[i],
@@ -267,7 +268,6 @@ exports.postEditCampaign = async (req, res, next) => {
     lower_issue_date,
     lower_issue_type,
     media_deposit_date,
-    lower_attribution_time,
     agency_deposit_date,
     lower_ad_fee,
     lower_agency_fee,
@@ -309,10 +309,6 @@ exports.postEditCampaign = async (req, res, next) => {
       updated_media_count < 2 ? [lower_issue_type] : lower_issue_type,
     updated_media_deposit_date =
       updated_media_count < 2 ? [media_deposit_date] : media_deposit_date,
-    updated_lower_attribution_time =
-      updated_media_count < 2
-        ? [lower_attribution_time]
-        : lower_attribution_time,
     updated_agency_deposit_date =
       updated_media_count < 2 ? [agency_deposit_date] : agency_deposit_date,
     updated_lower_ad_fee =
@@ -368,7 +364,13 @@ exports.postEditCampaign = async (req, res, next) => {
           issue_date: updated_lower_issue_date[i],
           issue_type: updated_lower_issue_type[i],
           media_deposit_date: updated_media_deposit_date[i],
-          attribution_time: updated_lower_attribution_time[i],
+          attribution_time = new Date(
+            Math.min(
+              Date.parse(updated_cam_tax_month),
+              Date.parse(updated_lower_issue_date[i])
+            )
+          ),
+          tax_date: updated_cam_tax_month,
           agency_deposit_date: updated_agency_deposit_date[i],
           ad_fee: updated_lower_ad_fee[i],
           agency_fee: updated_lower_agency_fee[i],
@@ -390,7 +392,13 @@ exports.postEditCampaign = async (req, res, next) => {
         item.issue_date = updated_lower_issue_date[i];
         item.issue_type = updated_lower_issue_type[i];
         item.media_deposit_date = updated_media_deposit_date[i];
-        item.attribution_time = updated_lower_attribution_time[i];
+        item.attribution_time = new Date(
+          Math.min(
+            Date.parse(updated_cam_tax_month),
+            Date.parse(updated_lower_issue_date[i])
+          )
+        );
+        item.tax_date = updated_cam_tax_month;
         item.agency_deposit_date = updated_agency_deposit_date[i];
         item.ad_fee = updated_lower_ad_fee[i];
         item.agency_fee = updated_lower_agency_fee[i];
