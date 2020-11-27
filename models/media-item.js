@@ -39,6 +39,10 @@ const MediaItem = sequelize.define("mediaItem", {
     type: Sequelize.DATE,
     allowNull: false,
   },
+  tax_date: {
+    type: Sequelize.DATE,
+    allowNull: false,
+  },
   agency_deposit_date: {
     type: Sequelize.DATE,
     allowNull: false,
