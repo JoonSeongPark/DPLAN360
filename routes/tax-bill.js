@@ -7,4 +7,6 @@ const authMiddleware = require("../middleware/is-auth");
 
 router.get("/tax-bill", authMiddleware.isAuth, taxBillController.getTaxBill);
 
+router.post("/close-item", authMiddleware.isAuth, taxBillController.postCloseItem);
+
 module.exports = router;

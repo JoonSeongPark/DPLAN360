@@ -13,7 +13,6 @@
       <%- include('../includes/menu-title.ejs') %>
       
         <form action="/<%= editing ? 'edit-campaign' : 'add-campaign' %>" method="POST" onkeydown="return event.key != 'Enter';" autocomplete="off">
-          <input type="hidden" id="block" value="<%= editing && ( Date.parse(campaign.tax_date) < blockCondition || blockAuth ) ? 'true' : '' %>">
           <% if (editing) { %>
             <input type="hidden" name="campaign_id" value="<%= campaign.id %>">
           <% } %>
@@ -178,7 +177,7 @@
               <% if (editing) { %>
                 <% mediaItems.forEach(mediaItem => { %>
                 <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
-                <tr class="<%= Date.parse(mediaItem.issue_date) >= blockCondition ? '' : 'blocked' %>" >
+                <tr class="<%= mediaItem.closed ? 'blocked' : '' %>" >
                   <input type="hidden" name="realupdated_mediaItem_id" value="<%= mediaItem.id %>"/>
                   <td>
                     <input type="hidden" name="media_id" value="<%= mediaItem.mediumId %>" />
@@ -188,23 +187,23 @@
                     <input class="input-date" type="date" name="media_start"
                     value="<%=`${mediaItem.media_start.getFullYear()}-${(mediaItem.media_start.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.media_start.getDate().toString().padStart(2,'0')}`%>"
                     required
-                    <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
+                    <%= mediaItem.closed ? "readonly" : "" %> />
                   </td>
                   <td>
                     <input class="input-date" type="date" name="media_end"
                     value="<%=`${mediaItem.media_end.getFullYear()}-${(mediaItem.media_end.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.media_end.getDate().toString().padStart(2,'0')}`%>"
                     required
-                    <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
+                    <%= mediaItem.closed ? "readonly" : "" %> />
                   </td>
                   <td>
                     <select name="lower_inter_type">
-                      <% if (Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth || mediaItem.inter_type === "" ) { %>
+                      <% if (!mediaItem.closed || mediaItem.inter_type === "" ) { %>
                       <option value="" <%= mediaItem.inter_type === "" ? "selected" : "" %>>&emsp;&emsp;</option>
                       <% } %>
-                      <% if (Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth || mediaItem.inter_type === "in" ) { %>
+                      <% if (!mediaItem.closed || mediaItem.inter_type === "in" ) { %>
                       <option value="in" <%= mediaItem.inter_type === "in" ? "selected" : "" %>>in</option>
                       <% } %>
-                      <% if (Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth || mediaItem.inter_type === "out" ) { %>
+                      <% if (!mediaItem.closed || mediaItem.inter_type === "out" ) { %>
                       <option value="out" <%= mediaItem.inter_type === "out" ? "selected" : "" %>>out</option>
                       <% } %>
                     </select>
@@ -215,7 +214,7 @@
                       style="width:6rem"
                       type="text"
                       value="<%= mediaItem.inter_name %>"
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -226,7 +225,7 @@
                       name="lower_agency_fee_rate"
                       value="<%= (mediaItem.agency_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -237,7 +236,7 @@
                       name="lower_media_fee_rate"
                       value="<%= (mediaItem.media_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -248,7 +247,7 @@
                       name="lower_dplan_fee_rate"
                       value="<%= (mediaItem.dplan_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -259,7 +258,7 @@
                       name="lower_inter_fee_rate"
                       value="<%= (mediaItem.inter_fee / mediaItem.ad_fee * 100).toFixed(2)%>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -270,7 +269,7 @@
                       name="lower_ad_fee"
                       value="<%= mediaItem.ad_fee %>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -281,7 +280,7 @@
                       name="lower_agency_fee"
                       value="<%= mediaItem.agency_fee %>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -292,7 +291,7 @@
                       name="lower_media_fee"
                       value="<%= mediaItem.media_fee %>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -303,7 +302,7 @@
                       name="lower_dplan_fee"
                       value="<%= mediaItem.dplan_fee %>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -314,27 +313,27 @@
                       name="lower_inter_fee"
                       value="<%= mediaItem.inter_fee %>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
                     <input class="input-date" type="date" name="agency_deposit_date"
                     value="<%=`${mediaItem.agency_deposit_date.getFullYear()}-${(mediaItem.agency_deposit_date.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.agency_deposit_date.getDate().toString().padStart(2,'0')}`%>"
                     required
-                    <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
+                    <%= mediaItem.closed ? "readonly" : "" %> />
                   </td>
                   <td>
                     <div style="display:flex;align-items:center;justify-content:center;">
                       <input class="input-date" type="month" name="lower_issue_date"
                       value="<%= `${mediaItem.issue_date.getFullYear()}-${(mediaItem.issue_date.getMonth()+1).toString().padStart(2,'0')}`%>"
                       required
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                       />
                       <select name="lower_issue_type">
-                        <% if (Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth || mediaItem.issue_type === '전액' ) { %>
+                        <% if (!mediaItem.closed || mediaItem.issue_type === '전액' ) { %>
                           <option value="전액" <%= mediaItem.issue_type === '전액' ? "selected" : "" %>>전액</option>
                         <% } %>
-                        <% if (Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth || mediaItem.issue_type === '순액' ) { %>
+                        <% if (!mediaItem.closed || mediaItem.issue_type === '순액' ) { %>
                           <option value="순액" <%= mediaItem.issue_type === '순액' ? "selected" : "" %>>순액</option>
                         <% } %>
                       </select>
@@ -344,7 +343,7 @@
                     <input class="input-date" type="date" name="media_deposit_date"
                     value="<%=`${mediaItem.media_deposit_date.getFullYear()}-${(mediaItem.media_deposit_date.getMonth()+1).toString().padStart(2,'0')}-${mediaItem.media_deposit_date.getDate().toString().padStart(2,'0')}`%>"
                     required
-                    <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %> />
+                    <%= mediaItem.closed ? "readonly" : "" %> />
                   </td>
                   <td>
                     <input
@@ -353,7 +352,7 @@
                       type="text"
                       name="google_cid"
                       value="<%= mediaItem.google_cid %>"
-                      <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                      <%= mediaItem.closed ? "readonly" : "" %>
                     />
                   </td>
                   <td>
@@ -362,10 +361,14 @@
                     style="width:68px"
                     type="text"
                     value="<%= mediaItem.memo %>"
-                    <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || blockAuth ) ? "" : "readonly" %>
+                    <%= mediaItem.closed ? "readonly" : "" %>
                   </td>
                   <td>
-                    <button type="button" class="btn alert-btn" <%= ( Date.parse(mediaItem.issue_date) >= blockCondition || !blockAuth ) ? "" : "disabled" %>>삭제</button>
+                    <% if (mediaItem.closed) { %>
+                      <span>마감</span>
+                    <% } else { %>
+                      <button type="button" class="btn alert-btn">삭제</button>
+                    <% } %>
                   </td>
                   <td hidden>
                     <input type="hidden" value="<%= mediaItem.medium.pay_condition %>" />

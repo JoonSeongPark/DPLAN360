@@ -146,18 +146,9 @@
                   <td><%= mediaItem.dplan_fee %></td>
                   <td><%= mediaItem.inter_fee %></td>
                   <td><%= mediaItem.attribution_time.getFullYear() %>년 <%= mediaItem.attribution_time.getMonth()+1 %>월</td>
-                  <% if (mediaItem.agency_fee == 0) { %>
-                    <td></td> 
-                  <% } else { %>
-                    <td><%= mediaItem.agency_deposit_date.getFullYear() %>년 <%= mediaItem.agency_deposit_date.getMonth()+1 %>월 <%= mediaItem.agency_deposit_date.getDate() %>일</td>
-                  <% } %>
-                  <% if (mediaItem.media_fee == 0) { %>
-                    <td></td>
-                    <td></td>
-                  <% } else { %>
-                    <td><%= mediaItem.issue_date.getFullYear() %>년 <%= mediaItem.issue_date.getMonth()+1 %>월 (<%= mediaItem.issue_type %>)</td>
-                    <td><%= mediaItem.media_deposit_date.getFullYear() %>년 <%= mediaItem.media_deposit_date.getMonth()+1 %>월 <%= mediaItem.media_deposit_date.getDate() %>일</td>
-                  <% } %>
+                  <td><%= mediaItem.agency_deposit_date.getFullYear() %>년 <%= mediaItem.agency_deposit_date.getMonth()+1 %>월 <%= mediaItem.agency_deposit_date.getDate() %>일</td>
+                  <td><%= mediaItem.issue_date.getFullYear() %>년 <%= mediaItem.issue_date.getMonth()+1 %>월 (<%= mediaItem.issue_type %>)</td>
+                  <td><%= mediaItem.media_deposit_date.getFullYear() %>년 <%= mediaItem.media_deposit_date.getMonth()+1 %>월 <%= mediaItem.media_deposit_date.getDate() %>일</td>
                   <td><%= mediaItem.google_cid %></td>
                   <td><input value="<%= mediaItem.memo %>" readonly></td>
                 </tr>

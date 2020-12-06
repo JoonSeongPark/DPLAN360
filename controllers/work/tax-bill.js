@@ -10,21 +10,27 @@ const Advertiser = require("../../models/advertiser");
 
 exports.getTaxBill = async (req, res, next) => {
   const thisYear = new Date().getFullYear();
+  const thisMonth = new Date().getMonth();
 
-  const agency_start = req.query.agency_start || `${thisYear}-01`;
-  const agency_end = req.query.agency_end || `${thisYear}-12`;
-  const media_start = req.query.media_start || `${thisYear}-01`;
-  const media_end = req.query.media_end || `${thisYear}-12`;
+  const targetMonth =
+    req.query.target_month ||
+    `${thisYear}-${("" + (thisMonth + 1)).padStart(2, "0")}`;
 
   try {
     const mediaItems = await MediaItem.findAll({
       where: {
-        attribution_time: {
-          [Op.between]: [Date.parse(agency_start), Date.parse(agency_end)],
-        },
-        issue_date: {
-          [Op.between]: [Date.parse(media_start), Date.parse(media_end)],
-        },
+        [Op.or]: [
+          {
+            tax_date: {
+              [Op.between]: [Date.parse(targetMonth), Date.parse(targetMonth)],
+            },
+          },
+          {
+            issue_date: {
+              [Op.between]: [Date.parse(targetMonth), Date.parse(targetMonth)],
+            },
+          },
+        ],
       },
       include: [
         { model: Medium },
@@ -39,14 +45,30 @@ exports.getTaxBill = async (req, res, next) => {
       pageTitle: "Tax Bill",
       menuTitle: "세금 계산서",
       path: "/tax-bill",
-      sortInfo: {
-        agency_start,
-        agency_end,
-        media_start,
-        media_end,
-      },
+      targetMonth,
       mediaItems,
     });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.postCloseItem = async (req, res, next) => {
+  let { closeItems } = req.body;
+  if (!closeItems) res.redirect("/tax-bill");
+
+  if (typeof closeItems === "string") {
+    closeItems = [closeItems];
+  }
+
+  try {
+    for (let id of closeItems) {
+      const mediaItem = await MediaItem.findByPk(id);
+      mediaItem.closed = "1";
+      await mediaItem.save();
+    }
+
+    res.redirect("/tax-bill");
   } catch (err) {
     console.log(err);
   }

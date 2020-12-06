@@ -48,7 +48,6 @@ exports.postUserSignup = async (req, res, next) => {
       email,
       password: hashedPassword,
       leader,
-      block_auth: 0,
     });
 
     req.flash("success", "새로운 사용자가 생성되었습니다.");
@@ -93,7 +92,6 @@ exports.postEditUser = async (req, res, next) => {
   const updatedEmail = req.body.email;
   const updatedTeamId = req.body.teamId;
   const updatedLeader = req.body.leader;
-  const updatedBlockAuth = req.body.blockAuth;
 
   try {
     const user = await User.findByPk(userId);
@@ -110,7 +108,6 @@ exports.postEditUser = async (req, res, next) => {
     user.email = updatedEmail;
     user.teamId = updatedTeamId;
     user.leader = updatedLeader;
-    user.block_auth = updatedBlockAuth;
 
     await user.save();
 

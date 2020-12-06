@@ -66,7 +66,6 @@ const camMediaFee = document.getElementById("cam-media-fee");
 const camDpalnFee = document.getElementById("cam-dplan-fee");
 const camInterFee = document.getElementById("cam-inter-fee");
 
-const block = document.getElementById("block").value;
 /////////////////////////////////////////////////////////////////
 
 // advertiser auto complete
@@ -198,7 +197,6 @@ function autoTotalCaculate() {
       : 0;
   }
 
-  //  if (!block) {
   camAdTotal.value = adFeeSum;
   if (adFeeSum != 0)
     camAgencyFeeRate.value = agencyFeeSum
@@ -208,7 +206,6 @@ function autoTotalCaculate() {
   camMediaFee.value = mediaFeeSum;
   camDpalnFee.value = dplanFeeSum;
   camInterFee.value = interFeeSum;
-  // }
 }
 ////////////////////////////////////////////////////////////////////////
 

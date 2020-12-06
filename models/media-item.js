@@ -73,6 +73,10 @@ const MediaItem = sequelize.define("mediaItem", {
   memo: {
     type: Sequelize.STRING,
   },
+  closed: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+  },
 });
 
 module.exports = MediaItem;

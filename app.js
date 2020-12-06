@@ -86,8 +86,8 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   if (req.user) {
     res.locals.isLeader = req.user.leader;
-    res.locals.blockAuth = req.user.block_auth;
     res.locals.isNormal = req.session.isNormal;
+    res.locals.isFinance = req.session.isFinance;
   }
   res.locals.isLoggedIn = req.session.user;
   res.locals.csrfToken = req.csrfToken();
@@ -148,7 +148,6 @@ sequelize
             email,
             password: hashedPassword,
             leader: 1,
-            block_auth: 0,
           });
           return admin.save();
         }

@@ -13,35 +13,25 @@
         <form action="/tax-bill" method="GET">
           <input type="submit" id="submit-button" hidden>
           <div class="v-part sort-part">
-            <table id="condition-table">
+            <table>
               <tr>
-                <th class="h-header" style="height:1.4rem" colspan="2">대행사 발행월</th>
-                <th class="h-header" style="height:1.4rem" colspan="2">매체 발행월</th>
+                <th class="h-header" style="height:1.4rem">조회월</th>
               </tr>
-              <tr>
-                <th class="h-header" style="height:1.4rem">시작월</th>
-                <th class="h-header" style="height:1.4rem">종료월</th>
-                <th class="h-header" style="height:1.4rem">시작월</th>
-                <th class="h-header" style="height:1.4rem">종료월</th>
-              </tr>
-              <tr>
-                <td>
-                  <input type="month" name="agency_start" value="<%= sortInfo.agency_start %>" id="agency-start-date">
-                </td>
-                <td>
-                  <input type="month" name="agency_end" value="<%= sortInfo.agency_end %>" id="agency-end-date">
-                </td>
-                <td>
-                  <input type="month" name="media_start" value="<%= sortInfo.media_start %>" id="media-start-date">
-                </td>
-                <td>
-                  <input type="month" name="media_end" value="<%= sortInfo.media_end %>" id="media-end-date">
-                </td>
+              <td>
+              <input type="month" name="target_month" value="<%= targetMonth %>" id="target-month">
+              </td>
             </table>
-            <br/>
-            <span class="excel-download" id="excel-download">엑셀 다운로드</span>
           </div>
         </form>
+        <br/>
+        <div style="display:flex; justify-content: space-between; align-items: center; padding-right: 1rem; margin: 0 1.1vw;">
+          <div class="excel-download" id="excel-download">엑셀 다운로드</div>
+          <% if (isFinance) { %>
+          <button class="btn" id="close" type="button" style="font-size: 12px; padding: 0.1rem 0.4rem">
+            마감
+          </button>
+          <% } %>
+        </div>
 
         <div class="v-part result-part scrollable" style="height: calc(100% - 11.5rem);">
           <table style="width:1910px;" id="result-table">
@@ -50,25 +40,37 @@
               <th class="v-header" rowspan="2" style="width: 140px;">광고주</th>
               <th class="v-header" rowspan="2" style="width: 180px;">캠페인명</th>
               <th class="v-header" rowspan="2" style="width: 140px;">대행사</th>
+              <th class="v-header" rowspan="2" style="width: 140px;">대행사 사업자등록명칭</th>
               <th class="v-header" rowspan="2" style="width: 140px;">매체</th>
-              <th class="v-header" colspan="2">인터랩</th>
+              <th class="v-header" rowspan="2" style="width: 140px;">매체 사업자등록명칭</th>
               <th class="v-header" rowspan="2" style="width: 80px;">광고수주액</th>
               <th class="v-header" colspan="4">수익배분액</th>
+              <th class="v-header" colspan="4">수수료율</th>
+              <th class="v-header" colspan="2">매체기간</th>
+              <th class="v-header" colspan="2">대행사 발행월</th>
+              <th class="v-header" colspan="2">매체 발행월</th>
               <th class="v-header" rowspan="2" style="width: 70px;">귀속시기</th>
-              <th class="v-header" colspan="2">대행사</th>
-              <th class="v-header" colspan="2">매체</th>
+              <th class="v-header" rowspan="2" style="width: 6rem;">거래처 여신</th>
+              <th class="v-header" rowspan="2" style="width: 70px;">거래처 입금일</th>
+              <th class="v-header" rowspan="2" style="width: 6rem;">매체 여신</th>
+              <th class="v-header" rowspan="2" style="width: 70px;">매체 입금일</th>
+              <th class="v-header" rowspan="2" style="padding: 0 0.8rem;">마감</th>
             </tr>
             <tr>
-              <th class="v-header" style="width: 30px">구분</th>
-              <th class="v-header" style="width: 100px">인터랩</th>
-              <th class="v-header" style="width: 80px;">대행사수수료</th>
-              <th class="v-header" style="width: 80px;">매체수수료</th>
+              <th class="v-header" style="width: 80px;">대행사</th>
+              <th class="v-header" style="width: 80px;">매체</th>
               <th class="v-header" style="width: 80px;">순매출</th>
-              <th class="v-header" style="width: 80px;">인터랩수수료</th>
-              <th class="v-header" style="width: 100px;">발행월</th>
-              <th class="v-header" style="width: 100px;">입금일</th>
-              <th class="v-header" style="width: 100px;">발행월</th>
-              <th class="v-header" style="width: 100px;">입금일</th>
+              <th class="v-header" style="width: 80px;">인터랩</th>
+              <th class="v-header" style="width: 3.9rem">대행사</th>
+              <th class="v-header" style="width: 3.9rem">매체</th>
+              <th class="v-header" style="width: 3.9rem">디플랜</th>
+              <th class="v-header" style="width: 3.9rem">인터랩</th>
+              <th class="v-header" style="width: 100px;">시작일</th>
+              <th class="v-header" style="width: 100px;">마감일</th>
+              <th class="v-header" style="width: 100px;">월</th>
+              <th class="v-header" style="width: 3.9rem">전액/순액</th>
+              <th class="v-header" style="width: 100px;">월</th>
+              <th class="v-header" style="width: 3.9rem">전액/순액</th>
             </tr>
             <tr>
               <th class="v-total">Total</th>
@@ -88,40 +90,63 @@
               <th class="v-total"></th>
               <th class="v-total"></th>
               <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total"></th>
+              <th class="v-total" style="padding: 0;"><input type="checkbox" id="check-all"/></th>
             </tr>
+            <form action="/close-item" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="submit" id="closed-button" hidden>
+            
             <% mediaItems.forEach(mediaItem => { %>
               <tr>
                 <td><%= mediaItem.campaign.team.name %> 팀</td>
                 <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.campaign.advertiser.name %></div></td>
                 <td><div class="text-overflow" style="width: 162px;"><a href="/campaign/<%= mediaItem.campaignId %>"><%= mediaItem.campaign.title %></a></div></td>
                 <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.campaign.agency.name %></div></td>
+                <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.campaign.agency.biz_name %></div></td>
                 <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.medium.name %></div></td>
-                <td><%= mediaItem.inter_type %></td>
-                <td><div class="text-overflow" style="width: 72px;"><%= mediaItem.inter_name %></div></td>
+                <td><div class="text-overflow" style="width: 122px;"><%= mediaItem.medium.biz_name %></div></td>
                 <td><%= mediaItem.ad_fee %></td>
                 <td><%= mediaItem.agency_fee %></td>
                 <td><%= mediaItem.media_fee %></td>
                 <td><%= mediaItem.dplan_fee %></td>
                 <td><%= mediaItem.inter_fee %></td>
+                <td><%= (mediaItem.agency_fee / mediaItem.ad_fee * 100).toFixed(2) %> %</td>
+                <td><%= (mediaItem.media_fee / mediaItem.ad_fee * 100).toFixed(2) %> %</td>
+                <td><%= (mediaItem.dplan_fee / mediaItem.ad_fee * 100).toFixed(2) %> %</td>
+                <td><%= (mediaItem.inter_fee / mediaItem.ad_fee * 100).toFixed(2) %> %</td>
+                <td><%= mediaItem.media_start.getFullYear() %>년 <%= mediaItem.media_start.getMonth()+1 %>월 <%= mediaItem.media_start.getDate() %>일</td>
+                <td><%= mediaItem.media_end.getFullYear() %>년 <%= mediaItem.media_end.getMonth()+1 %>월 <%= mediaItem.media_end.getDate() %>일</td>
+                <td><%= mediaItem.agency_deposit_date.getFullYear() %>년 <%= mediaItem.agency_deposit_date.getMonth()+1 %>월 <%= mediaItem.agency_deposit_date.getDate() %>일</td>
+                <td><%= mediaItem.campaign.issue_type %></td>
+                <td><%= mediaItem.media_deposit_date.getFullYear() %>년 <%= mediaItem.media_deposit_date.getMonth()+1 %>월 <%= mediaItem.media_deposit_date.getDate() %>일</td>
+                <td><%= mediaItem.issue_type %></td>
                 <td><%= mediaItem.attribution_time.getFullYear() %>년 <%= mediaItem.attribution_time.getMonth()+1 %>월</td>
-                <% if (mediaItem.agency_fee == 0) { %>
-                  <td></td>
-                  <td></td>
-                <% } else { %>
-                  <td><%= mediaItem.attribution_time.getFullYear() %>년 <%= mediaItem.attribution_time.getMonth()+1 %>월</td>
-                  <td><%= mediaItem.agency_deposit_date.getFullYear() %>년 <%= mediaItem.agency_deposit_date.getMonth()+1 %>월 <%= mediaItem.agency_deposit_date.getDate() %>일</td>
-                <% } %>
-                <% if (mediaItem.media_fee == 0) { %>
-                  <td></td>
-                  <td></td>
-                <% } else { %>
-                  <td><%= mediaItem.issue_date.getFullYear() %>년 <%= mediaItem.issue_date.getMonth()+1 %>월</td>
-                  <td><%= mediaItem.media_deposit_date.getFullYear() %>년 <%= mediaItem.media_deposit_date.getMonth()+1 %>월 <%= mediaItem.media_deposit_date.getDate() %>일</td>
-                <% } %>
+                <td><%= mediaItem.campaign.agency.pay_condition %></td>
+                <td><%= mediaItem.agency_deposit_date.getFullYear() %>년 <%= mediaItem.agency_deposit_date.getMonth()+1 %>월 <%= mediaItem.agency_deposit_date.getDate() %>일</td>
+                <td><%= mediaItem.medium.pay_condition %></td>
+                <td><%= mediaItem.media_deposit_date.getFullYear() %>년 <%= mediaItem.media_deposit_date.getMonth()+1 %>월 <%= mediaItem.media_deposit_date.getDate() %>일</td>
+                <td style="padding: 0;">
+                  <% if (mediaItem.closed) { %>
+                    <span>마감</span>
+                  <% } else { %>
+                    <input type="checkbox" name="closeItems" value="<%= mediaItem.id %>" aria-checked="false"/>
+                  <% } %>
+                </td>
               </tr>
             <% }) %>
+          </form>
           </table>
-       </div>        
+       </div>
       </main>
     </div>
     </div>

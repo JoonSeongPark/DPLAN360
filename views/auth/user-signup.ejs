@@ -39,16 +39,6 @@
                 <option value="0" <%= editing && user.leader == '0' ? 'selected' : '' %>>팀원</option>
               </select>
           </div>
-          <% if (editing) { %>
-            <input type="hidden" name="userId" value="<%= user.id %>">
-            <div class="form-control">
-                <label for="blockAuth">시스템 블록해제</label>
-                <select name="blockAuth">
-                  <option value="1" <%= user.block_auth == '1' ? 'selected' : '' %>>허가</option>
-                  <option value="0" <%= user.block_auth == '0' ? 'selected' : '' %>>차단</option>
-                </select>
-            </div>
-          <% } %>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button class="auth-btn" type="submit">사용자 <%= editing ? '수정' : '등록' %></button>
         </form>

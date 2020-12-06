@@ -189,18 +189,6 @@ exports.getEditCampaign = async (req, res, next) => {
   const campaignId = req.params.campaignId;
   const edit = req.query.edit;
 
-  let blockCondition;
-
-  if (new Date().getDate() < 10) {
-    blockCondition = Date.parse(
-      new Date(new Date().getFullYear(), new Date().getMonth() - 1)
-    );
-  } else {
-    blockCondition = Date.parse(
-      new Date(new Date().getFullYear(), new Date().getMonth())
-    );
-  }
-
   try {
     const campaign = await Campaign.findByPk(campaignId, {
       include: [
@@ -233,7 +221,6 @@ exports.getEditCampaign = async (req, res, next) => {
       campaign,
       mediaItems,
       media,
-      blockCondition,
       editing: edit,
     });
   } catch (err) {
@@ -364,7 +351,7 @@ exports.postEditCampaign = async (req, res, next) => {
           issue_date: updated_lower_issue_date[i],
           issue_type: updated_lower_issue_type[i],
           media_deposit_date: updated_media_deposit_date[i],
-          attribution_time = new Date(
+          attribution_time: new Date(
             Math.min(
               Date.parse(updated_cam_tax_month),
               Date.parse(updated_lower_issue_date[i])
