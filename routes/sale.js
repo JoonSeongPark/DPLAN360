@@ -11,4 +11,10 @@ router.get("/sales", authMiddleware.isAuth, saleController.getSales);
 
 router.get("/media-sales", authMiddleware.isAuth, saleController.getMediaSales);
 
+router.get("/advertiser-sales", authMiddleware.isAuth, saleController.getAdvertiserSales);
+
+router.get("/agency-sales", authMiddleware.isAuth, saleController.getAgencySales);
+
+router.get("/mediaitem-sales", authMiddleware.isAuth, saleController.getMediaItemSales);
+
 module.exports = router;

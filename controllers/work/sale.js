@@ -170,3 +170,27 @@ exports.getMediaSales = async (req, res, next) => {
     console.log(err);
   }
 };
+
+exports.getAdvertiserSales = async (req, res, next) => {
+  res.render("work/advertiser-sales", {
+    pageTitle: "Advertiser Sales",
+    menuTitle: "광고주별 매출조회",
+    path: "/advertiser-sales",
+  });
+};
+
+exports.getAgencySales = async (req, res, next) => {
+  res.render("work/agency-sales", {
+    pageTitle: "Agency Sales",
+    menuTitle: "대행사별 매출조회",
+    path: "/agency-sales",
+  });
+};
+
+exports.getMediaItemSales = async (req, res, next) => {
+  res.render("work/mediaitem-sales", {
+    pageTitle: "MediaItem Sales",
+    menuTitle: "매체별 매출조회",
+    path: "/mediaitem-sales",
+  });
+};
