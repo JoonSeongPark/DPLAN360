@@ -8,9 +8,9 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 exports.getIndex = async (req, res, next) => {
-  let year = new Date().getFullYear();
-
-  if (Object.keys(req.query).length) year = +req.query.year;
+  const year = Object.keys(req.query).length
+    ? +req.query.year
+    : new Date().getFullYear();
 
   try {
     const campaigns = await Campaign.findAll({
@@ -40,14 +40,16 @@ exports.getIndex = async (req, res, next) => {
             };
           });
 
-        const adSum = filteredCampaigns.reduce((acc, cur, i) => {
-          return acc + cur.adFee;
-        }, 0);
-        const dplanSum = filteredCampaigns.reduce((acc, cur, i) => {
-          return acc + cur.dplanFee;
-        }, 0);
+        const sum = filteredCampaigns.reduce(
+          (acc, cur) => {
+            acc.adSum += cur.adFee;
+            acc.dplanSum += cur.dplanFee;
+            return acc;
+          },
+          { adSum: 0, dplanSum: 0 }
+        );
 
-        team.month.push({ adSum, dplanSum });
+        team.month.push(sum);
       });
     });
 
@@ -171,12 +173,210 @@ exports.getMediaSales = async (req, res, next) => {
   }
 };
 
+const totalSumFunction = (targets) => {
+  const defaultArr = [];
+
+  for (let i = 0; i < targets[0].period.length; i++) {
+    defaultArr.push({ adSum: 0, dplanSum: 0 });
+  }
+
+  const total = targets.reduce((acc, target) => {
+    target.period.forEach((term, idx) => {
+      acc[idx].adSum += term.adSum;
+      acc[idx].dplanSum += term.dplanSum;
+    });
+
+    return acc;
+  }, defaultArr);
+
+  return total;
+};
+
 exports.getAdvertiserSales = async (req, res, next) => {
-  res.render("work/advertiser-sales", {
-    pageTitle: "Advertiser Sales",
-    menuTitle: "광고주별 매출조회",
-    path: "/advertiser-sales",
-  });
+  let { type, year, team, period } = req.query;
+
+  if (!type) type = "attribution";
+  if (!period) period = "quarter";
+
+  year = year ? +year : new Date().getFullYear();
+
+  try {
+    const teams = await Team.findAll({ where: { normal: 1 } });
+
+    const advertisers = await Advertiser.findAll();
+
+    let teamCondition = {};
+    if (team) teamCondition.teamId = team;
+
+    if (type === "attribution") {
+      const mediaItems = await MediaItem.findAll({
+        where: {
+          attribution_time: {
+            [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
+          },
+        },
+        include: [
+          {
+            model: Campaign,
+            where: { ...teamCondition },
+          },
+        ],
+      });
+
+      advertisers.forEach((advertiser) => {
+        advertiser.period = new Array();
+
+        if (period === "quarter") {
+          [-1, 0, 3, 6, 9].forEach((v) => {
+            const filteredMediaItems = mediaItems
+              .filter((mediaItem) => {
+                return v < 0
+                  ? +mediaItem.campaign.advertiserId === +advertiser.id
+                  : +mediaItem.campaign.advertiserId === +advertiser.id &&
+                      (+mediaItem.tax_date.getMonth() === +v ||
+                        +mediaItem.tax_date.getMonth() === +v + 1 ||
+                        +mediaItem.tax_date.getMonth() === +v + 2);
+              })
+              .map((mediaItem) => {
+                return {
+                  adFee: mediaItem.ad_fee,
+                  dplanFee: mediaItem.dplan_fee,
+                };
+              });
+
+            const sum = filteredMediaItems.reduce(
+              (acc, cur) => {
+                acc.adSum += cur.adFee;
+                acc.dplanSum += cur.dplanFee;
+                return acc;
+              },
+              { adSum: 0, dplanSum: 0 }
+            );
+
+            advertiser.period.push(sum);
+          });
+        } else if (period === "month") {
+          new Array(13).fill(0).forEach((v, i) => {
+            const filteredMediaItems = mediaItems
+              .filter((mediaItem) => {
+                return i === 0
+                  ? +mediaItem.campaign.advertiserId === +advertiser.id
+                  : +mediaItem.campaign.advertiserId === +advertiser.id &&
+                      +mediaItem.tax_date.getMonth() === i - 1;
+              })
+              .map((mediaItem) => {
+                return {
+                  adFee: mediaItem.ad_fee,
+                  dplanFee: mediaItem.dplan_fee,
+                };
+              });
+
+            const sum = filteredMediaItems.reduce(
+              (acc, cur) => {
+                acc.adSum += cur.adFee;
+                acc.dplanSum += cur.dplanFee;
+                return acc;
+              },
+              { adSum: 0, dplanSum: 0 }
+            );
+
+            advertiser.period.push(sum);
+          });
+        }
+      });
+    } else {
+      const campaigns = await Campaign.findAll({
+        where: {
+          tax_date: {
+            [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
+          },
+          ...teamCondition,
+        },
+      });
+
+      if (period === "quarter") {
+        advertisers.forEach((advertiser) => {
+          advertiser.period = new Array();
+
+          [-1, 0, 3, 6, 9].forEach((v) => {
+            const filteredCampaigns = campaigns
+              .filter((campaign) => {
+                return v < 0
+                  ? +campaign.advertiserId === +advertiser.id
+                  : +campaign.advertiserId === +advertiser.id &&
+                      (+campaign.tax_date.getMonth() === +v ||
+                        +campaign.tax_date.getMonth() === +v + 1 ||
+                        +campaign.tax_date.getMonth() === +v + 2);
+              })
+              .map((campaign) => {
+                return {
+                  adFee: campaign.ad_fee,
+                  dplanFee: campaign.dplan_fee,
+                };
+              });
+
+            const sum = filteredCampaigns.reduce(
+              (acc, cur) => {
+                acc.adSum += cur.adFee;
+                acc.dplanSum += cur.dplanFee;
+                return acc;
+              },
+              { adSum: 0, dplanSum: 0 }
+            );
+
+            advertiser.period.push(sum);
+          });
+        });
+      } else if (period === "month") {
+        advertisers.forEach((advertiser) => {
+          advertiser.period = new Array();
+          new Array(13).fill(0).forEach((v, i) => {
+            const filteredCampaigns = campaigns
+              .filter((campaign) => {
+                return i === 0
+                  ? +campaign.advertiserId === +advertiser.id
+                  : +campaign.advertiserId === +advertiser.id &&
+                      +campaign.tax_date.getMonth() === i - 1;
+              })
+              .map((campaign) => {
+                return {
+                  adFee: campaign.ad_fee,
+                  dplanFee: campaign.dplan_fee,
+                };
+              });
+
+            const sum = filteredCampaigns.reduce(
+              (acc, cur) => {
+                acc.adSum += cur.adFee;
+                acc.dplanSum += cur.dplanFee;
+                return acc;
+              },
+              { adSum: 0, dplanSum: 0 }
+            );
+
+            advertiser.period.push(sum);
+          });
+        });
+      }
+    }
+
+    res.render("work/advertiser-sales", {
+      pageTitle: "Advertiser Sales",
+      menuTitle: "광고주별 매출조회",
+      path: "/advertiser-sales",
+      teams,
+      advertisers,
+      total: totalSumFunction(advertisers),
+      sortInfo: {
+        type,
+        year,
+        team,
+        period,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.getAgencySales = async (req, res, next) => {
