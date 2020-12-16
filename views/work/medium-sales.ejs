@@ -1,0 +1,96 @@
+<%- include('../includes/first-part.ejs') %>
+    <link rel="stylesheet" href="/auto-complete/autocomplete.css" />
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+    <%- include('../includes/header.ejs') %>
+
+    <div class="container">
+      <%- include('../includes/nav.ejs') %>
+
+      <%- include('../includes/menu-title.ejs') %>
+      
+        <form action="/medium-sales" method="GET" onkeydown="return event.key != 'Enter';" style="height: 100%;">
+          
+          <div class="sort-line">
+            <select name="type">
+              <option value="attribution" <%= sortInfo.type === "attribution" ? "selected" : "" %>>매출 귀속월</option>
+              <option value="issuedate" <%= sortInfo.type === "issuedate" ? "selected" : "" %>>매체 발행월</option>
+            </select>
+            <select name="year">
+              <% for (let i = 2019 ; i <= new Date().getFullYear()+1 ; i++) { %>
+                <option value="<%= i %>" <%= sortInfo.year === i ? "selected" : "" %>><%= i %></option>
+              <% } %>
+            </select>
+            <select name="team">
+              <option value="" <%= sortInfo.team === "" ? "selected" : "" %>>팀 전체</option>
+              <% teams.forEach(team => { %>
+                <option value="<%= team.id %>" <%= sortInfo.team == team.id ? "selected" : "" %>><%= team.name %> 팀</option>  
+              <% }) %>
+            </select>
+            <select name="period">
+              <option value="quarter" <%= sortInfo.period == "quarter" ? "selected" : "" %>>분기</option>
+              <option value="month" <%= sortInfo.period == "month" ? "selected" : "" %>>월</option>
+            </select>
+            <button type="submit">조회</button>
+          </div>
+        
+          <div class="v-part result-part scrollable" style="height: calc(100% - 7.5rem);">
+            <table id="result-table">
+              <tr>
+                <th class="v-header" colspan="4">전체</th>
+                <% if (sortInfo.period === "" || sortInfo.period === "quarter") { %>
+                  <% for (let i = 1 ; i <= 4 ; i++) { %>
+                    <th class="v-header" colspan="3"><%= i %>분기</th>
+                  <% } %>
+                <% } else { %>
+                  <% for (let i = 1 ; i <= 12 ; i++) { %>
+                    <th class="v-header" colspan="3"><%= i %>월</th>
+                  <% } %>
+                <% } %>
+              </tr>
+              <tr>
+                <th class="v-total" style="font-weight: bold;">합계</th>
+                <% total.forEach(term => { %>
+                  <th><%= new Intl.NumberFormat().format(term.adSum) %></th>
+                  <th><%= new Intl.NumberFormat().format(term.dplanSum) %></th>
+                  <th><%= term.adSum === 0 || term.dplanSum < 0 ? "0.00" : (term.dplanSum / term.adSum * 100).toFixed(2) %> %</th>
+                <% }) %>
+              </tr>
+              <tr>
+                <th class="v-header">매체</th>
+                <% if (sortInfo.period === "" || sortInfo.period === "quarter") { %>
+                  <% for (let i = 0 ; i <= 4 ; i++) { %>
+                    <th class="v-header">광고수주액</th>
+                    <th class="v-header">순매출</th>
+                    <th class="v-header">수익률</th>
+                  <% } %>
+                <% } else { %>
+                  <% for (let i = 0 ; i <= 12 ; i++) { %>
+                    <th class="v-header">광고수주액</th>
+                    <th class="v-header">순매출</th>
+                    <th class="v-header">수익률</th>
+                  <% } %>
+                <% } %>
+              </tr>
+              <% media.forEach(medium => { %>
+                <tr>
+                  <td class="v-total" style="font-weight: bold;"><%= medium.name %></td>
+                  <% medium.period.forEach(term => { %>
+                    <td><%= new Intl.NumberFormat().format(term.adSum) %></td>
+                    <td><%= new Intl.NumberFormat().format(term.dplanSum) %></td>
+                    <td><%= term.adSum === 0 || term.dplanSum < 0 ? "0.00" : (term.dplanSum / term.adSum * 100).toFixed(2) %> %</td>
+                  <% }) %>
+                </tr>
+              <% }) %>
+            </table>
+          </div>
+        </form>
+      </main>
+    </div>
+    </div>
+
+    <script src="/auto-complete/autocomplete.js"></script>
+
+  <%- include('../includes/end-part.ejs') %>
