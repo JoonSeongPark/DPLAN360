@@ -380,11 +380,190 @@ exports.getAdvertiserSales = async (req, res, next) => {
 };
 
 exports.getAgencySales = async (req, res, next) => {
-  res.render("work/agency-sales", {
-    pageTitle: "Agency Sales",
-    menuTitle: "대행사별 매출조회",
-    path: "/agency-sales",
-  });
+  let { type, year, team, period } = req.query;
+
+  if (!type) type = "attribution";
+  if (!period) period = "quarter";
+
+  year = year ? +year : new Date().getFullYear();
+
+  try {
+    const teams = await Team.findAll({ where: { normal: 1 } });
+
+    const agencies = await Agency.findAll();
+
+    let teamCondition = {};
+    if (team) teamCondition.teamId = team;
+
+    if (type === "attribution") {
+      const mediaItems = await MediaItem.findAll({
+        where: {
+          attribution_time: {
+            [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
+          },
+        },
+        include: [
+          {
+            model: Campaign,
+            where: { ...teamCondition },
+          },
+        ],
+      });
+
+      agencies.forEach((agency) => {
+        agency.period = new Array();
+
+        if (period === "quarter") {
+          [-1, 0, 3, 6, 9].forEach((v) => {
+            const filteredMediaItems = mediaItems
+              .filter((mediaItem) => {
+                return v < 0
+                  ? +mediaItem.campaign.agencyId === +agency.id
+                  : +mediaItem.campaign.agencyId === +agency.id &&
+                      (+mediaItem.tax_date.getMonth() === +v ||
+                        +mediaItem.tax_date.getMonth() === +v + 1 ||
+                        +mediaItem.tax_date.getMonth() === +v + 2);
+              })
+              .map((mediaItem) => {
+                return {
+                  adFee: mediaItem.ad_fee,
+                  dplanFee: mediaItem.dplan_fee,
+                };
+              });
+
+            const sum = filteredMediaItems.reduce(
+              (acc, cur) => {
+                acc.adSum += cur.adFee;
+                acc.dplanSum += cur.dplanFee;
+                return acc;
+              },
+              { adSum: 0, dplanSum: 0 }
+            );
+
+            agency.period.push(sum);
+          });
+        } else if (period === "month") {
+          new Array(13).fill(0).forEach((v, i) => {
+            const filteredMediaItems = mediaItems
+              .filter((mediaItem) => {
+                return i === 0
+                  ? +mediaItem.campaign.agencyId === +agency.id
+                  : +mediaItem.campaign.agencyId === +agency.id &&
+                      +mediaItem.tax_date.getMonth() === i - 1;
+              })
+              .map((mediaItem) => {
+                return {
+                  adFee: mediaItem.ad_fee,
+                  dplanFee: mediaItem.dplan_fee,
+                };
+              });
+
+            const sum = filteredMediaItems.reduce(
+              (acc, cur) => {
+                acc.adSum += cur.adFee;
+                acc.dplanSum += cur.dplanFee;
+                return acc;
+              },
+              { adSum: 0, dplanSum: 0 }
+            );
+
+            agency.period.push(sum);
+          });
+        }
+      });
+    } else {
+      const campaigns = await Campaign.findAll({
+        where: {
+          tax_date: {
+            [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
+          },
+          ...teamCondition,
+        },
+      });
+
+      if (period === "quarter") {
+        agencies.forEach((agency) => {
+          agency.period = new Array();
+
+          [-1, 0, 3, 6, 9].forEach((v) => {
+            const filteredCampaigns = campaigns
+              .filter((campaign) => {
+                return v < 0
+                  ? +campaign.agencyId === +agency.id
+                  : +campaign.agencyId === +agency.id &&
+                      (+campaign.tax_date.getMonth() === +v ||
+                        +campaign.tax_date.getMonth() === +v + 1 ||
+                        +campaign.tax_date.getMonth() === +v + 2);
+              })
+              .map((campaign) => {
+                return {
+                  adFee: campaign.ad_fee,
+                  dplanFee: campaign.dplan_fee,
+                };
+              });
+
+            const sum = filteredCampaigns.reduce(
+              (acc, cur) => {
+                acc.adSum += cur.adFee;
+                acc.dplanSum += cur.dplanFee;
+                return acc;
+              },
+              { adSum: 0, dplanSum: 0 }
+            );
+
+            agency.period.push(sum);
+          });
+        });
+      } else if (period === "month") {
+        agencies.forEach((agency) => {
+          agency.period = new Array();
+          new Array(13).fill(0).forEach((v, i) => {
+            const filteredCampaigns = campaigns
+              .filter((campaign) => {
+                return i === 0
+                  ? +campaign.agencyId === +agency.id
+                  : +campaign.agencyId === +agency.id &&
+                      +campaign.tax_date.getMonth() === i - 1;
+              })
+              .map((campaign) => {
+                return {
+                  adFee: campaign.ad_fee,
+                  dplanFee: campaign.dplan_fee,
+                };
+              });
+
+            const sum = filteredCampaigns.reduce(
+              (acc, cur) => {
+                acc.adSum += cur.adFee;
+                acc.dplanSum += cur.dplanFee;
+                return acc;
+              },
+              { adSum: 0, dplanSum: 0 }
+            );
+
+            agency.period.push(sum);
+          });
+        });
+      }
+    }
+
+    res.render("work/agency-sales", {
+      pageTitle: "Agency Sales",
+      menuTitle: "대행사별 매출조회",
+      path: "/agency-sales",
+      teams,
+      agencies,
+      total: totalSumFunction(agencies),
+      sortInfo: {
+        type,
+        year,
+        team,
+        period,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.getMediaItemSales = async (req, res, next) => {
