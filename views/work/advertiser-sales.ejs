@@ -39,14 +39,14 @@
           <div class="v-part result-part scrollable" style="height: calc(100% - 7.5rem);">
             <table id="result-table">
               <tr>
-                <th class="v-header" colspan="4" style="width: 3rem;">전체</th>
+                <th class="v-header" colspan="4">전체</th>
                 <% if (sortInfo.period === "" || sortInfo.period === "quarter") { %>
                   <% for (let i = 1 ; i <= 4 ; i++) { %>
-                    <th class="v-header" colspan="3" style="width: 13.8rem;"><%= i %>분기</th>
+                    <th class="v-header" colspan="3"><%= i %>분기</th>
                   <% } %>
                 <% } else { %>
                   <% for (let i = 1 ; i <= 12 ; i++) { %>
-                    <th class="v-header" colspan="3" style="width: 13.8rem;"><%= i %>월</th>
+                    <th class="v-header" colspan="3"><%= i %>월</th>
                   <% } %>
                 <% } %>
               </tr>
@@ -59,18 +59,18 @@
                 <% }) %>
               </tr>
               <tr>
-                <th class="v-header" style="width: 10.6rem;">광고주</th>
+                <th class="v-header">광고주</th>
                 <% if (sortInfo.period === "" || sortInfo.period === "quarter") { %>
                   <% for (let i = 0 ; i <= 4 ; i++) { %>
-                    <th class="v-header" style="width: 5.6rem;">광고수주액</th>
-                    <th class="v-header" style="width: 5.6rem;">순매출</th>
-                    <th class="v-header" style="width: 2.5rem;">수익률</th>
+                    <th class="v-header">광고수주액</th>
+                    <th class="v-header">순매출</th>
+                    <th class="v-header">수익률</th>
                   <% } %>
                 <% } else { %>
                   <% for (let i = 0 ; i <= 12 ; i++) { %>
-                    <th class="v-header" style="width: 5.6rem;">광고수주액</th>
-                    <th class="v-header" style="width: 5.6rem;">순매출</th>
-                    <th class="v-header" style="width: 2.5rem;">수익률</th>
+                    <th class="v-header">광고수주액</th>
+                    <th class="v-header">순매출</th>
+                    <th class="v-header">수익률</th>
                   <% } %>
                 <% } %>
               </tr>
