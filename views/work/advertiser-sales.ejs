@@ -33,6 +33,18 @@
               <option value="quarter" <%= sortInfo.period == "quarter" ? "selected" : "" %>>분기</option>
               <option value="month" <%= sortInfo.period == "month" ? "selected" : "" %>>월</option>
             </select>
+            <select name="main" id="main_category">
+              <option value="" <%= sortInfo.main === "" ? "selected" : "" %>>업종대분류</option>
+              <% mains.forEach(main => { %>
+                <option value="<%= main.id %>" <%= main.id === +sortInfo.main ? "selected" : "" %>><%= main.name %></option>
+              <% }) %>
+            </select>
+            <select name="sub" id="sub_category">
+              <option value="" <%= sortInfo.sub === "" ? "selected" : "" %>>업종소분류</option>
+              <% subs.forEach(sub => { %>
+                <option class='<%= sub.adMainCategoryId === +sortInfo.main ? "" : "deactive" %>' value="<%= sub.id %>" main="<%= sub.adMainCategoryId %>" <%= sub.id === +sortInfo.sub ? "selected" : "" %>><%= sub.name %></option>
+              <% }) %>
+            </select>
             <button type="submit">조회</button>
           </div>
         
@@ -91,6 +103,6 @@
     </div>
     </div>
 
-    <script src="/auto-complete/autocomplete.js"></script>
+    <script src="/js/admin/edit-advertiser.js"></script>
 
   <%- include('../includes/end-part.ejs') %>

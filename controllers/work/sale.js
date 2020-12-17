@@ -4,6 +4,8 @@ const Advertiser = require("../../models/advertiser");
 const Medium = require("../../models/medium");
 const MediaItem = require("../../models/media-item");
 const Campaign = require("../../models/campaign");
+const AdMainCategory = require("../../models/ad-main-category");
+const AdSubCategory = require("../../models/ad-sub-category");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
@@ -173,9 +175,17 @@ exports.getMediaSales = async (req, res, next) => {
   }
 };
 
-const totalSumFunction = (targets) => {
+const totalSumFunction = (targets, type) => {
   const defaultArr = [];
 
+  if (!targets[0]) {
+    if (type === "quarter") {
+      return new Array(5).fill({ adSum: 0, dplanSum: 0 });
+    } else if (type === 'month') {
+      return new Array(13).fill({ adSum: 0, dplanSum: 0 });
+    }
+  }
+  
   for (let i = 0; i < targets[0].period.length; i++) {
     defaultArr.push({ adSum: 0, dplanSum: 0 });
   }
@@ -193,17 +203,26 @@ const totalSumFunction = (targets) => {
 };
 
 exports.getAdvertiserSales = async (req, res, next) => {
-  let { type, year, team, period } = req.query;
+  let { type, year, team, period, main, sub } = req.query;
 
   if (!type) type = "attribution";
   if (!period) period = "quarter";
+  let mainCondition = {};
+  if (main) mainCondition.adMainCategoryId = main;
+  let subCondition = {};
+  if (sub) subCondition.adSubCategoryId = sub;
 
   year = year ? +year : new Date().getFullYear();
 
   try {
     const teams = await Team.findAll({ where: { normal: 1 } });
 
-    const advertisers = await Advertiser.findAll();
+    const mains = await AdMainCategory.findAll();
+    const subs = await AdSubCategory.findAll();
+
+    const advertisers = await Advertiser.findAll({
+      where: { ...subCondition },
+    });
 
     let teamCondition = {};
     if (team) teamCondition.teamId = team;
@@ -365,13 +384,17 @@ exports.getAdvertiserSales = async (req, res, next) => {
       menuTitle: "광고주별 매출조회",
       path: "/advertiser-sales",
       teams,
+      mains,
+      subs,
       advertisers,
-      total: totalSumFunction(advertisers),
+      total: totalSumFunction(advertisers, period),
       sortInfo: {
         type,
         year,
         team,
         period,
+        main,
+        sub,
       },
     });
   } catch (err) {
@@ -553,7 +576,7 @@ exports.getAgencySales = async (req, res, next) => {
       path: "/agency-sales",
       teams,
       agencies,
-      total: totalSumFunction(agencies),
+      total: totalSumFunction(agencies, period),
       sortInfo: {
         type,
         year,
@@ -671,7 +694,7 @@ exports.getMediaItemSales = async (req, res, next) => {
       path: "/medium-sales",
       teams,
       media,
-      total: totalSumFunction(media),
+      total: totalSumFunction(media, period),
       sortInfo: {
         type,
         year,
