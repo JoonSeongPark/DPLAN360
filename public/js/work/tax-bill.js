@@ -38,10 +38,13 @@ function sumTotal() {
   totalRow.cells[10].innerHTML = nf(dplanSum);
   totalRow.cells[11].innerHTML = nf(interSum);
   totalRow.cells[12].innerHTML =
-    ((agencySum / totalSum) * 100).toFixed(2) + "%";
-  totalRow.cells[13].innerHTML = ((mediaSum / totalSum) * 100).toFixed(2) + "%";
-  totalRow.cells[14].innerHTML = ((dplanSum / totalSum) * 100).toFixed(2) + "%";
-  totalRow.cells[15].innerHTML = ((interSum / totalSum) * 100).toFixed(2) + "%";
+    (totalSum === 0 ? 0 : (agencySum / totalSum) * 100).toFixed(2) + "%";
+  totalRow.cells[13].innerHTML =
+    (totalSum === 0 ? 0 : (mediaSum / totalSum) * 100).toFixed(2) + "%";
+  totalRow.cells[14].innerHTML =
+    (totalSum === 0 ? 0 : (dplanSum / totalSum) * 100).toFixed(2) + "%";
+  totalRow.cells[15].innerHTML =
+    (totalSum === 0 ? 0 : (interSum / totalSum) * 100).toFixed(2) + "%";
 }
 
 /////////////////////////////////////////////////////////////////////////
