@@ -15,34 +15,36 @@ exports.getIndex = async (req, res, next) => {
     : new Date().getFullYear();
 
   try {
-    const campaigns = await Campaign.findAll({
+    const mediaItems = await MediaItem.findAll({
       where: {
-        tax_date: {
+        attribution_time: {
           [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
         },
       },
+      include: [{ model: Campaign }],
     });
+    
     const teams = await Team.findAll({ where: { normal: 1 } });
 
     teams.forEach((team) => {
       team.month = new Array();
 
       new Array(12).fill(0).forEach((v, i) => {
-        const filteredCampaigns = campaigns
-          .filter((campaign) => {
+        const filteredMediaItems = mediaItems
+          .filter((mediaItem) => {
             return (
-              +campaign.tax_date.getMonth() === +i &&
-              +campaign.teamId === +team.id
+              +mediaItem.attribution_time.getMonth() === +i &&
+              +mediaItem.campaign.teamId === +team.id
             );
           })
-          .map((campaign) => {
+          .map((mediaItem) => {
             return {
-              adFee: campaign.ad_fee,
-              dplanFee: campaign.dplan_fee,
+              adFee: mediaItem.ad_fee,
+              dplanFee: mediaItem.dplan_fee,
             };
           });
 
-        const sum = filteredCampaigns.reduce(
+        const sum = filteredMediaItems.reduce(
           (acc, cur) => {
             acc.adSum += cur.adFee;
             acc.dplanSum += cur.dplanFee;
@@ -181,11 +183,11 @@ const totalSumFunction = (targets, type) => {
   if (!targets[0]) {
     if (type === "quarter") {
       return new Array(5).fill({ adSum: 0, dplanSum: 0 });
-    } else if (type === 'month') {
+    } else if (type === "month") {
       return new Array(13).fill({ adSum: 0, dplanSum: 0 });
     }
   }
-  
+
   for (let i = 0; i < targets[0].period.length; i++) {
     defaultArr.push({ adSum: 0, dplanSum: 0 });
   }
