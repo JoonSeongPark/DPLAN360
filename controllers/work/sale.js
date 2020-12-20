@@ -212,7 +212,7 @@ exports.getAdvertiserSales = async (req, res, next) => {
   let mainCondition = {};
   if (main) mainCondition.adMainCategoryId = main;
   let subCondition = {};
-  if (sub) subCondition.adSubCategoryId = sub;
+  if (sub) subCondition.id = sub;
 
   year = year ? +year : new Date().getFullYear();
 
@@ -223,7 +223,9 @@ exports.getAdvertiserSales = async (req, res, next) => {
     const subs = await AdSubCategory.findAll();
 
     const advertisers = await Advertiser.findAll({
-      where: { ...subCondition },
+      include: [
+        { model: AdSubCategory, where: { ...subCondition, ...mainCondition } },
+      ],
     });
 
     let teamCondition = {};
