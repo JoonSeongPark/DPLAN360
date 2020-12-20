@@ -23,7 +23,7 @@ exports.getIndex = async (req, res, next) => {
       },
       include: [{ model: Campaign }],
     });
-    
+
     const teams = await Team.findAll({ where: { normal: 1 } });
 
     teams.forEach((team) => {
@@ -381,6 +381,15 @@ exports.getAdvertiserSales = async (req, res, next) => {
       }
     }
 
+    const filteredAdvertisers = advertisers
+      .filter((advertiser) => {
+        return (
+          advertiser.period[0].adSum !== 0 &&
+          advertiser.period[0].dplanSum !== 0
+        );
+      })
+      .sort((a, b) => b.period[0].adSum - a.period[0].adSum);
+
     res.render("work/advertiser-sales", {
       pageTitle: "Advertiser Sales",
       menuTitle: "광고주별 매출조회",
@@ -388,7 +397,7 @@ exports.getAdvertiserSales = async (req, res, next) => {
       teams,
       mains,
       subs,
-      advertisers,
+      advertisers: filteredAdvertisers,
       total: totalSumFunction(advertisers, period),
       sortInfo: {
         type,
@@ -572,12 +581,20 @@ exports.getAgencySales = async (req, res, next) => {
       }
     }
 
+    const filteredAgencies = agencies
+      .filter((ageincy) => {
+        return (
+          ageincy.period[0].adSum !== 0 && ageincy.period[0].dplanSum !== 0
+        );
+      })
+      .sort((a, b) => b.period[0].adSum - a.period[0].adSum);
+
     res.render("work/agency-sales", {
       pageTitle: "Agency Sales",
       menuTitle: "대행사별 매출조회",
       path: "/agency-sales",
       teams,
-      agencies,
+      agencies: filteredAgencies,
       total: totalSumFunction(agencies, period),
       sortInfo: {
         type,
@@ -690,12 +707,18 @@ exports.getMediaItemSales = async (req, res, next) => {
       }
     });
 
+    const filteredMedia = media
+      .filter((medium) => {
+        return medium.period[0].adSum !== 0 && medium.period[0].dplanSum !== 0;
+      })
+      .sort((a, b) => b.period[0].adSum - a.period[0].adSum);
+
     res.render("work/medium-sales", {
       pageTitle: "Media Sales",
       menuTitle: "매체별 매출조회",
       path: "/medium-sales",
       teams,
-      media,
+      media: filteredMedia,
       total: totalSumFunction(media, period),
       sortInfo: {
         type,
