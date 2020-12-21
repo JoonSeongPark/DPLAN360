@@ -15,6 +15,7 @@
             <table>
               <tr>
                 <th class="v-header xxl">업체명</th>
+                <th class="v-header xxl">사업자등록자명칭</th>
                 <th class="v-header xs">결제조건</th>
                 <th class="v-header xs">입금형태</th>
                 <th class="v-header xl">계산서 발행</th>
@@ -29,6 +30,7 @@
               <% agencies.forEach(agency => { %>
                 <tr>
                   <td><%= agency.name %></td>
+                  <td><%= agency.biz_name %></td>
                   <td><%= agency.pay_condition %></td>
                   <td><%= agency.deposit_type %></td>
                   <td><%= agency.bill_type %></td>

@@ -56,6 +56,9 @@ exports.postLogin = async (req, res, next) => {
       if (user.team && user.team.normal) {
         req.session.isNormal = true;
       }
+      if (user.team && user.team.name === "재무") {
+        req.session.isFinance = true;
+      }
       req.session.user = user;
       await req.session.save();
       return res.redirect("/");

@@ -27,10 +27,6 @@ const User = sequelize.define(
       type: Sequelize.TINYINT,
       allowNull: false,
     },
-    block_auth: {
-      type: Sequelize.TINYINT,
-      allowNull: false,
-    },
     resetToken: Sequelize.STRING,
     resetTokenExpiration: Sequelize.DATE,
   },

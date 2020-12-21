@@ -15,6 +15,9 @@ const Medium = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    biz_name: {
+      type: Sequelize.STRING,
+    },
     pay_condition: {
       type: Sequelize.STRING,
     },

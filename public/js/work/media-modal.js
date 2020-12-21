@@ -81,8 +81,6 @@ function alertModal(e) {
     const media_pay_condition = media_info.pay_condition;
     const media_inter_type = media_info.inter_type;
     const media_inter_name = media_info.inter_name;
-    const media_bill_type = media_info.bill_type;
-    const attribution_time = agencyTaxDate.value;
     const media_agency_fee_rate = media_info.agency_fee_rate;
     const media_fee_rate = media_info.media_fee_rate;
     const media_dplan_fee_rate = media_info.dplan_fee_rate;
@@ -211,15 +209,6 @@ function alertModal(e) {
         type="text"
         name="lower_inter_fee"
         value="0"
-        required
-      />
-    </td>
-    <td>
-      <input
-        name="lower_attribution_time"
-        value="${attribution_time}"
-        type="month"
-        id="agency-issue-date"
         required
       />
     </td>

@@ -18,8 +18,12 @@
                 <td>
                   <input type="text" name="name" value="<%= editing ? medium.name : '' %>" autofocus required>
                 </td>
+                <td class="h-header">사업자등록증명칭</td>
+                <td>
+                  <input type="text" name="biz_name" value="<%= editing ? medium.biz_name : '' %>">
+                </td>
                 <td class="h-header">인터렙</td>
-                <td >
+                <td>
                   <select name="inter_type" id="inter_type">
                     <option value="" <%= editing && medium.inter_type === "" ? "selected" : "" %>>해당없음</option>
                     <option value="in" <%= editing && medium.inter_type === "in" ? "selected" : "" %>>in</option>
@@ -34,7 +38,7 @@
                   <input type="text" name="pay_condition" value="<%= editing ? medium.pay_condition : '' %>">
                 </td>
                 <td class="h-header">계산서 발행</td>
-                <td>
+                <td colspan="3">
                   구분:
                   <select name="bill_type">
                     <option value="" <%= editing && medium.bill_type === "" ? "selected" : "" %>>해당없음</option>
@@ -52,18 +56,17 @@
                   <input class="input-num" type="text" name="provide_fee_rate" size="4" value="<%= editing ? medium.provide_fee_rate : '' %>"/> %
                 </td>
                 <td class="h-header">*수수료율</td>
-                <td >
-                  대행사: <input class="input-num" type="text" name="agency_fee_rate" size="3" value="<%= editing ? medium.agency_fee_rate : '' %>" required/> %&nbsp&nbsp/&nbsp&nbsp
-                  매체: <input class="input-num" type="text" name="media_fee_rate" size="3" value="<%= editing ? medium.media_fee_rate : '' %>" required/> %&nbsp&nbsp/&nbsp&nbsp
-                  디플랜: <input class="input-num" type="text" name="dplan_fee_rate" size="3" value="<%= editing ? medium.dplan_fee_rate : '' %>" required/> %&nbsp&nbsp/&nbsp&nbsp
-                  인터렙: <input class="input-num" type="text" name="inter_fee_rate" size="3" value="<%= editing ? medium.inter_fee_rate : '' %>" required/> %
+                <td colspan="3">
+                  대행사: <input class="input-num" type="text" name="agency_fee_rate" size="2" value="<%= editing ? medium.agency_fee_rate : '' %>" required/>%&nbsp
+                  매체: <input class="input-num" type="text" name="media_fee_rate" size="2" value="<%= editing ? medium.media_fee_rate : '' %>" required/>%&nbsp
+                  디플랜: <input class="input-num" type="text" name="dplan_fee_rate" size="2" value="<%= editing ? medium.dplan_fee_rate : '' %>" required/>%&nbsp
+                  인터렙: <input class="input-num" type="text" name="inter_fee_rate" size="2" value="<%= editing ? medium.inter_fee_rate : '' %>" required/>%
                 </td>
-                
               </tr>
               <tr>
                 <td class="h-header">비고</td>
-                <td colspan="3">
-                  <input style="width: 98%;" type="text" name="memo" value="<%= editing ? medium.memo : '' %>">
+                <td colspan="5">
+                  <input style="width: 100%;" type="text" name="memo" value="<%= editing ? medium.memo : '' %>">
                 </td>
               </tr>
             </table>

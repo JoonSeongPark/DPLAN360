@@ -1,10 +1,43 @@
 function autoDepositCalculator(e) {
-
   if (!e.target.classList.contains("input-date")) return;
 
   const targetRow = e.target.closest("tr");
   const beginDate = targetRow.cells[1].children[0].value;
   const endDate = targetRow.cells[2].children[0].value;
+
+  const mediaPayCondition = targetRow.cells[20].children[0].value;
+
+  if (e.target.name === "media_start" || e.target.name === "media_end") {
+    if (beginDate && endDate) {
+      const agencyIssueDateArr = document
+        .getElementById("cam-tax-month")
+        .value.split("-");
+
+      const agencyPayCondition = document.getElementById("agency-pay-condition")
+        .value;
+
+      if (!agencyPayCondition) return alert("대행사를 입력하세요");
+      targetRow.cells[14].children[0].value = depositCalculator(
+        beginDate,
+        endDate,
+        agencyIssueDateArr[0],
+        agencyIssueDateArr[1],
+        agencyPayCondition
+      );
+
+      const mediaIssueDate = targetRow.cells[15].children[0].children[0].value;
+  
+      if (mediaIssueDate) {
+        targetRow.cells[16].children[0].value = depositCalculator(
+          beginDate,
+          endDate,
+          mediaIssueDate.split("-")[0],
+          mediaIssueDate.split("-")[1],
+          mediaPayCondition
+        );
+      }
+    }
+  }
 
   if (e.target.name === "lower_issue_date") {
     const mediaIssueDateArr = e.target.value.split("-");
@@ -12,30 +45,12 @@ function autoDepositCalculator(e) {
     if (!beginDate) return alert("시작일을 입력하세요.");
     if (!endDate) return alert("종료일을 입력하세요.");
 
-    const mediaPayCondition = targetRow.cells[21].children[0].value;
-    targetRow.cells[17].children[0].value = depositCalculator(
+    targetRow.cells[16].children[0].value = depositCalculator(
       beginDate,
       endDate,
       mediaIssueDateArr[0],
       mediaIssueDateArr[1],
       mediaPayCondition
-    );
-  }
-  if (e.target.name === "lower_attribution_time") {
-    const agencyIssueDateArr = e.target.value.split("-");
-
-    if (!beginDate) return alert("시작일을 입력하세요.");
-    if (!endDate) return alert("종료일을 입력하세요.");
-
-    const agencyPayCondition = document.getElementById("agency-pay-condition")
-      .value;
-    if (!agencyPayCondition) return alert("대행사를 입력하세요");
-    targetRow.cells[15].children[0].value = depositCalculator(
-      beginDate,
-      endDate,
-      agencyIssueDateArr[0],
-      agencyIssueDateArr[1],
-      agencyPayCondition
     );
   }
 }

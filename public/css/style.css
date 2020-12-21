@@ -232,3 +232,15 @@ main h3 {
   font-size: 12px;
   padding: 0.3rem;
 }
+
+.sort-line {
+  display: flex;
+  margin: 1.4rem 1.1vw 0.8rem;
+}
+
+.sort-line select,
+.sort-line button {
+  margin-right: 0.8rem;
+  font-size: 12px;
+  height: 1.4rem;
+}

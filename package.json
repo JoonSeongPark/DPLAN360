@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "DB_HOST=dplan360.c4j9lg274esc.us-east-2.rds.amazonaws.com DB_PORT=3306 DB_USER=admin DB_PASSWORD=dplan3601 DB_NAME=dplan360 SENDGRID_KEY=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 node app.js",
-    "start:dev": "npx nodemon app.js"
+    "dev": "npx nodemon app.js"
   },
   "repository": {
     "type": "git",

@@ -4,12 +4,6 @@ function sumTotal() {
   const resultTable = document.getElementById("result-table");
   const totalRow = resultTable.rows[2];
 
-  const adTotalCell = totalRow.cells[7];
-  const agencyTotalCell = totalRow.cells[8];
-  const mediaTotalCell = totalRow.cells[9];
-  const dplanTotalCell = totalRow.cells[10];
-  const interTotalCell = totalRow.cells[11];
-
   let agencySum = 0,
     mediaSum = 0,
     dplanSum = 0,
@@ -37,41 +31,25 @@ function sumTotal() {
       +resultTable.rows[i].cells[11].innerHTML
     );
   }
-
-  adTotalCell.innerHTML = nf(agencySum + mediaSum + dplanSum + interSum);
-  agencyTotalCell.innerHTML = nf(agencySum);
-  mediaTotalCell.innerHTML = nf(mediaSum);
-  dplanTotalCell.innerHTML = nf(dplanSum);
-  interTotalCell.innerHTML = nf(interSum);
+  const totalSum = agencySum + mediaSum + dplanSum + interSum;
+  totalRow.cells[7].innerHTML = nf(totalSum);
+  totalRow.cells[8].innerHTML = nf(agencySum);
+  totalRow.cells[9].innerHTML = nf(mediaSum);
+  totalRow.cells[10].innerHTML = nf(dplanSum);
+  totalRow.cells[11].innerHTML = nf(interSum);
+  totalRow.cells[12].innerHTML =
+    ((agencySum / totalSum) * 100).toFixed(2) + "%";
+  totalRow.cells[13].innerHTML = ((mediaSum / totalSum) * 100).toFixed(2) + "%";
+  totalRow.cells[14].innerHTML = ((dplanSum / totalSum) * 100).toFixed(2) + "%";
+  totalRow.cells[15].innerHTML = ((interSum / totalSum) * 100).toFixed(2) + "%";
 }
 
 /////////////////////////////////////////////////////////////////////////
 
-const conditionTable = document.getElementById("condition-table");
+const targetMonth = document.getElementById("target-month");
 
-conditionTable.addEventListener("change", () => {
-  const agencyStartDate = new Date(
-    document.getElementById("agency-start-date").value
-  );
-  const agencyEndDate = new Date(
-    document.getElementById("agency-end-date").value
-  );
-  const mediaStartDate = new Date(
-    document.getElementById("media-start-date").value
-  );
-  const mediaEndDate = new Date(
-    document.getElementById("media-end-date").value
-  );
-
-  if (agencyStartDate > agencyEndDate || mediaStartDate > mediaEndDate) {
-    alert("시작일이 종료일을 넘을 수 없습니다.");
-    return;
-  }
-
+targetMonth.addEventListener("change", () => {
   const submitInput = document.getElementById("submit-button");
-  // 기존 경고문 제거
-  conditionTable.nextSibling.remove();
-
   submitInput.click();
 });
 
@@ -94,3 +72,35 @@ function excelDownload() {
 }
 
 excelDownloadEl.addEventListener("click", excelDownload);
+
+//////////////////////////////////////////////////////////////////////////
+
+// 전체선택
+
+const checkAll = document.getElementById("check-all");
+
+checkAll.addEventListener("click", (e) => {
+  const checkBoxes = document.querySelectorAll('input[type="checkbox"]');
+
+  if (e.target.checked) {
+    checkBoxes.forEach((checkBox) => {
+      checkBox.setAttribute("checked", true);
+    });
+  } else {
+    checkBoxes.forEach((checkBox) => {
+      checkBox.removeAttribute("checked");
+    });
+  }
+});
+
+/////////////////////////////////////////////////////////////////////////////
+
+// 마감처리
+
+const closeButton = document.getElementById("close");
+if (closeButton) {
+  closeButton.addEventListener("click", () => {
+    const closeSubmit = document.getElementById("closed-button");
+    closeSubmit.click();
+  });
+}
