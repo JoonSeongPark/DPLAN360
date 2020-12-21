@@ -15,34 +15,36 @@ exports.getIndex = async (req, res, next) => {
     : new Date().getFullYear();
 
   try {
-    const campaigns = await Campaign.findAll({
+    const mediaItems = await MediaItem.findAll({
       where: {
-        tax_date: {
+        attribution_time: {
           [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
         },
       },
+      include: [{ model: Campaign }],
     });
+
     const teams = await Team.findAll({ where: { normal: 1 } });
 
     teams.forEach((team) => {
       team.month = new Array();
 
       new Array(12).fill(0).forEach((v, i) => {
-        const filteredCampaigns = campaigns
-          .filter((campaign) => {
+        const filteredMediaItems = mediaItems
+          .filter((mediaItem) => {
             return (
-              +campaign.tax_date.getMonth() === +i &&
-              +campaign.teamId === +team.id
+              +mediaItem.attribution_time.getMonth() === +i &&
+              +mediaItem.campaign.teamId === +team.id
             );
           })
-          .map((campaign) => {
+          .map((mediaItem) => {
             return {
-              adFee: campaign.ad_fee,
-              dplanFee: campaign.dplan_fee,
+              adFee: mediaItem.ad_fee,
+              dplanFee: mediaItem.dplan_fee,
             };
           });
 
-        const sum = filteredCampaigns.reduce(
+        const sum = filteredMediaItems.reduce(
           (acc, cur) => {
             acc.adSum += cur.adFee;
             acc.dplanSum += cur.dplanFee;
@@ -181,11 +183,11 @@ const totalSumFunction = (targets, type) => {
   if (!targets[0]) {
     if (type === "quarter") {
       return new Array(5).fill({ adSum: 0, dplanSum: 0 });
-    } else if (type === 'month') {
+    } else if (type === "month") {
       return new Array(13).fill({ adSum: 0, dplanSum: 0 });
     }
   }
-  
+
   for (let i = 0; i < targets[0].period.length; i++) {
     defaultArr.push({ adSum: 0, dplanSum: 0 });
   }
@@ -210,7 +212,7 @@ exports.getAdvertiserSales = async (req, res, next) => {
   let mainCondition = {};
   if (main) mainCondition.adMainCategoryId = main;
   let subCondition = {};
-  if (sub) subCondition.adSubCategoryId = sub;
+  if (sub) subCondition.id = sub;
 
   year = year ? +year : new Date().getFullYear();
 
@@ -221,7 +223,9 @@ exports.getAdvertiserSales = async (req, res, next) => {
     const subs = await AdSubCategory.findAll();
 
     const advertisers = await Advertiser.findAll({
-      where: { ...subCondition },
+      include: [
+        { model: AdSubCategory, where: { ...subCondition, ...mainCondition } },
+      ],
     });
 
     let teamCondition = {};
@@ -379,6 +383,15 @@ exports.getAdvertiserSales = async (req, res, next) => {
       }
     }
 
+    const filteredAdvertisers = advertisers
+      .filter((advertiser) => {
+        return (
+          advertiser.period[0].adSum !== 0 &&
+          advertiser.period[0].dplanSum !== 0
+        );
+      })
+      .sort((a, b) => b.period[0].adSum - a.period[0].adSum);
+
     res.render("work/advertiser-sales", {
       pageTitle: "Advertiser Sales",
       menuTitle: "광고주별 매출조회",
@@ -386,7 +399,7 @@ exports.getAdvertiserSales = async (req, res, next) => {
       teams,
       mains,
       subs,
-      advertisers,
+      advertisers: filteredAdvertisers,
       total: totalSumFunction(advertisers, period),
       sortInfo: {
         type,
@@ -570,12 +583,20 @@ exports.getAgencySales = async (req, res, next) => {
       }
     }
 
+    const filteredAgencies = agencies
+      .filter((ageincy) => {
+        return (
+          ageincy.period[0].adSum !== 0 && ageincy.period[0].dplanSum !== 0
+        );
+      })
+      .sort((a, b) => b.period[0].adSum - a.period[0].adSum);
+
     res.render("work/agency-sales", {
       pageTitle: "Agency Sales",
       menuTitle: "대행사별 매출조회",
       path: "/agency-sales",
       teams,
-      agencies,
+      agencies: filteredAgencies,
       total: totalSumFunction(agencies, period),
       sortInfo: {
         type,
@@ -688,12 +709,18 @@ exports.getMediaItemSales = async (req, res, next) => {
       }
     });
 
+    const filteredMedia = media
+      .filter((medium) => {
+        return medium.period[0].adSum !== 0 && medium.period[0].dplanSum !== 0;
+      })
+      .sort((a, b) => b.period[0].adSum - a.period[0].adSum);
+
     res.render("work/medium-sales", {
       pageTitle: "Media Sales",
       menuTitle: "매체별 매출조회",
       path: "/medium-sales",
       teams,
-      media,
+      media: filteredMedia,
       total: totalSumFunction(media, period),
       sortInfo: {
         type,
