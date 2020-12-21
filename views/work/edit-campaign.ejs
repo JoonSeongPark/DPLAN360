@@ -132,6 +132,7 @@
                   value="<%= editing ? `${campaign.tax_date.getFullYear()}-${(campaign.tax_date.getMonth()+1).toString().padStart(2,'0')}` : '' %>" required/>
                   &nbsp&nbsp
                   <select name="media_issue_type" id="media-issue-type">
+                    <option value="">선택</option>
                     <option value="전액" <%= editing && campaign.issue_type === '전액' ? 'selected' : '' %>>전액</option>
                     <option value="순액" <%= editing && campaign.issue_type === '순액' ? 'selected' : '' %>>순액</option>
                   </select>
@@ -175,7 +176,7 @@
               </tr>
 
               <% if (editing) { %>
-                <% mediaItems.forEach(mediaItem => { %>
+                <% mediaItemIds.forEach(mediaItemId => { %>
                 <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
                 <tr class="<%= mediaItem.closed ? 'blocked' : '' %>" >
                   <input type="hidden" name="realupdated_mediaItem_id" value="<%= mediaItem.id %>"/>

@@ -32,6 +32,8 @@ exports.getCampaign = async (req, res, next) => {
       include: { model: Medium },
     });
 
+    mediaItems.sort((a, b) => b.mediumId - a.mediumId);
+
     res.render("work/campaign", {
       pageTitle: "Campaign",
       menuTitle: "캠페인 상세보기",
@@ -220,6 +222,7 @@ exports.getEditCampaign = async (req, res, next) => {
       user,
       campaign,
       mediaItems,
+      mediaItemIds: mediaItems.map((mediaItem) => mediaItem.id),
       media,
       editing: edit,
     });
@@ -232,7 +235,10 @@ exports.postEditCampaign = async (req, res, next) => {
   const user = req.user;
 
   // 캠페인 정보
-  const { campaign_id, mediaItem_id, realupdated_mediaItem_id } = req.body;
+  const { campaign_id, mediaItem_id, prior_mediaItem_count } = req.body;
+  let { prior_mediaItem_id } = req.body;
+  prior_mediaItem_id =
+    prior_mediaItem_count < 2 ? [prior_mediaItem_id] : prior_mediaItem_id;
 
   const {
     cam_type,
@@ -281,9 +287,7 @@ exports.postEditCampaign = async (req, res, next) => {
   // 매체 정보
   let updated_media_id = updated_media_count < 2 ? [media_id] : media_id,
     updated_mediaItem_id =
-      updated_media_count < 2
-        ? [realupdated_mediaItem_id]
-        : realupdated_mediaItem_id,
+      updated_media_count < 2 ? [mediaItem_id] : mediaItem_id,
     updated_media_start = updated_media_count < 2 ? [media_start] : media_start,
     updated_media_end = updated_media_count < 2 ? [media_end] : media_end,
     updated_lower_inter_type =
@@ -313,10 +317,9 @@ exports.postEditCampaign = async (req, res, next) => {
 
   // 삭제 Item DB Update
   try {
-    const temp = updated_media_count < 2 ? [mediaItem_id] : mediaItem_id;
-    for (let itemId of temp) {
-      if (!updated_mediaItem_id.includes(itemId)) {
-        const item = await MediaItem.findByPk(itemId);
+    for (let priorId of prior_mediaItem_id) {
+      if (!updated_mediaItem_id.includes(priorId)) {
+        const item = await MediaItem.findByPk(priorId);
 
         await item.destroy();
       }
@@ -341,7 +344,7 @@ exports.postEditCampaign = async (req, res, next) => {
 
     for (let i = 0; i < updated_media_count; i++) {
       // 추가 Item DB Update
-      if (!mediaItem_id.includes(updated_mediaItem_id[i])) {
+      if (!prior_mediaItem_id.includes(updated_mediaItem_id[i])) {
         await updatedCampaign.createMediaItem({
           mediumId: updated_media_id[i],
           media_start: updated_media_start[i],
