@@ -12,24 +12,34 @@
       
         <form action="/tax-bill" method="GET">
           <input type="submit" id="submit-button" hidden>
-          <div class="v-part sort-part">
+          <div class="v-part sort-part" id="sort">
             <table>
               <tr>
-                <th class="h-header" style="height:1.4rem">조회월</th>
+                <th class="h-header">조회월</th>
+                <th class="h-header">마감 / 해제</th>
               </tr>
-              <td>
-              <input type="month" name="target_month" value="<%= targetMonth %>" id="target-month">
-              </td>
+              <tr>
+                <td>
+                  <input type="month" name="target_month" value="<%= targetMonth %>"/>
+                </td>
+                <td>
+                  <select name="page_type">
+                    <option value="close" <%= page_type === 'close' ? 'selected' : '' %>>마감</option>
+                    <option value="open" <%= page_type === 'open' ? 'selected' : '' %>>해제</option>
+                  </select>
+                </td>
+              </tr>
             </table>
           </div>
         </form>
         <br/>
         <div style="display:flex; justify-content: space-between; align-items: center; padding-right: 1rem; margin: 0 1.1vw;">
           <div class="excel-download" id="excel-download">엑셀 다운로드</div>
-          <% if (isFinance) { %>
-          <button class="btn" id="close" type="button" style="font-size: 12px; padding: 0.1rem 0.4rem">
-            마감
+
+          <button class="btn <%= page_type === 'open' ? 'alert-btn' : '' %>" id="close" type="button" style="font-size: 12px; padding: 0.1rem 0.4rem">
+            <%= page_type === 'open' ? '해제' : '마감' %>
           </button>
+          <% if (isFinance) { %>
           <% } %>
         </div>
 
@@ -74,36 +84,13 @@
             </tr>
             <tr>
               <th class="v-total">Total</th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
+              <% for (let i = 0 ; i < 26 ; i ++) { %>
+                <th class="v-total"></th>
+              <% } %>
               <th class="v-total" style="padding: 0;"><input type="checkbox" id="check-all"/></th>
             </tr>
-            <form action="/close-item" method="POST">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <form action="<%= page_type === 'open' ? 'open-item' : '/close-item' %>" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="_csrf">
               <input type="submit" id="closed-button" hidden>
             
             <% mediaItems.forEach(mediaItem => { %>
@@ -126,9 +113,9 @@
                 <td><%= (mediaItem.inter_fee / mediaItem.ad_fee * 100).toFixed(2) %> %</td>
                 <td><%= mediaItem.media_start.getFullYear() %>년 <%= mediaItem.media_start.getMonth()+1 %>월 <%= mediaItem.media_start.getDate() %>일</td>
                 <td><%= mediaItem.media_end.getFullYear() %>년 <%= mediaItem.media_end.getMonth()+1 %>월 <%= mediaItem.media_end.getDate() %>일</td>
-                <td><%= mediaItem.agency_deposit_date.getFullYear() %>년 <%= mediaItem.agency_deposit_date.getMonth()+1 %>월 <%= mediaItem.agency_deposit_date.getDate() %>일</td>
+                <td><%= mediaItem.tax_date.getFullYear() %>년 <%= mediaItem.tax_date.getMonth()+1 %>월 <%= mediaItem.tax_date.getDate() %>일</td>
                 <td><%= mediaItem.campaign.issue_type %></td>
-                <td><%= mediaItem.media_deposit_date.getFullYear() %>년 <%= mediaItem.media_deposit_date.getMonth()+1 %>월 <%= mediaItem.media_deposit_date.getDate() %>일</td>
+                <td><%= mediaItem.issue_date.getFullYear() %>년 <%= mediaItem.issue_date.getMonth()+1 %>월 <%= mediaItem.issue_date.getDate() %>일</td>
                 <td><%= mediaItem.issue_type %></td>
                 <td><%= mediaItem.attribution_time.getFullYear() %>년 <%= mediaItem.attribution_time.getMonth()+1 %>월</td>
                 <td><%= mediaItem.campaign.agency.pay_condition %></td>
@@ -136,10 +123,10 @@
                 <td><%= mediaItem.medium.pay_condition %></td>
                 <td><%= mediaItem.media_deposit_date.getFullYear() %>년 <%= mediaItem.media_deposit_date.getMonth()+1 %>월 <%= mediaItem.media_deposit_date.getDate() %>일</td>
                 <td style="padding: 0;">
-                  <% if (mediaItem.closed) { %>
+                  <% if (mediaItem.closed && page_type === 'close') { %>
                     <span>마감</span>
                   <% } else { %>
-                    <input type="checkbox" name="closeItems" value="<%= mediaItem.id %>" aria-checked="false"/>
+                    <input type="checkbox" name="closeItems" value="<%= mediaItem.id %>"/>
                   <% } %>
                 </td>
               </tr>
