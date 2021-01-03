@@ -1,6 +1,5 @@
 <%- include('../includes/first-part.ejs') %>
     <link rel="stylesheet" href="/css/table.css" />
-    <link rel="stylesheet" href="/auto-complete/autocomplete.css">
   </head>
   <body>
     <div class="wrapper">
@@ -8,93 +7,111 @@
 
     <div class="container">
       <%- include('../includes/nav.ejs') %>
-      
+
       <%- include('../includes/menu-title.ejs') %>
-
+      
         <form action="/sales" method="GET" onkeydown="return event.key != 'Enter';" style="height: 100%;">
-          <input type="submit" id="submit-button" hidden>
-          <div class="v-part sort-part">
-            <table id="condition-table">
-              <tr>
-                <th class="h-header">팀선택</th>
-                <th class="h-header">시작월</th>
-                <th class="h-header">종료월</th>
-                <th class="h-header">대행사</th>
-                <th class="h-header">광고주</th>
-              </tr>
-              <tr>
-                <td>
-                  <select name="team">
-                    <option value="" <%= sortInfo.team === "" ? "selected" : "" %>>전체보기</option>
-                    <% teams.forEach(team => { %>
-                      <option value="<%= team.id %>" <%= sortInfo.team == team.id ? "selected" : "" %>><%= team.name %> 팀</option>  
-                    <% }) %>
-                  </select>
-                </td>
-                <td>
-                  <input type="month" name="start_month" value="<%= sortInfo.start_month %>" id="start-date">
-                </td>
-                <td>
-                  <input type="month" name="end_month" value="<%= sortInfo.end_month %>" id="end-date">
-                </td>
-                <td>
-                  <input type="hidden" name="agency" id="agency-id" value="<%= sortInfo.agency %>">
-                  <input type="text" id="agency-input" style="width:160px" value="<%= !sortInfo.agency ? '' : agencies.find(x => +x.id === +sortInfo.agency).name %>">
-                </td>
-                <td>
-                  <input type="hidden" name="advertiser" id="advertiser-id" value="<%= sortInfo.advertiser %>">
-                  <input type="text" id="advertiser-input" style="width:140px" value="<%= !sortInfo.advertiser ? '' : advertisers.find(x => +x.id === +sortInfo.advertiser).name %>">
-                </td>
-              </tr>
-            </table>
-            <br/>
-            <span class="excel-download" id="excel-download">엑셀 다운로드</span>
+          
+          <div class="sort-line">
+            <select name="type">
+              <option value="attribution" <%= sortInfo.type === "attribution" ? "selected" : "" %>>매출 귀속월</option>
+              <option value="taxdate" <%= sortInfo.type === "taxdate" ? "selected" : "" %>>대행사 발행월</option>
+              <option value="issuedate" <%= sortInfo.type === "issuedate" ? "selected" : "" %>>매체 발행월</option>
+            </select>
+            <select name="team">
+              <option value="" <%= sortInfo.team === "" ? "selected" : "" %>>팀 전체</option>
+              <% teams.forEach(team => { %>
+                <option value="<%= team.id %>" <%= sortInfo.team == team.id ? "selected" : "" %>><%= team.name %> 팀</option>  
+              <% }) %>
+            </select>
+            <select name="year">
+              <% for (let i = 2019 ; i <= new Date().getFullYear()+1 ; i++) { %>
+                <option value="<%= i %>" <%= sortInfo.year === i ? "selected" : "" %>><%= i %></option>
+              <% } %>
+            </select>
+            <select name="period">
+              <option value="" <%= sortInfo.period == "" ? "selected" : "" %>>전체기간</option>
+              <% for (let i = 1 ; i <= 4 ; i++) { %>
+                <option value="quarter-<%= i %>" <%= sortInfo.period == `quarter-${i}` ? "selected" : "" %>><%= i %>분기</option>
+              <% } %>
+              <% for (let i = 1 ; i <= 12 ; i++) { %>
+                <option value="month-<%= i %>" <%= sortInfo.period == `month-${i}` ? "selected" : "" %>><%= i %>월</option>
+              <% } %>
+            </select>
+            <input type='hidden' value="<%= sortInfo.advertiser %>" name="advertiser" >
+            <input type='hidden' value="<%= sortInfo.agency %>" name="agency" >
+            <input type='hidden' value="<%= sortInfo.medium %>" name="medium" >
+            <button type="submit">조회</button>
           </div>
-
-          <div class="v-part result-part scrollable" style="height: calc(100% - 10rem);">
+        
+          <div class="v-part result-part scrollable" style="height: calc(100% - 7.5rem);">
             <table id="result-table">
               <tr>
-                <th class="v-header" rowspan="2" style="width: 3rem;">담당팀</th>
-                <th class="v-header" rowspan="2" style="width: 4rem;">연도</th>
-                <th class="v-header" rowspan="2" style="width: 3rem;">월</th>
-                <th class="v-header" rowspan="2" style="width: 11.2rem;">광고주</th>
-                <th class="v-header" rowspan="2" style="width: 13.1rem;">캠페인명</th>
-                <th class="v-header" rowspan="2" style="width: 11.2rem;">대행사</th>
-                <th class="v-header" rowspan="2" style="width: 5.6rem;">광고수주액</th>
+                <th class="v-header" rowspan="2">담당팀</th>
+                <th class="v-header" rowspan="2">광고주</th>
+                <th class="v-header" rowspan="2">캠페인명</th>
+                <th class="v-header" rowspan="2">대행사</th>
+                <th class="v-header" rowspan="2">매체</th>
+                <th class="v-header" rowspan="2">광고수주액</th>
                 <th class="v-header" colspan="4">수익배분액</th>
+                <th class="v-header" colspan="4">수수료율</th>
+                <th class="v-header" colspan="2">대행사 발행월</th>
+                <th class="v-header" colspan="2">매체 발행월</th>
+                <th class="v-header" rowspan="2">귀속시기</th>
               </tr>
               <tr>
-                <th class="v-header" style="width: 5.6rem;">대행사 수수료</th>
-                <th class="v-header" style="width: 5.6rem;">매체 수수료</th>
-                <th class="v-header" style="width: 5.6rem;">순매출</th>
-                <th class="v-header" style="width: 5.6rem;">인터렙 수수료</th>
+                <th class="v-header">대행사</th>
+                <th class="v-header">매체</th>
+                <th class="v-header">순매출</th>
+                <th class="v-header">인터렙</th>
+                <th class="v-header">대행사</th>
+                <th class="v-header">매체</th>
+                <th class="v-header">디플랜</th>
+                <th class="v-header">인터렙</th>
+                <th class="v-header">월</th>
+                <th class="v-header">전액/순액</th>
+                <th class="v-header">월</th>
+                <th class="v-header">전액/순액</th>
               </tr>
               <tr>
-                <th class="v-total">Total</th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
-                <th class="v-total"></th>
+                <th class="v-total" style="font-weight: bold;">합계</th>
+                <% for (let i = 0 ; i < 4 ; i++) { %>
+                  <th class="v-total"></th>
+                <% } %>
+                <th class="v-total"><%= new Intl.NumberFormat().format(total.adSum) %></th>
+                <th class="v-total"><%= new Intl.NumberFormat().format(total.agencySum) %></th>
+                <th class="v-total"><%= new Intl.NumberFormat().format(total.mediaSum) %></th>
+                <th class="v-total"><%= new Intl.NumberFormat().format(total.dplanSum) %></th>
+                <th class="v-total"><%= new Intl.NumberFormat().format(total.interSum) %></th>
+                <th class="v-total"><%= total.adSum === 0 || total.agencySum < 0 ? "0.00" : (total.agencySum / total.adSum * 100).toFixed(2) %> %</th>
+                <th class="v-total"><%= total.adSum === 0 || total.mediaSum < 0 ? "0.00" : (total.mediaSum / total.adSum * 100).toFixed(2) %> %</th>
+                <th class="v-total"><%= total.adSum === 0 || total.dplanSum < 0 ? "0.00" : (total.dplanSum / total.adSum * 100).toFixed(2) %> %</th>
+                <th class="v-total"><%= total.adSum === 0 || total.interSum < 0 ? "0.00" : (total.interSum / total.adSum * 100).toFixed(2) %> %</th>
+                <% for (let i = 0 ; i < 5 ; i++) { %>
+                  <th class="v-total"></th>
+                <% } %>
               </tr>
-              <% campaigns.forEach(campaign => { %>
+              <% mediaItems.forEach(mediaItem => { %>
                 <tr>
-                  <td><%= teams.find(team => +team.id === +campaign.teamId) && teams.find(team => +team.id === +campaign.teamId).name %> 팀</td>
-                  <td><%= campaign.tax_date.getFullYear() %> 년</td>
-                  <td><%= campaign.tax_date.getMonth()+1 %> 월</td>
-                  <td><%= advertisers.find(advertiser => advertiser.id === campaign.advertiserId).name %></td>
-                  <td><a href="/campaign/<%= campaign.id %>"><%= campaign.title %></a></td>
-                  <td><%= agencies.find(agency => agency.id === campaign.agencyId).name %></td>
-                  <td><%= campaign.ad_fee %></td>
-                  <td><%= campaign.agency_fee %></td>
-                  <td><%= campaign.media_fee %></td>
-                  <td><%= campaign.dplan_fee %></td>
-                  <td><%= campaign.inter_fee %></td>
+                  <td><%= mediaItem.campaign.team.name %> 팀</td>
+                  <td><%= mediaItem.campaign.advertiser.name %></td>
+                  <td><a href="/campaign/<%= mediaItem.campaign.id %>"><%= mediaItem.campaign.title %></a></td>
+                  <td><%= mediaItem.campaign.agency.name %></td>
+                  <td><%= mediaItem.medium.name %></td>
+                  <td><%= new Intl.NumberFormat().format(mediaItem.ad_fee) %></td>
+                  <td><%= new Intl.NumberFormat().format(mediaItem.agency_fee) %></td>
+                  <td><%= new Intl.NumberFormat().format(mediaItem.media_fee) %></td>
+                  <td><%= new Intl.NumberFormat().format(mediaItem.dplan_fee) %></td>
+                  <td><%= new Intl.NumberFormat().format(mediaItem.inter_fee) %></td>
+                  <td><%= (mediaItem.agency_fee / mediaItem.ad_fee * 100).toFixed(2) %> %</td>
+                  <td><%= (mediaItem.media_fee / mediaItem.ad_fee * 100).toFixed(2) %> %</td>
+                  <td><%= (mediaItem.dplan_fee / mediaItem.ad_fee * 100).toFixed(2) %> %</td>
+                  <td><%= (mediaItem.inter_fee / mediaItem.ad_fee * 100).toFixed(2) %> %</td>
+                  <td><%= mediaItem.tax_date.getFullYear() %>년 <%= mediaItem.tax_date.getMonth()+1 %>월</td>
+                  <td><%= mediaItem.campaign.issue_type %></td>
+                  <td><%= mediaItem.issue_date.getFullYear() %>년 <%= mediaItem.issue_date.getMonth()+1 %>월</td>
+                  <td><%= mediaItem.issue_type %></td>
+                  <td><%= mediaItem.attribution_time.getFullYear() %>년 <%= mediaItem.attribution_time.getMonth()+1 %>월</td>
                 </tr>
               <% }) %>
             </table>
@@ -103,24 +120,5 @@
       </main>
     </div>
     </div>
-    <div id="advertiser-ul" hidden>
-      <% advertisers.forEach(advertiser => { %>
-        <ul>
-          <li><%= advertiser.id %></li>
-          <li><%= advertiser.name %></li>
-        </ul>
-      <% }) %>
-    </div>
-    <div id="agency-ul" hidden>
-      <% agencies.forEach(agency => { %>
-        <ul>
-          <li><%= agency.id %></li>
-          <li><%= agency.name %></li>
-        </ul>
-      <% }) %> 
-    </div>
 
-    <script src="/auto-complete/autocomplete.js"></script>
-    <script src="/js/num-format.js"></script>
-    <script src="/js/work/sale.js"></script>
   <%- include('../includes/end-part.ejs') %>
