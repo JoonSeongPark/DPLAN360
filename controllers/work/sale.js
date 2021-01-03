@@ -200,58 +200,6 @@ exports.getSales = async (req, res, next) => {
   }
 };
 
-exports.getMediaSales = async (req, res, next) => {
-  const { medium } = req.query;
-
-  const thisYear = new Date().getFullYear();
-  const start_month = req.query.start_month || `${thisYear}-01`;
-  const end_month = req.query.end_month || `${thisYear}-12`;
-
-  const whereCondition = {
-    where: {
-      issue_date: {
-        [Op.between]: [Date.parse(start_month), Date.parse(end_month)],
-      },
-    },
-  };
-
-  if (medium) whereCondition.where.mediumId = medium;
-
-  try {
-    const media = await Medium.findAll();
-
-    const mediaItems = await MediaItem.findAll({
-      ...whereCondition,
-      include: [
-        {
-          model: Campaign,
-          include: [{ model: Team }, { model: Advertiser }, { model: Agency }],
-        },
-        { model: Medium },
-      ],
-      order: [
-        ["mediumId", "ASC"],
-        ["campaignId", "ASC"],
-      ],
-    });
-
-    res.render("work/media-sales", {
-      pageTitle: "Media Sales",
-      menuTitle: "매체별 매출조회",
-      path: "/media-sales",
-      sortInfo: {
-        medium,
-        start_month,
-        end_month,
-      },
-      media,
-      mediaItems,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const totalSumFunction = (targets, type) => {
   const defaultArr = [];
 
