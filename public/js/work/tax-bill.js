@@ -49,9 +49,9 @@ function sumTotal() {
 
 /////////////////////////////////////////////////////////////////////////
 
-const targetMonth = document.getElementById("target-month");
+const sort = document.getElementById("sort");
 
-targetMonth.addEventListener("change", () => {
+sort.addEventListener("change", () => {
   const submitInput = document.getElementById("submit-button");
   submitInput.click();
 });

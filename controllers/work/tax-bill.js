@@ -16,6 +16,14 @@ exports.getTaxBill = async (req, res, next) => {
     req.query.target_month ||
     `${thisYear}-${("" + (thisMonth + 1)).padStart(2, "0")}`;
 
+  const page_type = req.query.page_type || "close";
+
+  const closedCondition = {};
+
+  if (page_type === "open") {
+    closedCondition.closed = true;
+  }
+
   try {
     const mediaItems = await MediaItem.findAll({
       where: {
@@ -31,6 +39,7 @@ exports.getTaxBill = async (req, res, next) => {
             },
           },
         ],
+        ...closedCondition,
       },
       include: [
         { model: Medium },
@@ -46,6 +55,7 @@ exports.getTaxBill = async (req, res, next) => {
       menuTitle: "세금 계산서",
       path: "/tax-bill",
       targetMonth,
+      page_type,
       mediaItems,
     });
   } catch (err) {
@@ -55,16 +65,35 @@ exports.getTaxBill = async (req, res, next) => {
 
 exports.postCloseItem = async (req, res, next) => {
   let { closeItems } = req.body;
-  if (!closeItems) res.redirect("/tax-bill");
+  if (!closeItems) return res.redirect("/tax-bill");
 
   if (typeof closeItems === "string") {
     closeItems = [closeItems];
   }
-
   try {
     for (let id of closeItems) {
       const mediaItem = await MediaItem.findByPk(id);
       mediaItem.closed = "1";
+      await mediaItem.save();
+    }
+
+    res.redirect("/tax-bill");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.postOpenItem = async (req, res, next) => {
+  let { closeItems } = req.body;
+  if (!closeItems) return res.redirect("/tax-bill");
+
+  if (typeof closeItems === "string") {
+    closeItems = [closeItems];
+  }
+  try {
+    for (let id of closeItems) {
+      const mediaItem = await MediaItem.findByPk(id);
+      mediaItem.closed = "0";
       await mediaItem.save();
     }
 

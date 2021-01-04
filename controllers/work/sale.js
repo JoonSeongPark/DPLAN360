@@ -70,107 +70,130 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getSales = async (req, res, next) => {
-  const { team, agency, advertiser } = req.query;
+  let { type, year, team, period, advertiser, agency, medium } = req.query;
 
-  const thisYear = new Date().getFullYear();
-  const start_month = req.query.start_month || `${thisYear}-01`;
-  const end_month = req.query.end_month || `${thisYear}-12`;
+  if (!type) type = "attribution";
 
-  const whereCondition = {
-    where: {
-      tax_date: {
-        [Op.between]: [Date.parse(start_month), Date.parse(end_month)],
-      },
-    },
-  };
-
-  if (team) whereCondition.where.teamId = team;
-  if (agency) whereCondition.where.agencyId = agency;
-  if (advertiser) whereCondition.where.advertiserId = advertiser;
+  year = year ? +year : new Date().getFullYear();
 
   try {
-    const teams = await Team.findAll();
+    const teams = await Team.findAll({ where: { normal: 1 } });
 
-    const agencies = await Agency.findAll({ order: [["name", "ASC"]] });
+    let teamCondition = {};
+    if (team) teamCondition.teamId = team;
 
-    const advertisers = await Advertiser.findAll({ order: [["name", "ASC"]] });
+    let advertiserCondition = {};
+    if (advertiser) advertiserCondition.advertiserId = advertiser;
 
-    const campaigns = await Campaign.findAll({
-      ...whereCondition,
-      order: [
-        ["tax_date", "ASC"],
-        ["advertiserId", "ASC"],
-        ["title", "ASC"],
-      ],
-    });
+    let agencyCondition = {};
+    if (agency) agencyCondition.agencyId = agency;
 
-    res.render("work/sales", {
-      pageTitle: "Sales",
-      menuTitle: "전체 매출조회",
-      path: "/sales",
-      sortInfo: {
-        team,
-        start_month,
-        end_month,
-        agency,
-        advertiser,
-      },
-      teams,
-      agencies,
-      advertisers,
-      campaigns,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+    let mediumCondition = {};
+    if (medium) mediumCondition.mediumId = medium;
 
-exports.getMediaSales = async (req, res, next) => {
-  const { medium } = req.query;
+    let periodCondition = {};
+    let start = "01",
+      end = "12";
 
-  const thisYear = new Date().getFullYear();
-  const start_month = req.query.start_month || `${thisYear}-01`;
-  const end_month = req.query.end_month || `${thisYear}-12`;
+    if (period) {
+      const [periodType, periodNum] = period.split("-");
 
-  const whereCondition = {
-    where: {
-      issue_date: {
-        [Op.between]: [Date.parse(start_month), Date.parse(end_month)],
-      },
-    },
-  };
+      switch (periodType) {
+        case "quarter":
+          const startNum = 3 * +periodNum - 2;
+          start = ("" + startNum).padStart(2, "0");
+          end = ("" + (startNum + 2)).padStart(2, "0");
+          break;
+        case "month":
+          start = periodNum.padStart(2, "0");
+          end = periodNum.padStart(2, "0");
+          break;
+      }
+    }
 
-  if (medium) whereCondition.where.mediumId = medium;
-
-  try {
-    const media = await Medium.findAll();
+    switch (type) {
+      case "attribution":
+        periodCondition.attribution_time = {
+          [Op.between]: [
+            Date.parse(`${year}-${start}`),
+            Date.parse(`${year}-${end}`),
+          ],
+        };
+        break;
+      case "taxdate":
+        periodCondition.tax_date = {
+          [Op.between]: [
+            Date.parse(`${year}-${start}`),
+            Date.parse(`${year}-${end}`),
+          ],
+        };
+        break;
+      case "issuedate":
+        periodCondition.issue_date = {
+          [Op.between]: [
+            Date.parse(`${year}-${start}`),
+            Date.parse(`${year}-${end}`),
+          ],
+        };
+        break;
+    }
 
     const mediaItems = await MediaItem.findAll({
-      ...whereCondition,
+      where: { ...periodCondition, ...mediumCondition },
       include: [
         {
           model: Campaign,
           include: [{ model: Team }, { model: Advertiser }, { model: Agency }],
+          where: {
+            ...teamCondition,
+            ...advertiserCondition,
+            ...agencyCondition,
+          },
         },
         { model: Medium },
       ],
       order: [
-        ["mediumId", "ASC"],
-        ["campaignId", "ASC"],
+        [Campaign, "teamId", "ASC"],
+        [Campaign, "advertiserId", "ASC"],
+        [Campaign, "title", "ASC"],
+        ["ad_fee", "DESC"],
       ],
     });
 
-    res.render("work/media-sales", {
-      pageTitle: "Media Sales",
-      menuTitle: "매체별 매출조회",
-      path: "/media-sales",
-      sortInfo: {
-        medium,
-        start_month,
-        end_month,
+    const total = mediaItems.reduce(
+      (acc, cur) => {
+        acc.adSum += cur.ad_fee;
+        acc.agencySum += cur.agency_fee;
+        acc.mediaSum += cur.media_fee;
+        acc.dplanSum += cur.dplan_fee;
+        acc.interSum += cur.inter_fee;
+        return acc;
       },
-      media,
+      {
+        adSum: 0,
+        agencySum: 0,
+        mediaSum: 0,
+        dplanSum: 0,
+        interSum: 0,
+      }
+    );
+
+    res.render("work/sales", {
+      pageTitle: "Sales",
+      menuTitle: "전체 조회",
+      path: "/sales",
+      teams,
       mediaItems,
+      total,
+      sortInfo: {
+        type,
+        year,
+        team,
+        period,
+        advertiser,
+        agency,
+        medium,
+      },
     });
   } catch (err) {
     console.log(err);

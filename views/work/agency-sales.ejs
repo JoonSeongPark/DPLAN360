@@ -51,8 +51,8 @@
               </tr>
               <tr>
                 <th class="v-total" style="font-weight: bold;">합계</th>
-                <% total.forEach(term => { %>
-                  <th><%= new Intl.NumberFormat().format(term.adSum) %></th>
+                <% total.forEach((term, idx) => { %>
+                  <th><a href="/sales?type=<%= sortInfo.type %>&team=<%= sortInfo.team %>&year=<%= sortInfo.year %>&period=<%= idx === 0 ? '' : sortInfo.period === 'quarter' ? `quarter-${idx}` : `month-${idx}` %>"><%= new Intl.NumberFormat().format(term.adSum) %></a></th>
                   <th><%= new Intl.NumberFormat().format(term.dplanSum) %></th>
                   <th><%= term.adSum === 0 || term.dplanSum < 0 ? "0.00" : (term.dplanSum / term.adSum * 100).toFixed(2) %> %</th>
                 <% }) %>
@@ -76,8 +76,8 @@
               <% agencies.forEach(agency => { %>
                 <tr>
                   <td class="v-total" style="font-weight: bold;"><%= agency.name %></td>
-                  <% agency.period.forEach(term => { %>
-                    <td><%= new Intl.NumberFormat().format(term.adSum) %></td>
+                  <% agency.period.forEach((term, idx) => { %>
+                    <td><a href="/sales?type=<%= sortInfo.type %>&team=<%= sortInfo.team %>&year=<%= sortInfo.year %>&period=<%= idx === 0 ? '' : sortInfo.period === 'quarter' ? `quarter-${idx}` : `month-${idx}` %>&agency=<%= agency.id %>"><%= new Intl.NumberFormat().format(term.adSum) %></a></td>
                     <td><%= new Intl.NumberFormat().format(term.dplanSum) %></td>
                     <td><%= term.adSum === 0 || term.dplanSum < 0 ? "0.00" : (term.dplanSum / term.adSum * 100).toFixed(2) %> %</td>
                   <% }) %>
