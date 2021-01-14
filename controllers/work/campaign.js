@@ -177,6 +177,7 @@ exports.postAddCampaign = async (req, res, next) => {
         inter_fee: lower_inter_fee[i],
         google_cid: google_cid[i] === "" ? null : google_cid[i],
         memo: lower_memo[i],
+        closed: false,
       });
     }
 
@@ -269,6 +270,7 @@ exports.postEditCampaign = async (req, res, next) => {
     lower_inter_fee,
     google_cid,
     lower_memo,
+    lower_closed,
   } = req.body;
 
   const updated_cam_type = cam_type,
@@ -313,7 +315,9 @@ exports.postEditCampaign = async (req, res, next) => {
     updated_lower_inter_fee =
       updated_media_count < 2 ? [lower_inter_fee] : lower_inter_fee,
     updated_google_cid = updated_media_count < 2 ? [google_cid] : google_cid,
-    updated_lower_memo = updated_media_count < 2 ? [lower_memo] : lower_memo;
+    updated_lower_memo = updated_media_count < 2 ? [lower_memo] : lower_memo,
+    updated_lower_closed =
+      updated_media_count < 2 ? [lower_closed] : lower_closed;
 
   // 삭제 Item DB Update
   try {
@@ -370,6 +374,7 @@ exports.postEditCampaign = async (req, res, next) => {
           google_cid:
             updated_google_cid[i] === "" ? null : updated_google_cid[i],
           memo: updated_lower_memo[i],
+          closed: false,
         });
       } else {
         // 수정 Item DB Update
@@ -398,6 +403,7 @@ exports.postEditCampaign = async (req, res, next) => {
         item.google_cid =
           updated_google_cid[i] === "" ? null : updated_google_cid[i];
         item.memo = updated_lower_memo[i];
+        item.closed = updated_lower_closed[i];
 
         await item.save();
       }

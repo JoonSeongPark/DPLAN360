@@ -176,7 +176,11 @@
               </tr>
 
               <% if (editing) { %>
-                <% mediaItemIds.forEach(mediaItemId => { %>
+                <input type="hidden" name="prior_mediaItem_count" value="<%= mediaItems.length %>"/>
+                <% mediaItems.forEach(mediaItem => { %>
+                  <input type="hidden" name="prior_mediaItem_id" value="<%= mediaItem.id %>"/>
+                <% }) %>
+                <% mediaItems.forEach(mediaItem => { %>
                 <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
                 <tr class="<%= mediaItem.closed ? 'blocked' : '' %>" >
                   <input type="hidden" name="realupdated_mediaItem_id" value="<%= mediaItem.id %>"/>
@@ -373,6 +377,9 @@
                   </td>
                   <td hidden>
                     <input type="hidden" value="<%= mediaItem.medium.pay_condition %>" />
+                  </td>
+                  <td hidden>
+                    <input type="hidden" name="lower_closed" value="<%= mediaItem.closed %>" />
                   </td>
                 </tr>
                 <% }) %>
