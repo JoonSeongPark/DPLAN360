@@ -85,6 +85,7 @@ function alertModal(e) {
     const media_fee_rate = media_info.media_fee_rate;
     const media_dplan_fee_rate = media_info.dplan_fee_rate;
     const media_inter_fee_rate = media_info.inter_fee_rate;
+    const media_bill_type = media_info.bill_type;
 
     // table row for adding media
     const newRowContent = `
@@ -220,8 +221,12 @@ function alertModal(e) {
       <input class="input-date" type="month" name="lower_issue_date" required/>
       <select name="lower_issue_type">
         <option value="">선택</option>
-        <option value="전액" ${media_bill_type === "전액" ? "selected" : ""}>전액</option>
-        <option value="순액" ${media_bill_type === "순액" ? "selected" : ""}>순액</option>
+        <option value="전액" ${
+          media_bill_type === "전액" ? "selected" : ""
+        }>전액</option>
+        <option value="순액" ${
+          media_bill_type === "순액" ? "selected" : ""
+        }>순액</option>
       </select>
       </div>
     </td>
