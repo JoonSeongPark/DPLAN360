@@ -29,12 +29,7 @@ exports.getTaxBill = async (req, res, next) => {
       where: {
         [Op.or]: [
           {
-            tax_date: {
-              [Op.between]: [Date.parse(targetMonth), Date.parse(targetMonth)],
-            },
-          },
-          {
-            issue_date: {
+            attribution_time: {
               [Op.between]: [Date.parse(targetMonth), Date.parse(targetMonth)],
             },
           },
