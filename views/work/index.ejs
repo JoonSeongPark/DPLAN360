@@ -32,11 +32,9 @@
               <th class="v-total"></th>
               <th class="v-total"></th>
             </tr>
-            <% new Array(12).fill(0).forEach((v,i) => {
-              const month = i+1 < 10 ? `0${i+1}` : i+1
-              const targetMonth = `${new Date().getFullYear()}-${month}` %>
+            <% new Array(12).fill(0).forEach((v,i) => { %>
               <tr>
-                <td><a href="/sales?team=&start_month=<%= targetMonth %>&end_month=<%= targetMonth %>&agency=&advertiser="><%= i+1 %> 월</a></td>
+                <td><a href="/sales?team=&year=<%= year %>&period=month-<%= i+1 %>&advertiser=agency=&medium="><%= i+1 %> 월</a></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -61,11 +59,9 @@
                 <th class="v-total"></th>
                 <th class="v-total"></th>
               </tr>
-              <% new Array(12).fill(0).forEach((v,i) => {
-                const month = i+1 < 10 ? `0${i+1}` : i+1
-                const targetMonth = `${new Date().getFullYear()}-${month}` %>
+              <% new Array(12).fill(0).forEach((v,i) => { %>
                 <tr>
-                  <td><a href="/sales?team=<%= team.id %>&start_month=<%= targetMonth %>&end_month=<%= targetMonth %>&agency=&advertiser="><%= i+1 %> 월</a></td>
+                  <td><a href="/sales?team=<%= team.id %>&year=<%= year %>&period=month-<%= i+1 %>&advertiser=agency=&medium="><%= i+1 %> 월</a></td>
                   <td><%= team.month[i].adSum === 0 ? '' : team.month[i].adSum %></td>
                   <td><%= team.month[i].dplanSum === 0 ? '' : team.month[i].dplanSum %></td>
                   <td><%= team.month[i].adSum ?  (team.month[i].dplanSum / team.month[i].adSum * 100).toFixed(2)+' %' : '' %></td>
