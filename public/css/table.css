@@ -12,6 +12,16 @@ section {
   display: inline;
 }
 
+thead th {
+  position: sticky;
+  top: -1px;
+}
+
+thead tr:nth-child(2) th {
+  position: sticky;
+  top: 22px;
+}
+
 th,
 td {
   padding: 0.2rem 0.4rem;
