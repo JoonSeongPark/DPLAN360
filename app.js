@@ -1,5 +1,4 @@
 const path = require("path");
-const fs = require("fs");
 
 const express = require("express");
 const session = require("express-session");
@@ -10,7 +9,6 @@ const flash = require("connect-flash");
 const bcrypt = require("bcryptjs");
 
 const compression = require("compression");
-const morgan = require("morgan");
 
 const errorController = require("./controllers/error");
 
@@ -49,13 +47,7 @@ const authRoutes = require("./routes/auth");
 const infoRoutes = require("./routes/info");
 const taxBillRoutes = require("./routes/tax-bill");
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "access.log"),
-  { flags: "a" }
-);
-
 app.use(compression());
-app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
