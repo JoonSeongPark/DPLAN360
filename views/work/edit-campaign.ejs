@@ -181,9 +181,8 @@
                   <input type="hidden" name="prior_mediaItem_id" value="<%= mediaItem.id %>"/>
                 <% }) %>
                 <% mediaItems.forEach(mediaItem => { %>
-                <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
-                <tr class="<%= mediaItem.closed ? 'blocked' : '' %>" >
-                  <input type="hidden" name="realupdated_mediaItem_id" value="<%= mediaItem.id %>"/>
+                  <tr class="<%= mediaItem.closed ? 'blocked' : '' %>" >
+                    <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
                   <td>
                     <input type="hidden" name="media_id" value="<%= mediaItem.mediumId %>" />
                     <input type="text" value="<%= mediaItem.medium.name %>" style="width:88px" required readonly/>

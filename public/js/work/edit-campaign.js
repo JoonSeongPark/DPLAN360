@@ -129,6 +129,7 @@ agencyInput.addEventListener("change", (e) => {
   const targetAgency = agencyList.find(
     (agency) => agency.name === e.target.value
   );
+  if (!targetAgency) return alert("올바른 대행사 입력이 필요합니다.");
   agencyIdInput.value = targetAgency.id;
   agencyPayCondition.value = targetAgency.pay_condition;
   if (targetAgency.bill_type === "전액") {
@@ -261,7 +262,7 @@ setDate.addEventListener("click", () => {
 
     const beginDate = targetRow.cells[1].children[0].value;
     const endDate = targetRow.cells[2].children[0].value;
-    
+
     const mediaIssueDate = targetRow.cells[15].childNodes[0];
     if (mediaIssueDate.value) {
       const mediaIssueDateArr = mediaIssueDate.value.split("-");
