@@ -144,7 +144,7 @@
           
           <button style="margin: 0 1.1vw;" type="button" id="media-modal-btn">매체추가</button>
           
-          <div class="v-part scrollable">
+          <div class="v-part scrollable" style="height: calc(100vh - 28rem);">
             <table id="media-table">
               <tr>
                 <th class="v-header" rowspan="2" style="width: 7rem;">매체명</th>
@@ -181,9 +181,8 @@
                   <input type="hidden" name="prior_mediaItem_id" value="<%= mediaItem.id %>"/>
                 <% }) %>
                 <% mediaItems.forEach(mediaItem => { %>
-                <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
-                <tr class="<%= mediaItem.closed ? 'blocked' : '' %>" >
-                  <input type="hidden" name="realupdated_mediaItem_id" value="<%= mediaItem.id %>"/>
+                  <tr class="<%= mediaItem.closed ? 'blocked' : '' %>" >
+                    <input type="hidden" name="mediaItem_id" value="<%= mediaItem.id %>"/>
                   <td>
                     <input type="hidden" name="media_id" value="<%= mediaItem.mediumId %>" />
                     <input type="text" value="<%= mediaItem.medium.name %>" style="width:88px" required readonly/>

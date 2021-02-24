@@ -29,10 +29,12 @@ exports.getCampaign = async (req, res, next) => {
     });
     const mediaItems = await MediaItem.findAll({
       where: { campaignId: campaign.id },
+      order: [
+        ["mediumId", "ASC"],
+        ["issue_date", "ASC"],
+      ],
       include: { model: Medium },
     });
-
-    mediaItems.sort((a, b) => b.mediumId - a.mediumId);
 
     res.render("work/campaign", {
       pageTitle: "Campaign",
@@ -211,6 +213,10 @@ exports.getEditCampaign = async (req, res, next) => {
     });
     const mediaItems = await MediaItem.findAll({
       where: { campaignId: campaign.id },
+      order: [
+        ["mediumId", "ASC"],
+        ["issue_date", "ASC"],
+      ],
       include: { model: Medium },
     });
 

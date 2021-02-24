@@ -40,6 +40,9 @@
               </select>
           </div>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <% if (editing) { %>
+            <input type="hidden" name="userId" value="<%= user.id %>">
+          <% } %>
           <button class="auth-btn" type="submit">사용자 <%= editing ? '수정' : '등록' %></button>
         </form>
         <% if (editing) { %>
