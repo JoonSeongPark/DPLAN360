@@ -87,6 +87,11 @@ function alertModal(e) {
     const media_inter_fee_rate = media_info.inter_fee_rate;
     const media_bill_type = media_info.bill_type;
 
+    const campaginEndDateArr = document
+      .getElementById("cam-end-date")
+      .value.split("-");
+    const campaginEndMonth = `${campaginEndDateArr[0]}-${campaginEndDateArr[1]}`;
+
     // table row for adding media
     const newRowContent = `
     <input type="hidden" name="mediaItem_id" value=""/>
@@ -218,7 +223,7 @@ function alertModal(e) {
     </td>
     <td>
     <div style="display:flex;align-items:center;justify-content:center;">
-      <input class="input-date" type="month" name="lower_issue_date" required/>
+      <input class="input-date" type="month" name="lower_issue_date" value="${campaginEndMonth}" required/>
       <select name="lower_issue_type">
         <option value="">선택</option>
         <option value="전액" ${
