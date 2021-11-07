@@ -70,43 +70,52 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getSales = async (req, res, next) => {
-  let { type, year, team, period, advertiser, agency, medium } = req.query;
-
-  if (!type) type = "attribution";
+  let {
+    type = "attribution",
+    year,
+    team,
+    period,
+    advertiser,
+    agency,
+    medium,
+  } = req.query;
 
   year = year ? +year : new Date().getFullYear();
 
   try {
     const teams = await Team.findAll({ where: { normal: 1 } });
 
-    let teamCondition = {};
+    const teamCondition = {};
     if (team) teamCondition.teamId = team;
 
-    let advertiserCondition = {};
+    const advertiserCondition = {};
     if (advertiser) advertiserCondition.advertiserId = advertiser;
 
-    let agencyCondition = {};
+    const agencyCondition = {};
     if (agency) agencyCondition.agencyId = agency;
 
-    let mediumCondition = {};
+    const mediumCondition = {};
     if (medium) mediumCondition.mediumId = medium;
 
-    let periodCondition = {};
-    let start = "01",
-      end = "12";
+    const periodCondition = {};
+
+    const boundary = {
+      start: "01",
+      end: "12",
+    };
 
     if (period) {
       const [periodType, periodNum] = period.split("-");
 
       switch (periodType) {
         case "quarter":
-          const startNum = 3 * +periodNum - 2;
-          start = ("" + startNum).padStart(2, "0");
-          end = ("" + (startNum + 2)).padStart(2, "0");
+          const startNum = 3 * Number(periodNum) - 2;
+          boundary.start = String(startNum).padStart(2, "0");
+          boundary.end = String(startNum + 2).padStart(2, "0");
           break;
         case "month":
-          start = periodNum.padStart(2, "0");
-          end = periodNum.padStart(2, "0");
+          boundary.start = periodNum.padStart(2, "0");
+          boundary.end = periodNum.padStart(2, "0");
           break;
       }
     }
@@ -115,24 +124,24 @@ exports.getSales = async (req, res, next) => {
       case "attribution":
         periodCondition.attribution_time = {
           [Op.between]: [
-            Date.parse(`${year}-${start}`),
-            Date.parse(`${year}-${end}`),
+            Date.parse(`${year}-${boundary.start}`),
+            Date.parse(`${year}-${boundary.end}`),
           ],
         };
         break;
       case "taxdate":
         periodCondition.tax_date = {
           [Op.between]: [
-            Date.parse(`${year}-${start}`),
-            Date.parse(`${year}-${end}`),
+            Date.parse(`${year}-${boundary.start}`),
+            Date.parse(`${year}-${boundary.end}`),
           ],
         };
         break;
       case "issuedate":
         periodCondition.issue_date = {
           [Op.between]: [
-            Date.parse(`${year}-${start}`),
-            Date.parse(`${year}-${end}`),
+            Date.parse(`${year}-${boundary.start}`),
+            Date.parse(`${year}-${boundary.end}`),
           ],
         };
         break;
@@ -204,10 +213,11 @@ const totalSumFunction = (targets, type) => {
   const defaultArr = [];
 
   if (!targets[0]) {
-    if (type === "quarter") {
-      return new Array(5).fill({ adSum: 0, dplanSum: 0 });
-    } else if (type === "month") {
-      return new Array(13).fill({ adSum: 0, dplanSum: 0 });
+    switch (type) {
+      case "quarter":
+        return new Array(5).fill({ adSum: 0, dplanSum: 0 });
+      case "month":
+        return new Array(13).fill({ adSum: 0, dplanSum: 0 });
     }
   }
 
@@ -228,16 +238,19 @@ const totalSumFunction = (targets, type) => {
 };
 
 exports.getAdvertiserSales = async (req, res, next) => {
-  let { type, year, team, period, main, sub } = req.query;
+  const {
+    type = "attribution",
+    year = new Date().getFullYear(),
+    team,
+    period = "quarter",
+    main,
+    sub,
+  } = req.query;
 
-  if (!type) type = "attribution";
-  if (!period) period = "quarter";
-  let mainCondition = {};
+  const mainCondition = {};
   if (main) mainCondition.adMainCategoryId = main;
-  let subCondition = {};
+  const subCondition = {};
   if (sub) subCondition.id = sub;
-
-  year = year ? +year : new Date().getFullYear();
 
   try {
     const teams = await Team.findAll({ where: { normal: 1 } });
@@ -251,7 +264,7 @@ exports.getAdvertiserSales = async (req, res, next) => {
       ],
     });
 
-    let teamCondition = {};
+    const teamCondition = {};
     if (team) teamCondition.teamId = team;
 
     if (type === "attribution") {

@@ -1,3 +1,4 @@
+const MediaItem = require("../../models/media-item");
 const Medium = require("../../models/medium");
 
 exports.getAddMedia = (req, res, next) => {
@@ -112,6 +113,13 @@ exports.postDeleteMedia = async (req, res, next) => {
   const { mediumId } = req.body;
 
   try {
+    const firstMediaItem = await MediaItem.findOne({ where: { mediumId } });
+
+    if (firstMediaItem !== null) {
+      res.redirect("/media");
+      return;
+    }
+
     const medium = await Medium.findByPk(mediumId);
 
     await medium.destroy();

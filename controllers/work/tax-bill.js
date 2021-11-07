@@ -14,9 +14,9 @@ exports.getTaxBill = async (req, res, next) => {
 
   const targetMonth =
     req.query.target_month ||
-    `${thisYear}-${("" + (thisMonth + 1)).padStart(2, "0")}`;
+    `${thisYear}-${String(thisMonth + 1).padStart(2, "0")}`;
 
-  const page_type = req.query.page_type || "close";
+  const { page_type = "close" } = req.query;
 
   const closedCondition = {};
 

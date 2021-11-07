@@ -1,4 +1,5 @@
 const Agency = require("../../models/agency");
+const Campaign = require("../../models/campaign");
 
 exports.getAddAgency = (req, res, next) => {
   res.render("admin/edit-agency", {
@@ -88,6 +89,13 @@ exports.postDeleteAgency = async (req, res, next) => {
   const { agencyId } = req.body;
 
   try {
+    const firstCampaign = await Campaign.findOne({ where: { agencyId } });
+
+    if (firstCampaign !== null) {
+      res.redirect("/agencies");
+      return;
+    }
+    
     const agency = await Agency.findByPk(agencyId);
 
     await agency.destroy();

@@ -23,13 +23,13 @@
 }
 
 .modal h1 {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .alert-modal {
-  width: 25rem;
-  height: 21.9rem;
-  padding: 5.6rem 1.3rem;
+  width: 18rem;
+  height: 14rem;
+  padding: 3rem 1.3rem;
 }
 
 .media-modal {
@@ -43,9 +43,10 @@
   align-items: flex-end;
   justify-content: space-evenly;
   padding: 0 10%;
+  margin-top: 1rem;
 }
 
 .modal .btns button {
   width: 28%;
-  height: 1.9rem;
+  height: 1.7rem;
 }
