@@ -56,30 +56,7 @@ sort.addEventListener("change", () => {
   submitInput.click();
 });
 
-/////////////////////////////////////////////////////////////////////////
-
-// excel download
-
-const excelDownloadEl = document.getElementById("excel-download");
-const file_name = "세금계산서";
-
-function excelDownload() {
-  const resultTable = document.getElementById("result-table");
-  const data_type = "data:application/vnd.ms-excel;charset=utf-8";
-  const table_html = encodeURIComponent(resultTable.outerHTML);
-
-  const aTag = document.createElement("a");
-  aTag.href = `${data_type},%EF%BB%BF${table_html}`;
-  aTag.download = `${file_name}.xls`;
-  aTag.click();
-}
-
-excelDownloadEl.addEventListener("click", excelDownload);
-
-//////////////////////////////////////////////////////////////////////////
-
 // 전체선택
-
 const checkAll = document.getElementById("check-all");
 
 checkAll.addEventListener("click", (e) => {
@@ -96,10 +73,7 @@ checkAll.addEventListener("click", (e) => {
   }
 });
 
-/////////////////////////////////////////////////////////////////////////////
-
 // 마감처리
-
 const closeButton = document.getElementById("close");
 if (closeButton) {
   closeButton.addEventListener("click", () => {

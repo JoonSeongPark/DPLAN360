@@ -268,3 +268,11 @@ th.xxl {
 .blocked {
   background-color: #ccc;
 }
+
+.excel-download-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1rem;
+  margin: 0 1.1vw;
+}
