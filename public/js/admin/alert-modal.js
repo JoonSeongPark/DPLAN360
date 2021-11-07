@@ -9,7 +9,10 @@ function alertModal(e) {
   modalContainer.classList.add("modal-container");
   const modal = document.createElement("div");
   modal.classList.add("modal", "alert-modal");
-  modal.innerHTML = "<h1>삭제하겠습니까?</h1>";
+  modal.innerHTML = `
+  <h1>삭제하겠습니까?</h1>
+  <p>관련된 캠페인이 존재하는 경우,<br/>삭제가 되지 않습니다.</p>
+  `;
 
   const btns = document.createElement("div");
   btns.classList.add("btns");
