@@ -87,6 +87,13 @@ exports.postDeleteAdvertiser = async (req, res, next) => {
   const advertiserId = req.body.advertiserId;
 
   try {
+    const firstCampaign = await Campaign.findOne({ where: { advertiserId } });
+
+    if (firstCampaign !== null) {
+      res.redirect("/advertisers");
+      return;
+    }
+
     const advertiser = await Advertiser.findByPk(advertiserId);
 
     await advertiser.destroy();
