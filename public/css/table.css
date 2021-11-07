@@ -80,6 +80,10 @@ table textarea {
   color: #f8f8ff;
 }
 
+.team-total-table-wrapper {
+  padding-bottom: 10px;
+}
+
 .team-total-table {
   background-color: #ffffd1;
 }

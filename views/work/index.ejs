@@ -13,39 +13,13 @@
       <select style="margin: 6px 7%" id="year">
         <% for (let i = 2019 ; i <= new Date().getFullYear()+1 ; i++) { %>
           <option value="<%= i %>" <%= year === i ? "selected" : "" %>><%= i %></option>
-        <% } %>
-      </select>
+          <% } %>
+        </select>
         <div class="index-table-container">
-          <table class="home-table team-total-table">
-            <tr>
-              <th class="home-table-team" colspan="4">전체</th>
-            </tr>
-            <tr class="home-table-header">
-              <th style="padding: 0 14px;">월</th>
-              <th style="padding: 0 24px;">광고수주액</th>
-              <th style="padding: 0 34px;">순매출</th>
-              <th style="padding: 0 14px;">수수료율</th>
-            </tr>
-            <tr>
-              <th class="v-total">Total</th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-              <th class="v-total"></th>
-            </tr>
-            <% new Array(12).fill(0).forEach((v,i) => { %>
+          <div class="team-total-table-wrapper">
+            <table class="home-table team-total-table">
               <tr>
-                <td><a href="/sales?&year=<%= year %>&period=month-<%= i+1 %>"><%= i+1 %> 월</a></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            <% }) %>
-          </table>
-          <div class="home-table-team-container">
-            <% teams.forEach(team => { %>
-            <table class="home-table">
-              <tr>
-                <th class="home-table-team" colspan="4"><%= team.name %> 팀</th>
+                <th class="home-table-team" colspan="4">전체</th>
               </tr>
               <tr class="home-table-header">
                 <th style="padding: 0 14px;">월</th>
@@ -58,6 +32,34 @@
                 <th class="v-total"></th>
                 <th class="v-total"></th>
                 <th class="v-total"></th>
+              </tr>
+              <% new Array(12).fill(0).forEach((v,i) => { %>
+                <tr>
+                  <td><a href="/sales?&year=<%= year %>&period=month-<%= i+1 %>"><%= i+1 %> 월</a></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <% }) %>
+            </table>
+          </div>
+          <div class="home-table-team-container">
+                <% teams.forEach(team => { %>
+                  <table class="home-table">
+                    <tr>
+                      <th class="home-table-team" colspan="4"><%= team.name %> 팀</th>
+                    </tr>
+                    <tr class="home-table-header">
+                      <th style="padding: 0 14px;">월</th>
+                      <th style="padding: 0 24px;">광고수주액</th>
+                      <th style="padding: 0 34px;">순매출</th>
+                      <th style="padding: 0 14px;">수수료율</th>
+                    </tr>
+                    <tr>
+                      <th class="v-total">Total</th>
+                      <th class="v-total"></th>
+                      <th class="v-total"></th>
+                      <th class="v-total"></th>
               </tr>
               <% new Array(12).fill(0).forEach((v,i) => { %>
                 <tr>
