@@ -27,6 +27,16 @@ exports.getCampaign = async (req, res, next) => {
         },
       ],
     });
+
+    if (campaign === null) {
+      res.status(404).render("404", {
+        pageTitle: "Page Not Found",
+        menuTitle: "페이지를 찾을 수 없습니다.",
+        path: "/404",
+        isLoggedIn: false,
+      });
+    }
+
     const mediaItems = await MediaItem.findAll({
       where: { campaignId: campaign.id },
       order: [
