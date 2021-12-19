@@ -20,7 +20,7 @@
             </select>
             <select name="year">
               <% for (let i = 2019 ; i <= new Date().getFullYear()+1 ; i++) { %>
-                <option value="<%= i %>" <%= sortInfo.year === i ? "selected" : "" %>><%= i %></option>
+                <option value="<%= i %>" <%= Number(sortInfo.year) === i ? "selected" : "" %>><%= i %></option>
               <% } %>
             </select>
             <select name="team">
