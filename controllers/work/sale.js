@@ -72,15 +72,13 @@ exports.getIndex = async (req, res, next) => {
 exports.getSales = async (req, res, next) => {
   let {
     type = "attribution",
-    year,
+    year = new Date().getFullYear(),
     team,
     period,
     advertiser,
     agency,
     medium,
   } = req.query;
-
-  year = year ? +year : new Date().getFullYear();
 
   try {
     const teams = await Team.findAll({ where: { normal: 1 } });
@@ -122,28 +120,34 @@ exports.getSales = async (req, res, next) => {
 
     switch (type) {
       case "attribution":
-        periodCondition.attribution_time = {
-          [Op.between]: [
-            Date.parse(`${year}-${boundary.start}`),
-            Date.parse(`${year}-${boundary.end}`),
-          ],
-        };
+        Object.assign(periodCondition, {
+          attribution_time: {
+            [Op.between]: [
+              Date.parse(`${year}-${boundary.start}`),
+              Date.parse(`${year}-${boundary.end}`),
+            ],
+          },
+        });
         break;
       case "taxdate":
-        periodCondition.tax_date = {
-          [Op.between]: [
-            Date.parse(`${year}-${boundary.start}`),
-            Date.parse(`${year}-${boundary.end}`),
-          ],
-        };
+        Object.assign(periodCondition, {
+          tax_date: {
+            [Op.between]: [
+              Date.parse(`${year}-${boundary.start}`),
+              Date.parse(`${year}-${boundary.end}`),
+            ],
+          },
+        });
         break;
       case "issuedate":
-        periodCondition.issue_date = {
-          [Op.between]: [
-            Date.parse(`${year}-${boundary.start}`),
-            Date.parse(`${year}-${boundary.end}`),
-          ],
-        };
+        Object.assign(periodCondition, {
+          issue_date: {
+            [Op.between]: [
+              Date.parse(`${year}-${boundary.start}`),
+              Date.parse(`${year}-${boundary.end}`),
+            ],
+          },
+        });
         break;
     }
 
@@ -248,9 +252,14 @@ exports.getAdvertiserSales = async (req, res, next) => {
   } = req.query;
 
   const mainCondition = {};
-  if (main) mainCondition.adMainCategoryId = main;
+  if (main) {
+    Object.assign(mainCondition, { adMainCategoryId: main });
+  }
   const subCondition = {};
-  if (sub) subCondition.id = sub;
+
+  if (sub) {
+    Object.assign(subCondition, { adSubCategoryId: sub });
+  }
 
   try {
     const teams = await Team.findAll({ where: { normal: 1 } });
@@ -258,14 +267,21 @@ exports.getAdvertiserSales = async (req, res, next) => {
     const mains = await AdMainCategory.findAll();
     const subs = await AdSubCategory.findAll();
 
-    const advertisers = await Advertiser.findAll({
-      include: [
-        { model: AdSubCategory, where: { ...subCondition, ...mainCondition } },
-      ],
-    });
+    let advertisers;
+    if (sub) {
+      advertisers = await Advertiser.findAll({
+        where: { ...subCondition },
+      });
+    } else {
+      advertisers = await Advertiser.findAll({
+        include: [{ model: AdSubCategory, where: { ...mainCondition } }],
+      });
+    }
 
     const teamCondition = {};
-    if (team) teamCondition.teamId = team;
+    if (team) {
+      Object.assign(teamCondition, { teamId: team });
+    }
 
     if (type === "attribution") {
       const mediaItems = await MediaItem.findAll({
@@ -290,11 +306,15 @@ exports.getAdvertiserSales = async (req, res, next) => {
             const filteredMediaItems = mediaItems
               .filter((mediaItem) => {
                 return v < 0
-                  ? +mediaItem.campaign.advertiserId === +advertiser.id
-                  : +mediaItem.campaign.advertiserId === +advertiser.id &&
-                      (+mediaItem.tax_date.getMonth() === +v ||
-                        +mediaItem.tax_date.getMonth() === +v + 1 ||
-                        +mediaItem.tax_date.getMonth() === +v + 2);
+                  ? Number(mediaItem.campaign.advertiserId) ===
+                      Number(advertiser.id)
+                  : Number(mediaItem.campaign.advertiserId) ===
+                      Number(advertiser.id) &&
+                      (Number(mediaItem.tax_date.getMonth()) === Number(v) ||
+                        Number(mediaItem.tax_date.getMonth()) ===
+                          Number(v) + 1 ||
+                        Number(mediaItem.tax_date.getMonth()) ===
+                          Number(v) + 2);
               })
               .map((mediaItem) => {
                 return {
@@ -319,9 +339,11 @@ exports.getAdvertiserSales = async (req, res, next) => {
             const filteredMediaItems = mediaItems
               .filter((mediaItem) => {
                 return i === 0
-                  ? +mediaItem.campaign.advertiserId === +advertiser.id
-                  : +mediaItem.campaign.advertiserId === +advertiser.id &&
-                      +mediaItem.tax_date.getMonth() === i - 1;
+                  ? Number(mediaItem.campaign.advertiserId) ===
+                      Number(advertiser.id)
+                  : Number(mediaItem.campaign.advertiserId) ===
+                      Number(advertiser.id) &&
+                      Number(mediaItem.tax_date.getMonth()) === i - 1;
               })
               .map((mediaItem) => {
                 return {
@@ -361,11 +383,12 @@ exports.getAdvertiserSales = async (req, res, next) => {
             const filteredCampaigns = campaigns
               .filter((campaign) => {
                 return v < 0
-                  ? +campaign.advertiserId === +advertiser.id
-                  : +campaign.advertiserId === +advertiser.id &&
-                      (+campaign.tax_date.getMonth() === +v ||
-                        +campaign.tax_date.getMonth() === +v + 1 ||
-                        +campaign.tax_date.getMonth() === +v + 2);
+                  ? Number(campaign.advertiserId) === Number(advertiser.id)
+                  : Number(campaign.advertiserId) === Number(advertiser.id) &&
+                      (Number(campaign.tax_date.getMonth()) === Number(v) ||
+                        Number(campaign.tax_date.getMonth()) ===
+                          Number(v) + 1 ||
+                        Number(campaign.tax_date.getMonth()) === Number(v) + 2);
               })
               .map((campaign) => {
                 return {
@@ -393,9 +416,9 @@ exports.getAdvertiserSales = async (req, res, next) => {
             const filteredCampaigns = campaigns
               .filter((campaign) => {
                 return i === 0
-                  ? +campaign.advertiserId === +advertiser.id
-                  : +campaign.advertiserId === +advertiser.id &&
-                      +campaign.tax_date.getMonth() === i - 1;
+                  ? Number(campaign.advertiserId) === Number(advertiser.id)
+                  : Number(campaign.advertiserId) === Number(advertiser.id) &&
+                      Number(campaign.tax_date.getMonth()) === i - 1;
               })
               .map((campaign) => {
                 return {
@@ -452,20 +475,22 @@ exports.getAdvertiserSales = async (req, res, next) => {
 };
 
 exports.getAgencySales = async (req, res, next) => {
-  let { type, year, team, period } = req.query;
-
-  if (!type) type = "attribution";
-  if (!period) period = "quarter";
-
-  year = year ? +year : new Date().getFullYear();
+  const {
+    type = "attribution",
+    year = new Date().getFullYear(),
+    team,
+    period = "quarter",
+  } = req.query;
 
   try {
     const teams = await Team.findAll({ where: { normal: 1 } });
 
     const agencies = await Agency.findAll();
 
-    let teamCondition = {};
-    if (team) teamCondition.teamId = team;
+    const teamCondition = {};
+    if (team) {
+      Object.assign(teamCondition, { teamId: team });
+    }
 
     if (type === "attribution") {
       const mediaItems = await MediaItem.findAll({
@@ -490,11 +515,13 @@ exports.getAgencySales = async (req, res, next) => {
             const filteredMediaItems = mediaItems
               .filter((mediaItem) => {
                 return v < 0
-                  ? +mediaItem.campaign.agencyId === +agency.id
-                  : +mediaItem.campaign.agencyId === +agency.id &&
-                      (+mediaItem.tax_date.getMonth() === +v ||
-                        +mediaItem.tax_date.getMonth() === +v + 1 ||
-                        +mediaItem.tax_date.getMonth() === +v + 2);
+                  ? Number(mediaItem.campaign.agencyId) === Number(agency.id)
+                  : Number(mediaItem.campaign.agencyId) === Number(agency.id) &&
+                      (Number(mediaItem.tax_date.getMonth()) === Number(v) ||
+                        Number(mediaItem.tax_date.getMonth()) ===
+                          Number(v) + 1 ||
+                        Number(mediaItem.tax_date.getMonth()) ===
+                          Number(v) + 2);
               })
               .map((mediaItem) => {
                 return {
@@ -519,9 +546,9 @@ exports.getAgencySales = async (req, res, next) => {
             const filteredMediaItems = mediaItems
               .filter((mediaItem) => {
                 return i === 0
-                  ? +mediaItem.campaign.agencyId === +agency.id
-                  : +mediaItem.campaign.agencyId === +agency.id &&
-                      +mediaItem.tax_date.getMonth() === i - 1;
+                  ? Number(mediaItem.campaign.agencyId) === Number(agency.id)
+                  : Number(mediaItem.campaign.agencyId) === Number(agency.id) &&
+                      Number(mediaItem.tax_date.getMonth()) === i - 1;
               })
               .map((mediaItem) => {
                 return {
@@ -561,11 +588,12 @@ exports.getAgencySales = async (req, res, next) => {
             const filteredCampaigns = campaigns
               .filter((campaign) => {
                 return v < 0
-                  ? +campaign.agencyId === +agency.id
-                  : +campaign.agencyId === +agency.id &&
-                      (+campaign.tax_date.getMonth() === +v ||
-                        +campaign.tax_date.getMonth() === +v + 1 ||
-                        +campaign.tax_date.getMonth() === +v + 2);
+                  ? Number(campaign.agencyId) === Number(agency.id)
+                  : Number(campaign.agencyId) === Number(agency.id) &&
+                      (Number(campaign.tax_date.getMonth()) === Number(v) ||
+                        Number(campaign.tax_date.getMonth()) ===
+                          Number(v) + 1 ||
+                        Number(campaign.tax_date.getMonth()) === Number(v) + 2);
               })
               .map((campaign) => {
                 return {
@@ -593,9 +621,9 @@ exports.getAgencySales = async (req, res, next) => {
             const filteredCampaigns = campaigns
               .filter((campaign) => {
                 return i === 0
-                  ? +campaign.agencyId === +agency.id
-                  : +campaign.agencyId === +agency.id &&
-                      +campaign.tax_date.getMonth() === i - 1;
+                  ? Number(campaign.agencyId) === Number(agency.id)
+                  : Number(campaign.agencyId) === Number(agency.id) &&
+                      Number(campaign.tax_date.getMonth()) === i - 1;
               })
               .map((campaign) => {
                 return {
@@ -647,30 +675,34 @@ exports.getAgencySales = async (req, res, next) => {
 };
 
 exports.getMediaItemSales = async (req, res, next) => {
-  let { type, year, team, period } = req.query;
-
-  if (!type) type = "attribution";
-  if (!period) period = "quarter";
-
-  year = year ? +year : new Date().getFullYear();
+  const {
+    type = "attribution",
+    year = new Date().getFullYear(),
+    team,
+    period = "quarter",
+  } = req.query;
 
   try {
     const teams = await Team.findAll({ where: { normal: 1 } });
 
     const media = await Medium.findAll();
 
-    let teamCondition = {};
+    const teamCondition = {};
     if (team) teamCondition.teamId = team;
 
-    let typeCondition = {};
+    const typeCondition = {};
     if (type === "attribution") {
-      typeCondition.attribution_time = {
-        [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
-      };
+      Object.assign(typeCondition, {
+        attribution_time: {
+          [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
+        },
+      });
     } else {
-      typeCondition.issue_date = {
-        [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
-      };
+      Object.assign(typeCondition, {
+        issue_date: {
+          [Op.between]: [Date.parse(`${year}-01`), Date.parse(`${year}-12`)],
+        },
+      });
     }
 
     const mediaItems = await MediaItem.findAll({
@@ -691,11 +723,11 @@ exports.getMediaItemSales = async (req, res, next) => {
           const filteredMediaItems = mediaItems
             .filter((mediaItem) => {
               return v < 0
-                ? +mediaItem.mediumId === +medium.id
-                : +mediaItem.mediumId === +medium.id &&
-                    (+mediaItem.tax_date.getMonth() === +v ||
-                      +mediaItem.tax_date.getMonth() === +v + 1 ||
-                      +mediaItem.tax_date.getMonth() === +v + 2);
+                ? Number(mediaItem.mediumId) === Number(medium.id)
+                : Number(mediaItem.mediumId) === Number(medium.id) &&
+                    (Number(mediaItem.tax_date.getMonth()) === Number(v) ||
+                      Number(mediaItem.tax_date.getMonth()) === Number(v) + 1 ||
+                      Number(mediaItem.tax_date.getMonth()) === Number(v) + 2);
             })
             .map((mediaItem) => {
               return {
@@ -720,9 +752,9 @@ exports.getMediaItemSales = async (req, res, next) => {
           const filteredMediaItems = mediaItems
             .filter((mediaItem) => {
               return i === 0
-                ? +mediaItem.mediumId === +medium.id
-                : +mediaItem.mediumId === +medium.id &&
-                    +mediaItem.tax_date.getMonth() === i - 1;
+                ? Number(mediaItem.mediumId) === Number(medium.id)
+                : Number(mediaItem.mediumId) === Number(medium.id) &&
+                    Number(mediaItem.tax_date.getMonth()) === i - 1;
             })
             .map((mediaItem) => {
               return {
